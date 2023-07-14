@@ -1,26 +1,28 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import {Container, Typography} from "@mui/material";
+import {OSMap} from "./os/map";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const containerStyle = {
+    width: '100%',
+    height: '800px'
+};
+
+const center = {
+    lat: -3.745,
+    lng: -38.523
+};
+
+const OpenSpaceDocApp = () => {
+
+    return (
+        <Container>
+            <Typography component="h1" variant="h5">
+                Open Space - Doc
+            </Typography>
+            <OSMap startLocation={center} containerStyle={containerStyle}></OSMap>
+        </Container>
+    )
 }
 
-export default App;
+export default React.memo(OpenSpaceDocApp)
