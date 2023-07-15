@@ -1,11 +1,12 @@
 import {OpenSpaceMarker, OpenSpaceProps} from "./marker";
 import React from "react";
 import {v4 as uuidv4} from "uuid";
-import {Box, Fab} from "@mui/material";
+import {Fab, Grid, Paper} from "@mui/material";
 import {GoogleMap, LoadScript} from "@react-google-maps/api";
 import AddIcon from "@mui/icons-material/Add";
 import {OpenSpace} from "./openSpace";
 import dayjs from "dayjs";
+import MyLocationIcon from '@mui/icons-material/MyLocation';
 
 type OSMapProps = {
     startLocation: google.maps.LatLngLiteral
@@ -56,17 +57,22 @@ export class OSMap extends React.Component<OSMapProps, OSMapState> {
         })
     }
 
+    centerCurrentLocation = () => {
+        navigator.geolocation.getCurrentPosition(this.locationSuccess)
+    }
+
+    locationSuccess = (position: GeolocationPosition) => {
+        this.state.map?.setCenter({lat: position.coords.latitude, lng: position.coords.longitude})
+    }
+
     render() {
         return (
-
-            <Box sx={{
+            <Paper sx={{
                 marginTop: 8,
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center'
-            }
-
-            }>
+            }}>
                 <LoadScript
                     googleMapsApiKey="AIzaSyCmgNh28eXjQ_Il8DeEJ7E49KPwMlWFfA4"
                 >
@@ -85,10 +91,19 @@ export class OSMap extends React.Component<OSMapProps, OSMapState> {
                         ))}
                     </GoogleMap>
                 </LoadScript>
-                <Fab color="primary" aria-label="add" onClick={this.addMarker}>
-                    <AddIcon/>
-                </Fab>
-            </Box>
+                <Grid container justifyContent="center" spacing={2}>
+                    <Grid item>
+                        <Fab color="primary" aria-label="add" onClick={this.addMarker}>
+                            <AddIcon/>
+                        </Fab>
+                    </Grid>
+                    <Grid item>
+                        <Fab color="secondary" aria-label="add" onClick={this.centerCurrentLocation}>
+                            <MyLocationIcon/>
+                        </Fab>
+                    </Grid>
+                </Grid>
+            </Paper>
         )
     }
 }
