@@ -23,6 +23,7 @@ import {OpenSpace} from "./openSpace";
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import axios from "axios";
 import {Image} from "mui-image";
+import {ImageServer} from "../config/Endpoints";
 
 export type OpenSpaceProps = {
     location: google.maps.LatLngLiteral | google.maps.LatLng,
@@ -36,9 +37,7 @@ type OpenSpaceState = {
     marketplaceImage: any,
     os: OpenSpace
 }
-const ImageServer = {
-    url: process.env.REACT_APP_IMAGE_SERVER
-}
+
 const Endpoints = {
     imageUpload: ImageServer.url + '/image-upload',
     images: ImageServer.url + '/i'
