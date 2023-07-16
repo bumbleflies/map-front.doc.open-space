@@ -8,13 +8,13 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-      - name: npm install, build, and test
+      - name: npm install, build
         run: |
           npm install
           npm run build 
       - name: Archive production artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: dist-without-markdown
+          name: build
           path: |
             build
