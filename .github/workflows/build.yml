@@ -3,7 +3,7 @@ name: Build React App
 on: [push]
 
 jobs:
-  build_and_test:
+  build_and_branch:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout repository
