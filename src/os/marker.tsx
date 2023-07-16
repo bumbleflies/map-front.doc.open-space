@@ -37,11 +37,11 @@ type OpenSpaceState = {
     os: OpenSpace
 }
 const ImageServer = {
-    url: window.location.href.replaceAll(":3000", ":5000"),
+    url: process.env.REACT_APP_IMAGE_SERVER
 }
 const Endpoints = {
-    imageUpload: ImageServer.url + 'image-upload',
-    images: ImageServer.url + 'i'
+    imageUpload: ImageServer.url + '/image-upload',
+    images: ImageServer.url + '/i'
 }
 
 export class OpenSpaceMarker extends React.Component<OpenSpaceProps, OpenSpaceState> {
@@ -91,6 +91,7 @@ export class OpenSpaceMarker extends React.Component<OpenSpaceProps, OpenSpaceSt
         const uploadData = new FormData()
         uploadData.append('file', e.target.files[0])
         uploadData.append('fileName', e.target.files[0].name)
+        console.log(`Uploading file ${uploadData} to ${Endpoints.imageUpload}`)
         axios.post(Endpoints.imageUpload, uploadData).then(response => {
             this.setState({marketplaceImage: response.data})
         })

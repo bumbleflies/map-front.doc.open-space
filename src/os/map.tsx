@@ -30,6 +30,7 @@ export class OSMap extends React.Component<OSMapProps, OSMapState> {
         console.log(`capturing map`)
         this.setState({map: m})
     };
+
     addMarker = () => {
         let location = this.state.map!.getCenter()!
         let openSpace: OpenSpaceProps = {
