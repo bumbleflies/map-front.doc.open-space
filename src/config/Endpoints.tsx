@@ -8,7 +8,7 @@ type ConfigType = {
 
 const config: ConfigType = {
     'localhost': {url: 'http://localhost:5000'},
-    'open-space-app.servyy.duckdns.org': {url: 'http://api.open-space-app.servyy.duckdns.org'}
+    'open-space-app.servyy.duckdns.org': {url: 'https://api.open-space-app.servyy.duckdns.org'}
 }
 
 const determineEnvironment = () => {
