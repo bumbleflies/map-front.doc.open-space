@@ -11,4 +11,11 @@ const config: ConfigType = {
     'open-space-app.servyy.duckdns.org': {url: 'http://api.open-space-app.servyy.duckdns.org'}
 }
 
-export const ImageServer = config[window.location.hostname]
+const determineEnvironment = () => {
+    let location = window.location.hostname
+    let locationConfig = config[location]
+    console.log(`selecting ${locationConfig} based on ${location}`)
+    return locationConfig
+}
+
+export const ImageServer = determineEnvironment()
