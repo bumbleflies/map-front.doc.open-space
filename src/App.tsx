@@ -8,9 +8,9 @@ const containerStyle = {
     height: '800px'
 };
 
-const center = {
-    lat: -3.745,
-    lng: -38.523
+const munich = {
+    lat: 48.135125,
+    lng: 11.581980
 };
 
 const OpenSpaceDocApp = () => {
@@ -20,7 +20,7 @@ const OpenSpaceDocApp = () => {
             <Typography component="h1" variant="h5">
                 Open Space - Doc
             </Typography>
-            <OSMap startLocation={center} containerStyle={containerStyle}></OSMap>
+            <OSMap startLocation={munich} containerStyle={containerStyle}></OSMap>
         </Container>
     )
 }
