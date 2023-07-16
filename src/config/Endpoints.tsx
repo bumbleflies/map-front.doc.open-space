@@ -14,7 +14,7 @@ const config: ConfigType = {
 const determineEnvironment = () => {
     let location = window.location.hostname
     let locationConfig = config[location]
-    console.log(`selecting ${locationConfig} based on ${location}`)
+    console.log(`selecting ${JSON.stringify(locationConfig)} based on ${location}`)
     return locationConfig
 }
 
