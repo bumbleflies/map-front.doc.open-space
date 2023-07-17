@@ -18,11 +18,14 @@ const OpenSpaceDocApp = () => {
                     <Avatar>
                         <Image src={"/bumblefly-blue.png"}></Image>
                     </Avatar>
+
                     <Box sx={{flexGrow: 1}}/>
 
                     <Typography component="h1" variant="h4">
-                        OS Locator
+                        Open Space Harvest
                     </Typography>
+
+                    <Box sx={{flexGrow: 1}}/>
                 </Toolbar>
             </AppBar>
             <OSMapView startLocation={munich}></OSMapView>

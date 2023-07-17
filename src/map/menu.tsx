@@ -1,5 +1,4 @@
 import {AppBar, Box, Fab, IconButton, styled, Toolbar} from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
 import AddIcon from "@mui/icons-material/Add";
 import MyLocationIcon from "@mui/icons-material/MyLocation";
 import React from "react";
@@ -19,9 +18,7 @@ export const OSActionMenu = (props: OSActionMenuProps) => {
     return (
         <AppBar position="sticky" color="primary" sx={{top: 'auto', bottom: 10}}>
             <Toolbar>
-                <IconButton color="inherit" aria-label="open drawer">
-                    <MenuIcon/>
-                </IconButton>
+                <Box sx={{flexGrow: 1}}/>
                 <StyledFab color="secondary" aria-label="add" onClick={props.addMarker}>
                     <AddIcon/>
                 </StyledFab>

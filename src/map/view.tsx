@@ -22,7 +22,6 @@ export class OSMapView extends React.Component<OSMapViewProps, OSMapViewState> {
         map: null,
     }
 
-
     captureMap = (m: google.maps.Map) => {
         console.log(`capturing map`)
         this.setState({map: m})

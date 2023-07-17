@@ -51,10 +51,13 @@ const osSessionData = [
         title: 'Bike',
     },
 ];
-export const OpenSpaceSessions = () => {
+type OpenSpaceSessionsProps = {
+    height: string | number
+}
+export const OpenSpaceSessions = (props: OpenSpaceSessionsProps) => {
     return (
         <Container>
-            <ImageList sx={{width: "100%", height: 450}}>
+            <ImageList sx={{width: "100%", height: props.height}}>
                 {osSessionData.map((item) => (
                     <ImageListItem key={item.img}>
                         <img

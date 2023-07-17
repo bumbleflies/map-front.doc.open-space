@@ -65,22 +65,27 @@ export class OpenSpaceMarker extends React.Component<OpenSpaceProps, OpenSpaceSt
                                 <Carousel slideIndex={this.state.activeStep} withoutControls={true}
                                           adaptiveHeight={true}>
                                     <OpenSpaceInfo os={this.state.os} removeHandler={this.props.removeHandler}/>
-                                    <OpenSpaceSessions/>
+                                    <OpenSpaceSessions
+                                        /** adaptive height hack:
+                                          * initially the highest slide is taken as height for the first slide,
+                                          * so we are setting height to 0 when the first step is shown
+                                          **/
+                                        height={this.state.activeStep * 400}/>
                                 </Carousel>
                                 <MobileStepper
                                     variant="dots"
                                     steps={2}
                                     position="static"
                                     activeStep={this.state.activeStep}
-                                        nextButton={
-                                            <Button
-                                                size="small"
-                                                onClick={this.stepNext}
-                                                disabled={this.state.activeStep === 1}
-                                            >
-                                                Sessions <KeyboardArrowRight/>
-                                            </Button>
-                                        }
+                                    nextButton={
+                                        <Button
+                                            size="small"
+                                            onClick={this.stepNext}
+                                            disabled={this.state.activeStep === 1}
+                                        >
+                                            Sessions <KeyboardArrowRight/>
+                                        </Button>
+                                    }
                                     backButton={
                                         <Button size="small"
                                                 onClick={this.stepBack}
