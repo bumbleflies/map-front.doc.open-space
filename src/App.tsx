@@ -1,7 +1,8 @@
 import React from 'react';
 import './App.css';
-import {Container, Typography} from "@mui/material";
+import {AppBar, Avatar, Container, Toolbar, Typography} from "@mui/material";
 import {OSMap} from "./os/map";
+import {Image} from "mui-image";
 
 const containerStyle = {
     width: '100%',
@@ -17,9 +18,17 @@ const OpenSpaceDocApp = () => {
 
     return (
         <Container>
-            <Typography component="h1" variant="h5">
-                Open Space - Doc
-            </Typography>
+            <AppBar position={"static"}>
+                <Toolbar>
+                    <Avatar>
+                        <Image src={"/bumblefly-blue.png"}></Image>
+                    </Avatar>
+
+                    <Typography component="h1" variant="h4">
+                        Open Space - Doc
+                    </Typography>
+                </Toolbar>
+            </AppBar>
             <OSMap startLocation={munich} containerStyle={containerStyle}></OSMap>
         </Container>
     )
