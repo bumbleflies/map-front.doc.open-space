@@ -12,6 +12,7 @@ import {
 import {DateTimePicker, LocalizationProvider} from "@mui/x-date-pickers";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {OpenSpace} from "./openSpace";
+import {Dayjs} from "dayjs";
 
 type EditorProps = {
     isOpen: boolean,
@@ -60,12 +61,12 @@ export class OpenSpaceEditDialog extends React.Component<EditorProps, OpenSpace>
                                 <Grid item xs={6}>
                                     <DateTimePicker label={"Start Date"} value={this.state.startDate}
                                                     format="DD.MM.YYYY HH:mm"
-                                                    onAccept={v => this.setState({startDate: v!})}/>
+                                                    onAccept={this.acceptStartDate.bind(this)}/>
                                 </Grid>
                                 <Grid item xs={6}>
                                     <DateTimePicker label={"End Date"} value={this.state.endDate}
                                                     format="DD.MM.YYYY HH:mm"
-                                                    onAccept={v => this.setState({endDate: v!})}/>
+                                                    onAccept={this.acceptEndDate.bind(this)}/>
                                 </Grid>
                             </LocalizationProvider>
                         </Grid>
@@ -78,5 +79,33 @@ export class OpenSpaceEditDialog extends React.Component<EditorProps, OpenSpace>
             </Dialog>
 
         )
+    }
+
+    private acceptStartDate(value: Dayjs | null) {
+        if (value != null) {
+            if (value.isAfter(this.state.endDate)) {
+                let dateDifference = this.state.endDate.diff(this.state.startDate)
+                this.setState({
+                    startDate: value,
+                    endDate: value.add(dateDifference)
+                })
+            } else {
+                this.setState({startDate: value})
+            }
+        }
+    }
+
+    private acceptEndDate(value: Dayjs | null) {
+        if (value != null) {
+            if (value.isBefore(this.state.startDate)) {
+                let dateDifference = this.state.endDate.diff(this.state.startDate)
+                this.setState({
+                    startDate: value.add(-1 * dateDifference),
+                    endDate: value
+                })
+            } else {
+                this.setState({endDate: value})
+            }
+        }
     }
 }
