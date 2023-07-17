@@ -5,7 +5,7 @@ import {OSMap} from "./os/map";
 
 const containerStyle = {
     width: '100%',
-    height: '800px'
+    height: '80vh'
 };
 
 const munich = {

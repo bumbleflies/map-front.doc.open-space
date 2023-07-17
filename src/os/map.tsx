@@ -1,12 +1,13 @@
 import {OpenSpaceMarker, OpenSpaceProps} from "./marker";
 import React from "react";
 import {v4 as uuidv4} from "uuid";
-import {Fab, Grid, Paper} from "@mui/material";
+import {AppBar, Box, Fab, IconButton, Paper, styled, Toolbar} from "@mui/material";
 import {GoogleMap, LoadScript} from "@react-google-maps/api";
 import AddIcon from "@mui/icons-material/Add";
 import {OpenSpace} from "./openSpace";
 import dayjs from "dayjs";
 import MyLocationIcon from '@mui/icons-material/MyLocation';
+import MenuIcon from '@mui/icons-material/Menu';
 
 type OSMapProps = {
     startLocation: google.maps.LatLngLiteral
@@ -17,14 +18,24 @@ type OSMapProps = {
 }
 type OSMapState = {
     osMarker: OpenSpaceProps[],
-    map: google.maps.Map | null
+    map: google.maps.Map | null,
 }
+
+const StyledFab = styled(Fab)({
+    position: 'absolute',
+    zIndex: 1,
+    top: -30,
+    left: 0,
+    right: 0,
+    margin: '0 auto',
+});
 
 export class OSMap extends React.Component<OSMapProps, OSMapState> {
     state: OSMapState = {
         osMarker: [],
-        map: null
+        map: null,
     }
+
 
     captureMap = (m: google.maps.Map) => {
         console.log(`capturing map`)
@@ -80,7 +91,7 @@ export class OSMap extends React.Component<OSMapProps, OSMapState> {
                     <GoogleMap
                         mapContainerStyle={this.props.containerStyle}
                         center={this.props.startLocation}
-                        zoom={10}
+                        zoom={13}
                         onLoad={this.captureMap}
                     >
                         {this.state.osMarker.map(osm => (
@@ -92,18 +103,23 @@ export class OSMap extends React.Component<OSMapProps, OSMapState> {
                         ))}
                     </GoogleMap>
                 </LoadScript>
-                <Grid container justifyContent="center" spacing={2}>
-                    <Grid item>
-                        <Fab color="primary" aria-label="add" onClick={this.addMarker}>
+
+                <AppBar position="sticky" color="primary" sx={{top: 'auto', bottom: 10}}>
+                    <Toolbar>
+                        <IconButton color="inherit" aria-label="open drawer">
+                            <MenuIcon/>
+                        </IconButton>
+                        <StyledFab color="secondary" aria-label="add" onClick={this.addMarker}>
                             <AddIcon/>
-                        </Fab>
-                    </Grid>
-                    <Grid item>
-                        <Fab color="secondary" aria-label="add" onClick={this.centerCurrentLocation}>
+                        </StyledFab>
+                        <Box sx={{flexGrow: 1}}/>
+
+                        <IconButton onClick={this.centerCurrentLocation} color="inherit"
+                                    aria-label={"current location"}>
                             <MyLocationIcon/>
-                        </Fab>
-                    </Grid>
-                </Grid>
+                        </IconButton>
+                    </Toolbar>
+                </AppBar>
             </Paper>
         )
     }
