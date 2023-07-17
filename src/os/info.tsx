@@ -22,6 +22,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import {OpenSpaceEditDialog} from "./dialog";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {ImageServer} from "../config/Endpoints";
+import dayjs from "dayjs";
 
 const Endpoints = {
     imageUpload: ImageServer.url + '/image-upload',
@@ -135,6 +136,33 @@ export class OpenSpaceInfo extends React.Component<OpenSpaceInfoProps, OpenSpace
         this.setState({marketplaceImage: image})
     }
 
+    statusChipProps = () => {
+        let today = dayjs()
+        let props: {
+            color: 'default' | 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning',
+            label: string
+        }
+        if (today.isAfter(this.state.os.startDate)) {
+            if (today.isBefore(this.state.os.endDate)) {
+                props = {
+                    color: 'primary',
+                    label: 'running'
+                }
+            } else {
+                props = {
+                    color: 'success',
+                    label: 'closed'
+                }
+            }
+        } else {
+            props = {
+                color: 'secondary',
+                label: 'outstanding'
+            }
+        }
+        return props
+    }
+
     render() {
         return (
             <Grid container spacing={0}>
@@ -167,7 +195,7 @@ export class OpenSpaceInfo extends React.Component<OpenSpaceInfoProps, OpenSpace
                         </Popover>
                     </Grid>
                     <Grid item xs>
-                        <Chip color="primary" label="running"></Chip>
+                        <Chip {...this.statusChipProps()}></Chip>
                     </Grid>
                 </Grid>
                 <Grid item xs={8} container spacing={1}>
