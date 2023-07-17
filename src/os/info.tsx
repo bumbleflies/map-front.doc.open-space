@@ -1,4 +1,4 @@
-import React, {ChangeEvent, RefObject} from "react";
+import React, {ChangeEvent} from "react";
 import {OpenSpace} from "./openSpace";
 import axios from "axios";
 import {
@@ -21,7 +21,6 @@ import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import EditIcon from "@mui/icons-material/Edit";
 import {OpenSpaceEditDialog} from "./dialog";
 import DeleteIcon from "@mui/icons-material/Delete";
-import {Marker} from "@react-google-maps/api";
 import {ImageServer} from "../config/Endpoints";
 
 const Endpoints = {
@@ -30,7 +29,6 @@ const Endpoints = {
 }
 type OpenSpaceInfoProps = {
     os: OpenSpace,
-    detailsRef: RefObject<Marker>,
     removeHandler: (os: OpenSpace) => void
 }
 type OpenSpaceInfoState = {
@@ -38,7 +36,6 @@ type OpenSpaceInfoState = {
     os: OpenSpace,
     imageButton: HTMLButtonElement | undefined,
     marketplaceImage: string | undefined,
-    detailsAnchor: Marker | undefined,
 }
 
 type OSMarketplaceImageProps = {
@@ -104,14 +101,8 @@ export class OpenSpaceInfo extends React.Component<OpenSpaceInfoProps, OpenSpace
         imageButton: undefined,
         marketplaceImage: undefined,
         os: this.props.os,
-        detailsAnchor: undefined,
     }
 
-    componentDidMount() {
-        this.setState({
-            detailsAnchor: this.props.detailsRef.current!
-        })
-    }
 
     closeEdit = () => {
         this.setState({editOpen: false})

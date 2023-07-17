@@ -5,7 +5,7 @@ import {OpenSpace} from "./openSpace";
 import {KeyboardArrowLeft, KeyboardArrowRight} from "@mui/icons-material";
 import {OpenSpaceInfo} from "./info";
 import {OpenSpaceSessions} from "./sessions";
-import SwipeableViews from 'react-swipeable-views';
+import Carousel from "nuka-carousel"
 
 export type OpenSpaceProps = {
     location: google.maps.LatLngLiteral | google.maps.LatLng,
@@ -63,11 +63,12 @@ export class OpenSpaceMarker extends React.Component<OpenSpaceProps, OpenSpaceSt
                         <InfoWindow onCloseClick={this.closeInfo}>
                             <Box>
                                 <Paper>
-                                    <SwipeableViews index={this.state.activeStep}>
-                                        <OpenSpaceInfo os={this.state.os} detailsRef={this.detailsRef}
+                                    <Carousel slideIndex={this.state.activeStep} withoutControls={true}
+                                              adaptiveHeight={true}>
+                                        <OpenSpaceInfo os={this.state.os}
                                                        removeHandler={this.props.removeHandler}/>
                                         <OpenSpaceSessions/>
-                                    </SwipeableViews>
+                                    </Carousel>
                                     <MobileStepper
                                         variant="dots"
                                         steps={2}
