@@ -24,6 +24,7 @@ export const OSMap = (props: OSMapProps) => {
                 center={props.startLocation}
                 zoom={13}
                 onLoad={props.captureMapHandler}
+                clickableIcons={false}
             >
                 {props.osMarker.map(osm => (
                     <OpenSpaceMarker
