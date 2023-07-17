@@ -4,6 +4,8 @@ import {Box, Button, MobileStepper, Paper} from "@mui/material";
 import {OpenSpace} from "./openSpace";
 import {KeyboardArrowLeft, KeyboardArrowRight} from "@mui/icons-material";
 import {OpenSpaceInfo} from "./info";
+import {OpenSpaceSessions} from "./sessions";
+import SwipeableViews from 'react-swipeable-views';
 
 export type OpenSpaceProps = {
     location: google.maps.LatLngLiteral | google.maps.LatLng,
@@ -61,8 +63,11 @@ export class OpenSpaceMarker extends React.Component<OpenSpaceProps, OpenSpaceSt
                         <InfoWindow onCloseClick={this.closeInfo}>
                             <Box>
                                 <Paper>
-                                    <OpenSpaceInfo os={this.state.os} detailsRef={this.detailsRef}
-                                                   removeHandler={this.props.removeHandler}/>
+                                    <SwipeableViews index={this.state.activeStep}>
+                                        <OpenSpaceInfo os={this.state.os} detailsRef={this.detailsRef}
+                                                       removeHandler={this.props.removeHandler}/>
+                                        <OpenSpaceSessions/>
+                                    </SwipeableViews>
                                     <MobileStepper
                                         variant="dots"
                                         steps={2}
