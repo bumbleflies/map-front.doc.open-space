@@ -109,8 +109,6 @@ export class OpenSpaceMarker extends React.Component<OpenSpaceProps, OpenSpaceSt
         axios.post(Endpoints.imageUpload, uploadData).then(response => {
             this.setState({marketplaceImage: response.data})
         })
-
-
     }
 
     stepBack = () => {
