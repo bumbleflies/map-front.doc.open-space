@@ -1,6 +1,6 @@
 import React from "react";
 import {InfoWindow, Marker} from "@react-google-maps/api";
-import {Box, Button, MobileStepper, Paper} from "@mui/material";
+import {Button, MobileStepper, Paper} from "@mui/material";
 import {OpenSpace} from "./openSpace";
 import {KeyboardArrowLeft, KeyboardArrowRight} from "@mui/icons-material";
 import {OpenSpaceInfo} from "./info";
@@ -61,19 +61,17 @@ export class OpenSpaceMarker extends React.Component<OpenSpaceProps, OpenSpaceSt
                 >
                     {this.state.infoOpen ? (
                         <InfoWindow onCloseClick={this.closeInfo}>
-                            <Box>
-                                <Paper>
-                                    <Carousel slideIndex={this.state.activeStep} withoutControls={true}
-                                              adaptiveHeight={true}>
-                                        <OpenSpaceInfo os={this.state.os}
-                                                       removeHandler={this.props.removeHandler}/>
-                                        <OpenSpaceSessions/>
-                                    </Carousel>
-                                    <MobileStepper
-                                        variant="dots"
-                                        steps={2}
-                                        position="static"
-                                        activeStep={this.state.activeStep}
+                            <Paper>
+                                <Carousel slideIndex={this.state.activeStep} withoutControls={true}
+                                          adaptiveHeight={true}>
+                                    <OpenSpaceInfo os={this.state.os} removeHandler={this.props.removeHandler}/>
+                                    <OpenSpaceSessions/>
+                                </Carousel>
+                                <MobileStepper
+                                    variant="dots"
+                                    steps={2}
+                                    position="static"
+                                    activeStep={this.state.activeStep}
                                         nextButton={
                                             <Button
                                                 size="small"
@@ -83,17 +81,16 @@ export class OpenSpaceMarker extends React.Component<OpenSpaceProps, OpenSpaceSt
                                                 Sessions <KeyboardArrowRight/>
                                             </Button>
                                         }
-                                        backButton={
-                                            <Button size="small"
-                                                    onClick={this.stepBack}
-                                                    disabled={this.state.activeStep === 0}
-                                            >
-                                                Info <KeyboardArrowLeft/>
-                                            </Button>
-                                        }
-                                    />
-                                </Paper>
-                            </Box>
+                                    backButton={
+                                        <Button size="small"
+                                                onClick={this.stepBack}
+                                                disabled={this.state.activeStep === 0}
+                                        >
+                                            Info <KeyboardArrowLeft/>
+                                        </Button>
+                                    }
+                                />
+                            </Paper>
                         </InfoWindow>
                     ) : null}
                 </Marker>

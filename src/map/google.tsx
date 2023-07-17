@@ -24,7 +24,7 @@ export const OSMap = (props: OSMapProps) => {
                 center={props.startLocation}
                 zoom={13}
                 onLoad={props.captureMapHandler}
-                clickableIcons={false}
+                clickableIcons={false} // needs to be off, otherwise InfoWindow is losing reference
             >
                 {props.osMarker.map(osm => (
                     <OpenSpaceMarker

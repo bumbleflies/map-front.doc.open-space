@@ -1,5 +1,5 @@
 import React from "react";
-import {Card, CardContent, ImageList, ImageListItem, ImageListItemBar} from "@mui/material";
+import {Container, ImageList, ImageListItem, ImageListItemBar} from "@mui/material";
 
 const osSessionData = [
     {
@@ -52,8 +52,8 @@ const osSessionData = [
     },
 ];
 export const OpenSpaceSessions = () => {
-    return (<Card>
-        <CardContent>
+    return (
+        <Container>
             <ImageList sx={{width: "100%", height: 450}}>
                 {osSessionData.map((item) => (
                     <ImageListItem key={item.img}>
@@ -70,6 +70,6 @@ export const OpenSpaceSessions = () => {
                     </ImageListItem>
                 ))}
             </ImageList>
-        </CardContent>
-    </Card>)
+        </Container>
+    )
 }
