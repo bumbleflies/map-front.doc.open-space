@@ -89,7 +89,7 @@ export const OpenSpaceSessions = (props: OpenSpaceSessionsProps) => {
                                              closeTakePhotoDialogCallback={closeTakePhotoDialog}
                                              setImageCallback={captureImage}/>
                 </ListItem>
-                {image != '' ? <Image src={image}></Image> : null}
+                {image !== '' ? <Image src={image}></Image> : null}
                 {osSessionData.map((item) => (
                     <ImageListItem key={item.img}>
                         <img

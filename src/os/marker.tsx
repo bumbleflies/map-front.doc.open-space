@@ -72,7 +72,7 @@ export class OpenSpaceMarker extends React.Component<OpenSpaceProps, OpenSpaceSt
                                           * initially the highest slide is taken as height for the first slide,
                                           * so we are setting height to 0 when the first step is shown
                                           **/
-                                        height={this.state.activeStep * 400} shown={this.state.activeStep == 1}/>
+                                        height={this.state.activeStep * 400} shown={this.state.activeStep === 1}/>
                                 </Carousel>
                                 <MobileStepper
                                     variant="dots"
