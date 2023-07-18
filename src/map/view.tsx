@@ -35,8 +35,8 @@ export class OSMapView extends React.Component<OSMapViewProps, OSMapViewState> {
             removeHandler: this.removeMarker,
             os: {
                 name: `Open Space #${this.state.osMarker.length}`,
-                startDate: dayjs(),
-                endDate: dayjs(),
+                startDate: dayjs().startOf('hour'),
+                endDate: dayjs().startOf('hour').add(2, 'hours'),
                 identifier: uuidv4()
             }
         }
