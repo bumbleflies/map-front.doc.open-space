@@ -64,7 +64,8 @@ export class OpenSpaceMarker extends React.Component<OpenSpaceProps, OpenSpaceSt
                         <InfoWindow onCloseClick={this.closeInfo}>
                             <Paper>
                                 <Carousel slideIndex={this.state.activeStep} withoutControls={true}
-                                          adaptiveHeight={true}>
+                                          adaptiveHeight={true} swiping={false} // currently not working correctly
+                                >
                                     <OpenSpaceInfo os={this.state.os} removeHandler={this.props.removeHandler}/>
                                     <OpenSpaceSessions
                                         /** adaptive height hack:
