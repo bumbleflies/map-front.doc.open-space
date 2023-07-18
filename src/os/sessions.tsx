@@ -1,5 +1,7 @@
 import React from "react";
-import {Container, ImageList, ImageListItem, ImageListItemBar} from "@mui/material";
+import {Box, Container, ImageList, ImageListItem, ImageListItemBar, ListItem} from "@mui/material";
+import {Camera} from "react-camera-pro";
+import CameraEnhanceIcon from '@mui/icons-material/CameraEnhance';
 
 const osSessionData = [
     {
@@ -52,12 +54,30 @@ const osSessionData = [
     },
 ];
 type OpenSpaceSessionsProps = {
-    height: string | number
+    height: string | number,
+    shown: boolean
 }
 export const OpenSpaceSessions = (props: OpenSpaceSessionsProps) => {
     return (
         <Container>
             <ImageList sx={{width: "100%", height: props.height}}>
+
+                <ListItem sx={{
+                    alignItems: "center",
+                    justifyContent: "center",
+                    display: "flex"
+
+                }}>
+                    <CameraEnhanceIcon sx={{
+                        transform: 'translateX(-50%),translateY(-50%)'
+                    }} fontSize={"large"}/>
+                    <Box className={"cameraOverlay"} sx={{
+                        opacity: ".5",
+                    }}>
+                        {/*https://github.com/purple-technology/react-camera-pro*/}
+                        {props.shown ? <Camera errorMessages={{}} facingMode='environment'></Camera> : null}
+                    </Box>
+                </ListItem>
                 {osSessionData.map((item) => (
                     <ImageListItem key={item.img}>
                         <img
