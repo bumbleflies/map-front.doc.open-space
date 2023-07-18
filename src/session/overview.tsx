@@ -1,20 +1,7 @@
 import React, {useState} from "react";
-import {
-    Box,
-    Button,
-    Container,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    ImageList,
-    ImageListItem,
-    ImageListItemBar,
-    ListItem
-} from "@mui/material";
-import {Camera} from "react-camera-pro";
-import CameraEnhanceIcon from '@mui/icons-material/CameraEnhance';
-import CameraIcon from '@mui/icons-material/Camera';
-import ClearIcon from '@mui/icons-material/Clear';
+import {Container, ImageList, ImageListItem, ImageListItemBar, ListItem} from "@mui/material";
+import {Image} from "mui-image";
+import {CameraPreview, CameraTakePictureDialog} from "./camera";
 
 const osSessionData = [
     {
@@ -72,12 +59,21 @@ type OpenSpaceSessionsProps = {
 }
 export const OpenSpaceSessions = (props: OpenSpaceSessionsProps) => {
     const [takePhotoDialogShown, setTakePhotoDialogShown] = useState(false)
+
+
+    const [image, setImage] = useState<string>('')
+
     const showTakePhotoDialog = () => {
         setTakePhotoDialogShown(true)
     }
     const closeTakePhotoDialog = () => {
         setTakePhotoDialogShown(false)
     }
+
+    const captureImage = (image: string) => {
+        setImage(image)
+    }
+
     return (
         <Container>
             <ImageList sx={{width: "100%", height: props.height}}>
@@ -88,45 +84,12 @@ export const OpenSpaceSessions = (props: OpenSpaceSessionsProps) => {
                     display: "flex"
 
                 }}>
-                    <CameraEnhanceIcon sx={{
-                        // action in the middle
-                        transform: 'translateX(-50%),translateY(-50%)'
-                    }} fontSize={"large"}/>
-                    <Box className={"cameraOverlay"} sx={{
-                        opacity: ".5",
-                    }}
-                         onClick={showTakePhotoDialog}>
-                        {/*https://github.com/purple-technology/react-camera-pro*/}
-                        {props.shown ? <Camera errorMessages={{}} facingMode='environment'></Camera> : null}
-                    </Box>
-                    <Dialog open={takePhotoDialogShown} fullScreen>
-
-                        <Button onClick={closeTakePhotoDialog} sx={{
-                            // https://mui.com/material-ui/customization/z-index/
-                            zIndex: 100
-                        }}>
-                            <ClearIcon/>
-                        </Button>
-                        <DialogContent>
-                            {takePhotoDialogShown ?
-                                <Camera errorMessages={{}} facingMode='environment'></Camera> : null}
-                        </DialogContent>
-                        <DialogActions sx={{
-                            // action in the middle
-                            alignItems: "center",
-                            justifyContent: "center",
-                            display: "flex"
-                        }}>
-                            <Button>
-                                <CameraIcon sx={{
-                                    // action in the middle
-                                    transform: 'translateX(-50%),translateY(-50%)',
-                                    fontSize: 80
-                                }}/>
-                            </Button>
-                        </DialogActions>
-                    </Dialog>
+                    <CameraPreview isShown={props.shown} showTakePhotoDialogCallback={showTakePhotoDialog}/>
+                    <CameraTakePictureDialog isOpen={takePhotoDialogShown}
+                                             closeTakePhotoDialogCallback={closeTakePhotoDialog}
+                                             setImageCallback={captureImage}/>
                 </ListItem>
+                {image != '' ? <Image src={image}></Image> : null}
                 {osSessionData.map((item) => (
                     <ImageListItem key={item.img}>
                         <img

@@ -4,7 +4,7 @@ import {Button, MobileStepper, Paper} from "@mui/material";
 import {OpenSpace} from "./openSpace";
 import {KeyboardArrowLeft, KeyboardArrowRight} from "@mui/icons-material";
 import {OpenSpaceInfo} from "./info";
-import {OpenSpaceSessions} from "./sessions";
+import {OpenSpaceSessions} from "../session/overview";
 import Carousel from "nuka-carousel"
 
 export type OpenSpaceProps = {
