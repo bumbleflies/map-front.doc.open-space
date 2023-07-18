@@ -1,9 +1,10 @@
 import React from "react";
 import {Camera, CameraType} from "react-camera-pro";
-import {Box, Button, Dialog, DialogActions, DialogContent} from "@mui/material";
+import {Box, Button, Dialog, DialogActions, DialogContent, Grid} from "@mui/material";
 import ClearIcon from "@mui/icons-material/Clear";
 import CameraIcon from "@mui/icons-material/Camera";
 import CameraEnhanceIcon from "@mui/icons-material/CameraEnhance";
+import CameraswitchIcon from '@mui/icons-material/Cameraswitch';
 
 type CameraPreviewProps = {
     showTakePhotoDialogCallback: () => void,
@@ -39,6 +40,10 @@ export const CameraTakePictureDialog = (props: CameraTakePictureDialogProps) => 
         props.closeTakePhotoDialogCallback()
     }
 
+    const switchCamera = () => {
+        camera.current?.switchCamera()
+    }
+
     return (
         <Dialog open={props.isOpen} fullScreen>
             <Button onClick={props.closeTakePhotoDialogCallback} sx={{
@@ -56,13 +61,26 @@ export const CameraTakePictureDialog = (props: CameraTakePictureDialogProps) => 
                 justifyContent: "center",
                 display: "flex"
             }}>
-                <Button onClick={takePicture}>
-                    <CameraIcon sx={{
-                        // action in the middle
-                        transform: 'translateX(-50%),translateY(-50%)',
-                        fontSize: 80
-                    }}/>
-                </Button>
+                <Grid container spacing={2} alignItems="center" justifyContent={"space-around"}>
+                    <Grid item xs>
+                    </Grid>
+                    <Grid item xs textAlign={"center"}>
+                        <Button onClick={takePicture}>
+                            <CameraIcon sx={{
+                                // action in the middle
+                                fontSize: 80
+                            }}/>
+                        </Button>
+                    </Grid>
+                    <Grid item xs textAlign={"center"}>
+                        <Button onClick={switchCamera}>
+                            <CameraswitchIcon sx={{
+                                fontSize: 50
+                            }}
+                            />
+                        </Button>
+                    </Grid>
+                </Grid>
             </DialogActions>
         </Dialog>
     )
