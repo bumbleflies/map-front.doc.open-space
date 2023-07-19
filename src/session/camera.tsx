@@ -40,7 +40,7 @@ export const CameraTakePictureDialog = (props: CameraTakePictureDialogProps) => 
     useEffect(() => {
         (async () => {
             const devices = await navigator.mediaDevices.enumerateDevices();
-            const videoDevices = devices.filter((i) => i.kind == 'videoinput');
+            const videoDevices = devices.filter((i) => i.kind === 'videoinput');
             setDevices(videoDevices);
         })();
     }, []);
