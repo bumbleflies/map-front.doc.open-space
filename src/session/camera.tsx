@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {Camera, CameraType} from "react-camera-pro";
 import {Box, Button, Dialog, DialogActions, DialogContent, Grid} from "@mui/material";
 import ClearIcon from "@mui/icons-material/Clear";
@@ -34,6 +34,16 @@ type CameraTakePictureDialogProps = {
 }
 export const CameraTakePictureDialog = (props: CameraTakePictureDialogProps) => {
     const camera = React.useRef<CameraType>()
+    const [devices, setDevices] = useState<MediaDeviceInfo[]>([]);
+    const [activeDeviceIndex, setActiveDeviceIndex] = useState<number>(0);
+    const [activeDeviceId, setActiveDeviceId] = useState<string | undefined>(undefined);
+    useEffect(() => {
+        (async () => {
+            const devices = await navigator.mediaDevices.enumerateDevices();
+            const videoDevices = devices.filter((i) => i.kind == 'videoinput');
+            setDevices(videoDevices);
+        })();
+    }, []);
 
     const takePicture = () => {
         props.setImageCallback(camera.current?.takePhoto()!)
@@ -41,19 +51,17 @@ export const CameraTakePictureDialog = (props: CameraTakePictureDialogProps) => 
     }
 
     const switchCamera = () => {
-        camera.current?.switchCamera()
+        setActiveDeviceIndex((activeDeviceIndex + 1) % (devices.length))
+        console.log('Switch: ' + activeDeviceIndex)
+        console.log('Switch: ' + JSON.stringify(devices))
+        setActiveDeviceId(devices[activeDeviceIndex].deviceId)
     }
 
     return (
         <Dialog open={props.isOpen} fullScreen>
-            <Button onClick={props.closeTakePhotoDialogCallback} sx={{
-                // https://mui.com/material-ui/customization/z-index/
-                zIndex: 100
-            }}>
-                <ClearIcon fontSize={"large"}/>
-            </Button>
             <DialogContent>
-                <Camera errorMessages={{}} facingMode='environment' ref={camera}></Camera>
+                <Camera errorMessages={{}} facingMode='environment' ref={camera}
+                        videoSourceDeviceId={activeDeviceId}></Camera>
             </DialogContent>
             <DialogActions sx={{
                 // action in the middle
@@ -61,10 +69,16 @@ export const CameraTakePictureDialog = (props: CameraTakePictureDialogProps) => 
                 justifyContent: "center",
                 display: "flex"
             }}>
-                <Grid container spacing={2} alignItems="center" justifyContent={"space-around"}>
+                <Grid container spacing={2} alignItems="center" justifyContent={"space-around"} textAlign={"center"}>
                     <Grid item xs>
+                        <Button onClick={props.closeTakePhotoDialogCallback} sx={{
+                            // https://mui.com/material-ui/customization/z-index/
+                            zIndex: 100
+                        }}>
+                            <ClearIcon fontSize={"large"}/>
+                        </Button>
                     </Grid>
-                    <Grid item xs textAlign={"center"}>
+                    <Grid item xs>
                         <Button onClick={takePicture}>
                             <CameraIcon sx={{
                                 // action in the middle
@@ -72,7 +86,7 @@ export const CameraTakePictureDialog = (props: CameraTakePictureDialogProps) => 
                             }}/>
                         </Button>
                     </Grid>
-                    <Grid item xs textAlign={"center"}>
+                    <Grid item xs>
                         <Button onClick={switchCamera}>
                             <CameraswitchIcon sx={{
                                 fontSize: 50
