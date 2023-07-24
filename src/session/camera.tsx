@@ -42,6 +42,7 @@ export const CameraTakePictureDialog = (props: CameraTakePictureDialogProps) => 
             const devices = await navigator.mediaDevices.enumerateDevices();
             const videoDevices = devices.filter((i) => i.kind === 'videoinput');
             setDevices(videoDevices);
+            setActiveDeviceId(devices[activeDeviceIndex].deviceId)
         })();
     }, []);
 
