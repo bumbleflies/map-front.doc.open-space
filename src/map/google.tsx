@@ -1,7 +1,7 @@
 import {OpenSpaceMarker, OpenSpaceProps} from "../os/marker";
 import {OpenSpace} from "../os/openSpace";
 import {GoogleMap, LoadScript} from "@react-google-maps/api";
-import React from "react";
+import React, {useState} from "react";
 
 type OSMapProps = {
     startLocation: google.maps.LatLngLiteral,
@@ -11,6 +11,12 @@ type OSMapProps = {
 };
 
 export const OSMap = (props: OSMapProps) => {
+
+    const [activeMarker, setActiveMarker] = useState<string>('')
+
+    const handleMarkerClicked = (os: OpenSpace) => {
+        setActiveMarker(os.identifier)
+    }
 
     return (
         <LoadScript
