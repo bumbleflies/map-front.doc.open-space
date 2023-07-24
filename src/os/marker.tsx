@@ -32,8 +32,6 @@ export class OpenSpaceMarker extends React.Component<OpenSpaceProps, OpenSpaceSt
     };
 
 
-    detailsRef = React.createRef<Marker>()
-
     stepNext = () => {
         this.setState({
             activeStep: this.state.activeStep + 1
@@ -58,7 +56,6 @@ export class OpenSpaceMarker extends React.Component<OpenSpaceProps, OpenSpaceSt
                     position={this.props.location}
                     draggable={true}
                     onClick={this.showInfo}
-                    ref={this.detailsRef}
                 >
                     {this.state.infoOpen ? (
                         <InfoWindow onCloseClick={this.closeInfo}>
