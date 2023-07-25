@@ -6,13 +6,14 @@ import {
     Box,
     Button,
     ButtonBase,
-    Chip,
     Container,
     Dialog,
     DialogActions,
     DialogContent,
     DialogContentText,
     DialogTitle,
+    Divider,
+    Drawer,
     Fab,
     Grid,
     IconButton,
@@ -20,7 +21,6 @@ import {
     Paper,
     Skeleton,
     styled,
-    SwipeableDrawer,
     TextField,
     Toolbar,
     Typography
@@ -29,10 +29,9 @@ import {Image} from "mui-image";
 import AddIcon from "@mui/icons-material/Add";
 import MyLocationIcon from "@mui/icons-material/MyLocation";
 import {v4 as uuidv4} from "uuid";
-import {MapContainer, Marker, Popup, Tooltip} from 'react-leaflet';
-import {LatLngExpression, Map, Popup as LeafletPopup} from "leaflet";
+import {MapContainer, Marker, Tooltip} from 'react-leaflet';
+import {LatLngExpression, Map} from "leaflet";
 import {KeyboardArrowLeft, KeyboardArrowRight} from "@mui/icons-material";
-import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import EditIcon from "@mui/icons-material/Edit";
 import dayjs, {Dayjs} from "dayjs";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -40,7 +39,9 @@ import ReactLeafletGoogleLayer from 'react-leaflet-google-layer';
 import {DateTimePicker, LocalizationProvider} from "@mui/x-date-pickers";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import SwipeableViews from 'react-swipeable-views';
-import {grey} from "@mui/material/colors";
+import WbSunnyIcon from '@mui/icons-material/WbSunny';
+import NightlightIcon from '@mui/icons-material/Nightlight';
+import {yellow} from "@mui/material/colors";
 
 const munich = {
     lat: 48.135125,
@@ -174,57 +175,91 @@ const OpenSpaceInfo = (props: OpenSpaceInfoProps) => {
     const [editOpen, setEditOpen] = useState<boolean>(false)
 
     return (
-        <>
-            <Grid container spacing={2} alignItems={"center"} textAlign={"left"}>
-                <Grid item xs={4} textAlign={"center"}>
+        <Box sx={{}}>
+            <Grid container spacing={0} alignItems={"center"} textAlign={"left"}>
+                {/* Image */}
+                <Grid item xs={12} textAlign={"center"}>
                     <ButtonBase onClick={() => {
                     }}>
-                        <Avatar>
-                            <AddPhotoAlternateIcon></AddPhotoAlternateIcon>
-                        </Avatar>
+                        <Image src={"/img/no-image-icon.png"}/>
                     </ButtonBase>
                 </Grid>
-                <Grid item xs={8} container>
-                    <Grid item xs={12}>
-                        <Typography>{infoMarker.title}</Typography>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <Typography color='text.secondary'>
-                            {infoMarker.startDate.format("DD.MM.YYYY")}
-                        </Typography>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <Typography color='text.secondary'>
-                            {infoMarker.endDate.format("DD.MM.YYYY")}
-                        </Typography>
-                    </Grid>
-                    <Grid item xs={12}>
-
-                    </Grid>
+                {/* Title */}
+                <Grid item xs={12} textAlign={"left"}>
+                    <Box sx={{p: 2}}>
+                        <Typography variant={"h6"}>{infoMarker.title}</Typography>
+                    </Box>
+                </Grid>
+                {/* Dates */}
+                <Grid item xs={12} textAlign={"left"} container>
+                    <Box sx={{px: 2, flexGrow: 1}}>
+                        <Grid item xs={12} textAlign={"left"} container>
+                            <Grid item xs={6} container>
+                                <Grid item xs={2}>
+                                    <WbSunnyIcon/>
+                                </Grid>
+                                <Grid item xs={10}>
+                                    <Typography color='text.secondary'>
+                                        {infoMarker.startDate.format("DD.MM.YYYY")}
+                                    </Typography>
+                                </Grid>
+                            </Grid>
+                            <Grid item xs={6} container>
+                                <Grid item xs={2}>
+                                    <NightlightIcon/>
+                                </Grid>
+                                <Grid item xs={10}>
+                                    <Typography color='text.secondary'>
+                                        {infoMarker.endDate.format("DD.MM.YYYY")}
+                                    </Typography>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                    </Box>
+                </Grid>
+                <Grid item xs={12} textAlign={"left"} container>
+                    <Box sx={{py: 2, flexGrow: 1}}>
+                        <Divider/>
+                    </Box>
                 </Grid>
                 <Grid item xs={12} container>
-                    <Grid item xs={4}>
-                        <Chip color={"primary"} label={"running"}></Chip>
-                    </Grid>
-                    <Grid item xs={4}></Grid>
+                    <Grid item xs={4}/>
                     <Grid item xs={2}>
-                        <IconButton aria-label="edit" onClick={() => {
-                            setEditOpen(true)
-                        }}>
-                            <EditIcon/>
-                        </IconButton>
+                        <Typography color='text.secondary' textAlign={"center"}>
+                            <IconButton aria-label="edit" onClick={() => {
+                                setEditOpen(true)
+                            }}>
+                                <Avatar sx={{bgcolor: yellow[700]}}>
+                                    <EditIcon/>
+                                </Avatar>
+                            </IconButton>
+                            Edit
+                        </Typography>
                     </Grid>
                     <Grid item xs={2}>
-                        <IconButton aria-label="delete"
-                                    onClick={() => props.removeMarker(props.marker)}>
-                            <DeleteIcon/>
-                        </IconButton>
+                        <Typography color='text.secondary' textAlign={"center"}>
+                            <IconButton aria-label="delete"
+                                        onClick={() => props.removeMarker(props.marker)}>
+                                <Avatar sx={{bgcolor: yellow[700]}}>
+                                    <DeleteIcon/>
+                                </Avatar>
+                            </IconButton>
+                            Delete
+                        </Typography>
                     </Grid>
+                    <Grid item xs={4}/>
                 </Grid>
+                <Grid item xs={12} textAlign={"left"} container>
+                    <Box sx={{py: 2, flexGrow: 1}}>
+                        <Divider/>
+                    </Box>
+                </Grid>
+
             </Grid>
+
             <OpenSpaceInfoEditDialog editOpen={editOpen} closeDialogHandler={() => setEditOpen(false)}
                                      marker={infoMarker}/>
-        </>
+        </Box>
     )
 }
 
@@ -269,61 +304,48 @@ const OpenSpaceMarkerCarousel = (props: OpenSpaceMarkerCarouselProps) => {
     )
 }
 
-const Puller = styled(Box)(({theme}) => ({
-    width: 30,
-    height: 6,
-    backgroundColor: theme.palette.mode === 'light' ? grey[300] : grey[900],
-    borderRadius: 3,
-    position: 'absolute',
-    top: 8,
-    left: 'calc(50% - 15px)',
-}));
-
 
 const OpenSpaceMap = (props: OpenSpaceMapProps) => {
-    const [activeMarker, setActiveMarker] = useState<string>('')
-    const popupRef = useRef<LeafletPopup | null>(null)
+    const [activeMarker, setActiveMarker] = useState<MarkerType | null>(null)
+
+    const removeMarker = (marker: MarkerType) => {
+        props.removeMarker(marker)
+        setActiveMarker(null)
+    }
 
     return (
         <MapContainer center={munich} zoom={13} scrollWheelZoom={false} style={{height: '90vh'}}
                       ref={(ref: Map) => props.captureMap(ref)}>
             <ReactLeafletGoogleLayer apiKey='AIzaSyCmgNh28eXjQ_Il8DeEJ7E49KPwMlWFfA4' type={'roadmap'}/>
             {props.markers.map(marker => {
-                return <Marker position={marker.position} draggable key={marker.identifier}>
-
-                    <Popup ref={popupRef} eventHandlers={{
-                        remove: () => {
-                            setActiveMarker('')
-                        },
-                        add: () => {
-                            setActiveMarker(marker.identifier)
-                        }
-                    }}>
-                        {marker.identifier === activeMarker ?
-                            <OpenSpaceMarkerCarousel marker={marker} removeMarker={props.removeMarker}/>
-                            : null
-                        }
-                    </Popup>
-                    <Tooltip>
+                return <Marker position={marker.position} draggable key={marker.identifier} eventHandlers={{
+                    click: () => setActiveMarker(marker)
+                }}>
+                    <Tooltip permanent>
                         {marker.identifier}
                     </Tooltip>
                 </Marker>
-
             })}
-            <SwipeableDrawer
-                anchor={"bottom"} open={Boolean(activeMarker)}
+            <Drawer
+                anchor={"left"} open={Boolean(activeMarker)}
                 onClose={() => {
-                    popupRef.current?.remove()
+                    setActiveMarker(null)
                 }}
-                onOpen={() => {
+                sx={{
+                    width: '30vw',
+                    flexShrink: 0,
+                    [`& .MuiDrawer-paper`]: {width: '30vw', boxSizing: 'border-box'},
+                }}
+                PaperProps={{
+                    sx: {
+                        height: '90vh',
+                        top: 0,
+                    },
                 }}
             >
-                <Box sx={{}}>
-                    <Puller/>
-                    <Typography sx={{p: 2, color: 'text.secondary'}}>51 results</Typography>
-                </Box>
-
-            </SwipeableDrawer>
+                <Toolbar/>
+                <OpenSpaceInfo marker={activeMarker!} removeMarker={removeMarker}/>
+            </Drawer>
 
         </MapContainer>
     )
@@ -366,7 +388,7 @@ const OpenSpaceDocApp = () => {
 
     return (
         <Paper sx={{height: '100vh'}}>
-            <AppBar position={"static"}>
+            <AppBar position={"fixed"} sx={{zIndex: (theme) => theme.zIndex.drawer + 1}}>
                 <Toolbar>
                     <Avatar>
                         <Image src={"/bumblefly-blue.png"}></Image>

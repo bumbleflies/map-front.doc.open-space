@@ -5,7 +5,6 @@ import {OpenSpace} from "./openSpace";
 import {KeyboardArrowLeft, KeyboardArrowRight} from "@mui/icons-material";
 import {OpenSpaceInfo} from "./info";
 import {OpenSpaceSessions} from "../session/overview";
-import Carousel from "nuka-carousel"
 
 export type OpenSpaceProps = {
     location: google.maps.LatLngLiteral | google.maps.LatLng,
@@ -63,9 +62,6 @@ export class OpenSpaceMarker extends React.Component<OpenSpaceProps, OpenSpaceSt
                     {this.state.infoOpen ? (
                         <InfoWindow onCloseClick={this.closeInfo}>
                             <Paper>
-                                <Carousel slideIndex={this.state.activeStep} withoutControls={true}
-                                          adaptiveHeight={true} swiping={false} // currently not working correctly
-                                >
                                     <OpenSpaceInfo os={this.state.os} removeHandler={this.props.removeHandler}/>
                                     <OpenSpaceSessions
                                         /** adaptive height hack:
@@ -73,7 +69,6 @@ export class OpenSpaceMarker extends React.Component<OpenSpaceProps, OpenSpaceSt
                                           * so we are setting height to 0 when the first step is shown
                                           **/
                                         height={this.state.activeStep * 400} shown={this.state.activeStep === 1}/>
-                                </Carousel>
                                 <MobileStepper
                                     variant="dots"
                                     steps={2}
