@@ -36,31 +36,30 @@ export const OpenSpaceMap = (props: OpenSpaceMapProps) => {
     return (
         <MapContainer center={munich}
                       zoom={13}
-                      scrollWheelZoom={false}
+                      scrollWheelZoom={true}
+                      zoomControl={false}
                       style={{height: '90vh'}}
                       ref={(ref: Map) => props.captureMap(ref)}>
             <ReactLeafletGoogleLayer apiKey={process.env.REACT_APP_GOOGLE_API_KEY} type={'roadmap'}/>
-            {props.markers.map(marker => {
-                return <Marker position={marker.position}
-                               draggable
-                               key={marker.identifier}
-                               eventHandlers={{
-                                   click: () => navigate(`/os/${marker.identifier}`)
-                               }}>
+            {props.markers.map(marker => <Marker position={marker.position}
+                                                 draggable
+                                                 key={marker.identifier}
+                                                 eventHandlers={{
+                                                     click: () => navigate(`/os/${marker.identifier}`)
+                                                 }}>
                     <Tooltip permanent>
                         {marker.identifier}
                     </Tooltip>
                 </Marker>
-            })}
+            )}
             <Drawer
                 anchor={"left"} open={Boolean(activeMarker)}
                 onClose={() => {
                     navigate("/")
                 }}
                 sx={{
-                    width: '30vw',
                     flexShrink: 0,
-                    [`& .MuiDrawer-paper`]: {width: '30vw', boxSizing: 'border-box'},
+                    [`& .MuiDrawer-paper`]: {width: '40vw', boxSizing: 'border-box'},
                 }}
                 PaperProps={{
                     sx: {

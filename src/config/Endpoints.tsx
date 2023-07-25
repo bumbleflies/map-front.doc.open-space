@@ -18,4 +18,11 @@ const determineEnvironment = () => {
     return locationConfig
 }
 
-export const ImageServer = determineEnvironment()
+const ApiServer = determineEnvironment()
+
+export const Endpoints = {
+    imageUpload: ApiServer.url + '/image-upload',
+    images: ApiServer.url + '/i',
+    openSpaces: ApiServer.url + '/os/'
+}
+

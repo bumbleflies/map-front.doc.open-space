@@ -1,14 +1,26 @@
 import React from 'react';
 import './App.css';
 import {OpenSpaceHarvesterHome} from "./components/osHome";
-import {Route, Routes} from 'react-router-dom';
+import {createBrowserRouter, RouterProvider} from 'react-router-dom';
+import {osLoader} from "./helper/loader";
+
+const router = createBrowserRouter([
+    {
+        path: '/',
+        element: <OpenSpaceHarvesterHome/>,
+        loader: osLoader,
+        children: [
+            {
+                path: '/os/:id',
+                element: <OpenSpaceHarvesterHome/>
+            }
+        ]
+    }
+])
 
 const App = () => {
     return (
-        <Routes>
-            <Route path={"/"} index element={<OpenSpaceHarvesterHome/>}/>
-            <Route path={"/os/:id"} element={<OpenSpaceHarvesterHome/>}/>
-        </Routes>
+        <RouterProvider router={router}/>
     )
 }
 export default React.memo(App)

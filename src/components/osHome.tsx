@@ -21,7 +21,8 @@ import {Image} from "mui-image";
 import {OpenSpaceMap} from "./osMap";
 import AddIcon from "@mui/icons-material/Add";
 import MyLocationIcon from "@mui/icons-material/MyLocation";
-import {Link, useParams} from "react-router-dom";
+import {Link, useLoaderData, useParams} from "react-router-dom";
+import {saveMarker} from "../helper/saver";
 
 const StyledFab = styled(Fab)({
     position: 'absolute',
@@ -34,6 +35,7 @@ const StyledFab = styled(Fab)({
 
 export const OpenSpaceHarvesterHome = () => {
     const {id} = useParams<"id">();
+    const loadedMarker = useLoaderData() as MarkerType[]
 
     console.log(`OpenSpaceHarvesterHome[id]: ${id}`)
 
@@ -47,9 +49,16 @@ export const OpenSpaceHarvesterHome = () => {
     useEffect(() => {
         let foundMarker = markers.find(m => m.identifier === id);
         setUrlMarker(foundMarker)
-        console.log(`OpenSpaceHarvesterHome[useEffect(id)]: ${foundMarker}`)
+        if (foundMarker !== undefined) {
+            map.current?.setView(foundMarker.position!, 15, {animate: true})
+            console.log(`OpenSpaceHarvesterHome[useEffect(id)]: ${foundMarker}`)
+        }
     }, [id, markers])
 
+    useEffect(() => {
+            setMarkers(loadedMarker)
+        }
+        , [loadedMarker])
 
     const captureMap = (m: Map) => {
         map.current = m
@@ -64,8 +73,10 @@ export const OpenSpaceHarvesterHome = () => {
             startDate: dayjs().startOf('hour'),
             endDate: dayjs().endOf('hour').add(1, 'hours')
         }
-        setMarkers((previous: MarkerType[]) => [...previous, marker])
-        setMarkerAdded(marker)
+        saveMarker(marker).then(savedMarker => {
+            setMarkers((previous: MarkerType[]) => [...previous, savedMarker])
+            setMarkerAdded(savedMarker)
+        })
     }
 
     const removeMarker = (marker: MarkerType) => {

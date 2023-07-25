@@ -20,13 +20,9 @@ import {Image} from "mui-image";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import {ImageServer} from "../config/Endpoints";
 import dayjs from "dayjs";
+import {Endpoints} from "../config/Endpoints";
 
-const Endpoints = {
-    imageUpload: ImageServer.url + '/image-upload',
-    images: ImageServer.url + '/i'
-}
 type OpenSpaceInfoProps = {
     os: OpenSpace,
     removeHandler: (os: OpenSpace) => void
