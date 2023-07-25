@@ -1,36 +1,14 @@
 import React from 'react';
 import './App.css';
-import {AppBar, Avatar, Box, Paper, Toolbar, Typography} from "@mui/material";
-import {OSMapView} from "./map/view";
-import {Image} from "mui-image";
+import {OpenSpaceHarvesterHome} from "./components/osHome";
+import {Route, Routes} from 'react-router-dom';
 
-
-const munich = {
-    lat: 48.135125,
-    lng: 11.581980
-};
-
-const OpenSpaceDocApp = () => {
+const App = () => {
     return (
-        <Paper>
-            <AppBar position={"static"}>
-                <Toolbar>
-                    <Avatar>
-                        <Image src={"/bumblefly-blue.png"}></Image>
-                    </Avatar>
-
-                    <Box sx={{flexGrow: 1}}/>
-
-                    <Typography component="h1" variant="h4">
-                        Open Space Harvest
-                    </Typography>
-
-                    <Box sx={{flexGrow: 1}}/>
-                </Toolbar>
-            </AppBar>
-            <OSMapView startLocation={munich}></OSMapView>
-        </Paper>
+        <Routes>
+            <Route path={"/"} index element={<OpenSpaceHarvesterHome/>}/>
+            <Route path={"/os/:id"} element={<OpenSpaceHarvesterHome/>}/>
+        </Routes>
     )
 }
-
-export default React.memo(OpenSpaceDocApp)
+export default React.memo(App)

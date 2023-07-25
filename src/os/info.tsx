@@ -19,7 +19,6 @@ import {
 import {Image} from "mui-image";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import EditIcon from "@mui/icons-material/Edit";
-import {OpenSpaceEditDialog} from "./dialog";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {ImageServer} from "../config/Endpoints";
 import dayjs from "dayjs";
@@ -216,9 +215,6 @@ export class OpenSpaceInfo extends React.Component<OpenSpaceInfoProps, OpenSpace
                         <IconButton aria-label="edit" onClick={this.showEdit}>
                             <EditIcon/>
                         </IconButton>
-                        <OpenSpaceEditDialog isOpen={this.state.editOpen}
-                                             onClose={this.closeEdit}
-                                             onSave={this.save} os={this.state.os}/>
                         <IconButton aria-label="delete" onClick={this.remove}>
                             <DeleteIcon/>
                         </IconButton>
