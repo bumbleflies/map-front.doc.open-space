@@ -1,4 +1,4 @@
-import React, {useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {Map} from "leaflet";
 import {MarkerType} from "../types/marker";
 import {v4 as uuidv4} from "uuid";
@@ -21,6 +21,7 @@ import {Image} from "mui-image";
 import {OpenSpaceMap} from "./osMap";
 import AddIcon from "@mui/icons-material/Add";
 import MyLocationIcon from "@mui/icons-material/MyLocation";
+import {Link, useParams} from "react-router-dom";
 
 const StyledFab = styled(Fab)({
     position: 'absolute',
@@ -31,10 +32,25 @@ const StyledFab = styled(Fab)({
     margin: '0 auto',
 });
 
-export const OpenSpaceHome = () => {
+export const OpenSpaceHarvesterHome = () => {
+    const {id} = useParams<"id">();
+
+    console.log(`OpenSpaceHarvesterHome[id]: ${id}`)
+
     const map = useRef<Map>()
     const [markers, setMarkers] = useState<MarkerType[]>([])
     const [markerAdded, setMarkerAdded] = useState<MarkerType | null>(null)
+    const [urlMarker, setUrlMarker] = useState<MarkerType>()
+
+    console.log(`OpenSpaceHarvesterHome[markers]: ${markers.map(m => m.identifier).join(', ')}`)
+
+    useEffect(() => {
+        let foundMarker = markers.find(m => m.identifier === id);
+        setUrlMarker(foundMarker)
+        console.log(`OpenSpaceHarvesterHome[useEffect(id)]: ${foundMarker}`)
+        console.log(`OpenSpaceHarvesterHome[urlMarker]: ${urlMarker?.identifier}`)
+    }, [id])
+
 
     const captureMap = (m: Map) => {
         map.current = m
@@ -84,7 +100,8 @@ export const OpenSpaceHome = () => {
                 </Toolbar>
             </AppBar>
 
-            <OpenSpaceMap markers={markers} map={map.current!} captureMap={captureMap} removeMarker={removeMarker}/>
+            <OpenSpaceMap activeMarker={urlMarker} markers={markers} map={map.current!} captureMap={captureMap}
+                          removeMarker={removeMarker}/>
 
             <Snackbar
                 open={Boolean(markerAdded)}
@@ -95,7 +112,7 @@ export const OpenSpaceHome = () => {
                 anchorOrigin={{vertical: "bottom", horizontal: "right"}}>
                 <Alert onClose={() => setMarkerAdded(null)} severity="success" sx={{width: '100%'}}>
                     New Open Space [{markerAdded?.identifier}] added
-                    <Button color="inherit" size="small">
+                    <Button color="inherit" size="small" component={Link} to={`/os/${markerAdded?.identifier}`}>
                         Open
                     </Button>
                 </Alert>
