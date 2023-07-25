@@ -48,8 +48,7 @@ export const OpenSpaceHarvesterHome = () => {
         let foundMarker = markers.find(m => m.identifier === id);
         setUrlMarker(foundMarker)
         console.log(`OpenSpaceHarvesterHome[useEffect(id)]: ${foundMarker}`)
-        console.log(`OpenSpaceHarvesterHome[urlMarker]: ${urlMarker?.identifier}`)
-    }, [id])
+    }, [id, markers])
 
 
     const captureMap = (m: Map) => {
