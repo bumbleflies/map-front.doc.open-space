@@ -6,7 +6,6 @@ import {
     Box,
     Button,
     ButtonBase,
-    Container,
     Dialog,
     DialogActions,
     DialogContent,
@@ -17,9 +16,7 @@ import {
     Fab,
     Grid,
     IconButton,
-    MobileStepper,
     Paper,
-    Skeleton,
     styled,
     TextField,
     Toolbar,
@@ -31,14 +28,12 @@ import MyLocationIcon from "@mui/icons-material/MyLocation";
 import {v4 as uuidv4} from "uuid";
 import {MapContainer, Marker, Tooltip} from 'react-leaflet';
 import {LatLngExpression, Map} from "leaflet";
-import {KeyboardArrowLeft, KeyboardArrowRight} from "@mui/icons-material";
 import EditIcon from "@mui/icons-material/Edit";
 import dayjs, {Dayjs} from "dayjs";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ReactLeafletGoogleLayer from 'react-leaflet-google-layer';
 import {DateTimePicker, LocalizationProvider} from "@mui/x-date-pickers";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
-import SwipeableViews from 'react-swipeable-views';
 import WbSunnyIcon from '@mui/icons-material/WbSunny';
 import NightlightIcon from '@mui/icons-material/Nightlight';
 import {yellow} from "@mui/material/colors";
@@ -260,47 +255,6 @@ const OpenSpaceInfo = (props: OpenSpaceInfoProps) => {
             <OpenSpaceInfoEditDialog editOpen={editOpen} closeDialogHandler={() => setEditOpen(false)}
                                      marker={infoMarker}/>
         </Box>
-    )
-}
-
-const OpenSpaceMarkerCarousel = (props: OpenSpaceMarkerCarouselProps) => {
-    const [activeStep, setActiveStep] = useState<number>(0)
-    return (
-        <>
-            <SwipeableViews index={activeStep} enableMouseEvents={false} animateHeight={true} disableLazyLoading={true}>
-                <OpenSpaceInfo marker={props.marker} removeMarker={props.removeMarker}/>
-                <Container>
-                    <Skeleton width={'200'} height={'200'}></Skeleton>
-                </Container>
-            </SwipeableViews>
-            <MobileStepper
-                variant="dots"
-                steps={2}
-                position="static"
-                activeStep={activeStep}
-                nextButton={
-                    <Button
-                        size="small"
-                        onClick={() => {
-                            setActiveStep(prevState => prevState + 1)
-                        }}
-                        disabled={activeStep === 1}
-                    >
-                        Sessions <KeyboardArrowRight/>
-                    </Button>
-                }
-                backButton={
-                    <Button size="small"
-                            onClick={() => {
-                                setActiveStep(prevState => prevState - 1)
-                            }}
-                            disabled={activeStep === 0}
-                    >
-                        Info <KeyboardArrowLeft/>
-                    </Button>
-                }
-            />
-        </>
     )
 }
 
