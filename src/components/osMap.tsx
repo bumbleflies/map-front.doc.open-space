@@ -39,7 +39,7 @@ export const OpenSpaceMap = (props: OpenSpaceMapProps) => {
                       scrollWheelZoom={false}
                       style={{height: '90vh'}}
                       ref={(ref: Map) => props.captureMap(ref)}>
-            <ReactLeafletGoogleLayer apiKey='AIzaSyCmgNh28eXjQ_Il8DeEJ7E49KPwMlWFfA4' type={'roadmap'}/>
+            <ReactLeafletGoogleLayer apiKey={process.env.REACT_APP_GOOGLE_API_KEY} type={'roadmap'}/>
             {props.markers.map(marker => {
                 return <Marker position={marker.position}
                                draggable
