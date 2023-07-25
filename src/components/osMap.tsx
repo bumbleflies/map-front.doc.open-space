@@ -6,6 +6,7 @@ import ReactLeafletGoogleLayer from "react-leaflet-google-layer";
 import {Drawer, Toolbar} from "@mui/material";
 import {OpenSpaceInfo} from "./osInfo";
 import {useNavigate} from "react-router-dom";
+import {deleteMarker} from "../helper/deleter";
 
 const munich = {
     lat: 48.135125,
@@ -29,8 +30,10 @@ export const OpenSpaceMap = (props: OpenSpaceMapProps) => {
     console.log(`OpenSpaceMap[activeMarker]: ${activeMarker?.identifier}`)
 
     const removeMarker = (marker: MarkerType) => {
-        props.removeMarker(marker)
-        navigate("/")
+        deleteMarker(marker).then(() => {
+            props.removeMarker(marker)
+            navigate("/")
+        })
     }
 
     return (
