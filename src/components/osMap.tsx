@@ -64,7 +64,7 @@ export const OpenSpaceMap = (props: OpenSpaceMapProps) => {
             )}
             <Drawer
                 anchor={"left"} open={Boolean(activeMarker)}
-                onClose={(reason) => {
+                onClose={() => {
                     navigate("/")
                 }}
                 sx={{

@@ -17,7 +17,7 @@ export const markerToOs = (os: MarkerType): OSApiType => {
 export const putMarker = (marker: MarkerType) => {
     return axios.put(new URL(marker.identifier, Endpoints.openSpaces).toString(), markerToOs(marker)).then(response => {
         return osLoaderToMarker(response.data);
-    }).catch(error => {
+    }).catch(() => {
         return marker
     })
 }
