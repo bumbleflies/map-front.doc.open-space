@@ -19,6 +19,8 @@ export const osLoader = async () => {
     let openSpaces: osLoaderType[] = []
     await axios.get(Endpoints.openSpaces).then(response => {
         openSpaces = response.data
+    }).catch(error => {
+        console.log(`Failed to load Open Spaces: ${error}`)
     })
     console.log(`loaded open spaces: ${JSON.stringify(openSpaces)}`)
     return openSpaces.map(osLoaderToMarker)

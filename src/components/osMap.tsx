@@ -62,7 +62,7 @@ export const OpenSpaceMap = (props: OpenSpaceMapProps) => {
                 }}
                 sx={{
                     flexShrink: 0,
-                    [`& .MuiDrawer-paper`]: {width: '40vw', boxSizing: 'border-box'},
+                    [`& .MuiDrawer-paper`]: {width: '400px', boxSizing: 'border-box'},
                 }}
                 PaperProps={{
                     sx: {
