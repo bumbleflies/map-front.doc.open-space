@@ -20,14 +20,12 @@ type OpenSpaceMapProps = {
     activeMarker: MarkerType | undefined
 }
 export const OpenSpaceMap = (props: OpenSpaceMapProps) => {
-    console.log(`OpenSpaceMap[props.activeMarker]: ${props.activeMarker?.identifier}`)
     const [activeMarker, setActiveMarker] = useState<MarkerType | undefined>(props.activeMarker)
     const navigate = useNavigate();
 
     useEffect(() => {
         setActiveMarker(props.activeMarker)
     }, [props.activeMarker])
-    console.log(`OpenSpaceMap[activeMarker]: ${activeMarker?.identifier}`)
 
     const removeMarker = (marker: MarkerType) => {
         deleteMarker(marker).then(() => {

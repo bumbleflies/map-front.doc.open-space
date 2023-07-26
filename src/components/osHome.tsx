@@ -1,7 +1,6 @@
 import React, {useEffect, useRef, useState} from "react";
 import {Map} from "leaflet";
-import {MarkerType} from "../types/marker";
-import {v4 as uuidv4} from "uuid";
+import {MarkerType, TransientMarker} from "../types/marker";
 import dayjs from "dayjs";
 import {
     Alert,
@@ -37,21 +36,18 @@ export const OpenSpaceHarvesterHome = () => {
     const {id} = useParams<"id">();
     const loadedMarker = useLoaderData() as MarkerType[]
 
-    console.log(`OpenSpaceHarvesterHome[id]: ${id}`)
 
     const map = useRef<Map>()
     const [markers, setMarkers] = useState<MarkerType[]>([])
     const [markerAdded, setMarkerAdded] = useState<MarkerType | null>(null)
     const [urlMarker, setUrlMarker] = useState<MarkerType>()
 
-    console.log(`OpenSpaceHarvesterHome[markers]: ${markers.map(m => m.identifier).join(', ')}`)
 
     useEffect(() => {
         let foundMarker = markers.find(m => m.identifier === id);
         setUrlMarker(foundMarker)
         if (foundMarker !== undefined) {
             map.current?.setView(foundMarker.position!, 15, {animate: true})
-            console.log(`OpenSpaceHarvesterHome[useEffect(id)]: ${foundMarker}`)
         }
     }, [id, markers])
 
@@ -66,8 +62,7 @@ export const OpenSpaceHarvesterHome = () => {
 
     const addMarker = () => {
         let currentCenter = map.current?.getCenter()!;
-        let marker: MarkerType = {
-            identifier: uuidv4(),
+        let marker: TransientMarker = {
             position: currentCenter,
             title: `Open Space @ ${currentCenter.lat}, ${currentCenter.lng}`,
             startDate: dayjs().startOf('hour'),

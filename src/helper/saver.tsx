@@ -1,12 +1,12 @@
-import {MarkerType} from "../types/marker";
+import {MarkerType, TransientMarker} from "../types/marker";
 import axios from "axios";
 import {Endpoints} from "../config/Endpoints";
 import {osLoaderToMarker} from "./loader";
-import {osLoaderType} from "../types/openSpace";
+import {TransientOSApiType} from "../types/api";
+import {v4 as uuidv4} from "uuid";
 
-export const markerToOs = (os: MarkerType): osLoaderType => {
+export const transientMarkerToOs = (os: TransientMarker): TransientOSApiType => {
     return {
-        identifier: os.identifier,
         location: os.position,
         title: os.title,
         start_date: os.startDate.toISOString(),
@@ -14,12 +14,19 @@ export const markerToOs = (os: MarkerType): osLoaderType => {
     }
 }
 
-export const saveMarker = (marker: MarkerType) => {
-    return axios.post(Endpoints.openSpaces, markerToOs(marker)).then(response => {
+export const saveMarker = (marker: TransientMarker) => {
+    return axios.post(Endpoints.openSpaces, transientMarkerToOs(marker)).then(response => {
         console.log(`saved marker: ${JSON.stringify(marker)}`)
         return osLoaderToMarker(response.data);
     }).catch(error => {
         console.log(`error saving marker: ${JSON.stringify(marker)}: ${error}`)
-        return marker
+        let inMemoryMarker: MarkerType = {
+            identifier: uuidv4(),
+            position: marker.position,
+            title: marker.title,
+            startDate: marker.startDate,
+            endDate: marker.endDate
+        }
+        return inMemoryMarker
     })
 }

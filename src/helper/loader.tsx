@@ -1,11 +1,11 @@
-import {osLoaderType} from "../types/openSpace";
 import {Endpoints} from "../config/Endpoints";
 import axios from "axios";
 import {MarkerType} from "../types/marker";
 import dayjs from "dayjs";
 import {LatLng} from "leaflet";
+import {OSApiType} from "../types/api";
 
-export const osLoaderToMarker = (os: osLoaderType): MarkerType => {
+export const osLoaderToMarker = (os: OSApiType): MarkerType => {
     return {
         identifier: os.identifier,
         position: new LatLng(os.location.lat, os.location.lng),
@@ -16,7 +16,7 @@ export const osLoaderToMarker = (os: osLoaderType): MarkerType => {
 }
 
 export const osLoader = async () => {
-    let openSpaces: osLoaderType[] = []
+    let openSpaces: OSApiType[] = []
     await axios.get(Endpoints.openSpaces).then(response => {
         openSpaces = response.data
     }).catch(error => {
