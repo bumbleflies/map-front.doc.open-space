@@ -3,7 +3,7 @@ import {MarkerType, update} from "../types/marker";
 import React, {useEffect, useState} from "react";
 import {MapContainer, Marker, Tooltip} from "react-leaflet";
 import ReactLeafletGoogleLayer from "react-leaflet-google-layer";
-import {Drawer, Toolbar} from "@mui/material";
+import {Drawer, SwipeableDrawer, Toolbar} from "@mui/material";
 import {OpenSpaceInfo} from "./osInfo";
 import {useNavigate} from "react-router-dom";
 import {deleteMarker} from "../helper/deleter";
@@ -20,7 +20,6 @@ type OpenSpaceMapProps = {
     captureMap: (map: Map) => void
     activeMarker: MarkerType | undefined
 }
-
 
 export const OpenSpaceMap = (props: OpenSpaceMapProps) => {
     const [activeMarker, setActiveMarker] = useState<MarkerType | undefined>(props.activeMarker)
@@ -62,25 +61,46 @@ export const OpenSpaceMap = (props: OpenSpaceMapProps) => {
                     </Tooltip>
                 </Marker>
             )}
-            <Drawer
-                anchor={"left"} open={Boolean(activeMarker)}
-                onClose={() => {
-                    navigate("/")
-                }}
-                sx={{
-                    flexShrink: 0,
-                    [`& .MuiDrawer-paper`]: {width: '400px', boxSizing: 'border-box'},
-                }}
-                PaperProps={{
-                    sx: {
-                        height: '90vh',
-                        top: 0,
-                    },
-                }}
-            >
-                <Toolbar/>
-                <OpenSpaceInfo marker={activeMarker!} removeMarker={removeMarker} updateMarker={props.updateMarker}/>
-            </Drawer>
+            {/* Drawer on big screens https://mui.com/system/display/ */}
+            {activeMarker ?
+                <>
+                    <Drawer
+                        anchor={"left"} open={Boolean(activeMarker)}
+                        onClose={() => {
+                            navigate("/")
+                        }}
+                        sx={{
+                            flexShrink: 0,
+                            [`& .MuiDrawer-paper`]: {width: '400px', boxSizing: 'border-box'},
+                            display: {xs: 'none', sm: 'block'}
+                        }}
+                        PaperProps={{
+                            sx: {
+                                height: '90vh',
+                                top: 0,
+                            },
+                        }}
+                    >
+                        <Toolbar/>
+                        <OpenSpaceInfo marker={activeMarker} removeMarker={removeMarker}
+                                       updateMarker={props.updateMarker}/>
+                    </Drawer>
+                    <SwipeableDrawer
+                        sx={{
+                            display: {xs: 'block', sm: 'none'}
+                        }}
+                        anchor={'bottom'}
+                        onOpen={() => {
+                        }}
+                        onClose={() => {
+                            navigate('/')
+                        }}
+                        open={Boolean(activeMarker)}
+                    >
+                        <OpenSpaceInfo marker={activeMarker} removeMarker={removeMarker}
+                                       updateMarker={props.updateMarker}/>
+                    </SwipeableDrawer>
+                </> : null}
         </MapContainer>
     )
 }
