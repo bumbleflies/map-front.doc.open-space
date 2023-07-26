@@ -1,5 +1,5 @@
 import {Map} from "leaflet";
-import {MarkerType} from "../types/marker";
+import {MarkerType, update} from "../types/marker";
 import React, {useEffect, useState} from "react";
 import {MapContainer, Marker, Tooltip} from "react-leaflet";
 import ReactLeafletGoogleLayer from "react-leaflet-google-layer";
@@ -16,9 +16,12 @@ type OpenSpaceMapProps = {
     map: Map
     markers: MarkerType[]
     removeMarker: (marker: MarkerType) => void
+    updateMarker: (marker: MarkerType) => void
     captureMap: (map: Map) => void
     activeMarker: MarkerType | undefined
 }
+
+
 export const OpenSpaceMap = (props: OpenSpaceMapProps) => {
     const [activeMarker, setActiveMarker] = useState<MarkerType | undefined>(props.activeMarker)
     const navigate = useNavigate();
@@ -34,6 +37,7 @@ export const OpenSpaceMap = (props: OpenSpaceMapProps) => {
         })
     }
 
+
     return (
         <MapContainer center={munich}
                       zoom={13}
@@ -42,12 +46,17 @@ export const OpenSpaceMap = (props: OpenSpaceMapProps) => {
                       style={{height: '90vh'}}
                       ref={(ref: Map) => props.captureMap(ref)}>
             <ReactLeafletGoogleLayer apiKey={process.env.REACT_APP_GOOGLE_API_KEY} type={'roadmap'}/>
-            {props.markers.map(marker => <Marker position={marker.position}
-                                                 draggable
-                                                 key={marker.identifier}
-                                                 eventHandlers={{
-                                                     click: () => navigate(`/os/${marker.identifier}`)
-                                                 }}>
+            {props.markers.map(marker =>
+                <Marker position={marker.position}
+                        draggable
+                        key={marker.identifier}
+                        eventHandlers={{
+                            click: () => navigate(`/os/${marker.identifier}`),
+                            dragend: (e) => {
+                                console.log(e.target.getLatLng())
+                                props.updateMarker(update(marker).with({position: e.target.getLatLng()}))
+                            }
+                        }}>
                     <Tooltip permanent>
                         {marker.identifier}
                     </Tooltip>
@@ -55,7 +64,7 @@ export const OpenSpaceMap = (props: OpenSpaceMapProps) => {
             )}
             <Drawer
                 anchor={"left"} open={Boolean(activeMarker)}
-                onClose={() => {
+                onClose={(reason) => {
                     navigate("/")
                 }}
                 sx={{
@@ -70,7 +79,7 @@ export const OpenSpaceMap = (props: OpenSpaceMapProps) => {
                 }}
             >
                 <Toolbar/>
-                <OpenSpaceInfo marker={activeMarker!} removeMarker={removeMarker}/>
+                <OpenSpaceInfo marker={activeMarker!} removeMarker={removeMarker} updateMarker={props.updateMarker}/>
             </Drawer>
         </MapContainer>
     )

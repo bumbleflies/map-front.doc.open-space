@@ -16,6 +16,7 @@ export const transientMarkerToOs = (os: TransientMarker): TransientOSApiType => 
 
 export const saveMarker = (marker: TransientMarker) => {
     return axios.post(Endpoints.openSpaces, transientMarkerToOs(marker)).then(response => {
+        console.log(marker)
         console.log(`saved marker: ${JSON.stringify(marker)}`)
         return osLoaderToMarker(response.data);
     }).catch(error => {

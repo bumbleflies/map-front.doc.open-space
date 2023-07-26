@@ -1,4 +1,4 @@
-import {MarkerType} from "../types/marker";
+import {MarkerType, update} from "../types/marker";
 import React, {useState} from "react";
 import {Dayjs} from "dayjs";
 import {
@@ -13,11 +13,13 @@ import {
 } from "@mui/material";
 import {DateTimePicker, LocalizationProvider} from "@mui/x-date-pickers";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
+import 'dayjs/locale/de';
 
 type OpenSpaceInfoEditDialogProps = {
     editOpen: boolean
     closeDialogHandler: () => void
     marker: MarkerType
+    saveMarker(marker: MarkerType): void;
 }
 export const OpenSpaceInfoEditDialog = (props: OpenSpaceInfoEditDialogProps) => {
     const [title, setTitle] = useState<string>(props.marker.title)
@@ -44,9 +46,7 @@ export const OpenSpaceInfoEditDialog = (props: OpenSpaceInfoEditDialogProps) => 
     }
 
     const saveEdit = () => {
-        props.marker.title = title
-        props.marker.startDate = startDate
-        props.marker.endDate = endDate
+        props.saveMarker(update(props.marker).with({title: title, startDate: startDate, endDate: endDate}))
         props.closeDialogHandler()
     }
 
@@ -78,7 +78,8 @@ export const OpenSpaceInfoEditDialog = (props: OpenSpaceInfoEditDialogProps) => 
                                 Was is the runtime of the Open Space?
                             </DialogContentText>
                         </Grid>
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <LocalizationProvider dateAdapter={AdapterDayjs}
+                                              adapterLocale={"de"}>
                             <Grid item xs={6}>
                                 <DateTimePicker label={"Start Date"} value={startDate}
                                                 format="DD.MM.YYYY HH:mm"

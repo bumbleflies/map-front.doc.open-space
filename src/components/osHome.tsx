@@ -1,7 +1,6 @@
 import React, {useEffect, useRef, useState} from "react";
 import {Map} from "leaflet";
 import {MarkerType, TransientMarker} from "../types/marker";
-import dayjs from "dayjs";
 import {
     Alert,
     AppBar,
@@ -22,6 +21,8 @@ import AddIcon from "@mui/icons-material/Add";
 import MyLocationIcon from "@mui/icons-material/MyLocation";
 import {Link, useLoaderData, useParams} from "react-router-dom";
 import {saveMarker} from "../helper/saver";
+import {putMarker} from "../helper/updater";
+import {localDayjs} from "../helper/dayjsTimezone";
 
 const StyledFab = styled(Fab)({
     position: 'absolute',
@@ -36,12 +37,10 @@ export const OpenSpaceHarvesterHome = () => {
     const {id} = useParams<"id">();
     const loadedMarker = useLoaderData() as MarkerType[]
 
-
     const map = useRef<Map>()
     const [markers, setMarkers] = useState<MarkerType[]>([])
     const [markerAdded, setMarkerAdded] = useState<MarkerType | null>(null)
     const [urlMarker, setUrlMarker] = useState<MarkerType>()
-
 
     useEffect(() => {
         let foundMarker = markers.find(m => m.identifier === id);
@@ -65,8 +64,8 @@ export const OpenSpaceHarvesterHome = () => {
         let marker: TransientMarker = {
             position: currentCenter,
             title: `Open Space @ ${currentCenter.lat}, ${currentCenter.lng}`,
-            startDate: dayjs().startOf('hour'),
-            endDate: dayjs().endOf('hour').add(1, 'hours')
+            startDate: localDayjs().startOf('hour'),
+            endDate: localDayjs().startOf('hour').add(2, 'hours')
         }
         saveMarker(marker).then(savedMarker => {
             setMarkers((previous: MarkerType[]) => [...previous, savedMarker])
@@ -77,6 +76,15 @@ export const OpenSpaceHarvesterHome = () => {
     const removeMarker = (marker: MarkerType) => {
         setMarkers((previous: MarkerType[]) => previous.filter(m => m.identifier !== marker.identifier))
     }
+
+    const updateMarker = (marker: MarkerType) => {
+        putMarker(marker).then(updatedMarker => {
+            setMarkers((previous: MarkerType[]) => {
+                return [...previous.filter(m => m.identifier !== updatedMarker.identifier), updatedMarker]
+            })
+        })
+    }
+
 
     const centerCurrentLocation = () => {
         navigator.geolocation.getCurrentPosition(locationSuccess)
@@ -106,7 +114,7 @@ export const OpenSpaceHarvesterHome = () => {
             </AppBar>
 
             <OpenSpaceMap activeMarker={urlMarker} markers={markers} map={map.current!} captureMap={captureMap}
-                          removeMarker={removeMarker}/>
+                          removeMarker={removeMarker} updateMarker={updateMarker}/>
 
             <Snackbar
                 open={Boolean(markerAdded)}

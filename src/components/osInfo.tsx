@@ -14,6 +14,7 @@ import TagIcon from '@mui/icons-material/Tag';
 type OpenSpaceInfoProps = {
     marker: MarkerType
     removeMarker: (marker: MarkerType) => void
+    updateMarker: (marker: MarkerType) => void
 }
 type IconTextGridProps = {
     icon: ReactElement,
@@ -31,13 +32,17 @@ const IconTextGrid = (props: IconTextGridProps) => {
                 </Typography>
             </Grid>
         </Grid>
-
     )
 }
-export const OpenSpaceInfo = (props: OpenSpaceInfoProps) => {
-    const [infoMarker] = useState<MarkerType>(props.marker)
 
+export const OpenSpaceInfo = (props: OpenSpaceInfoProps) => {
+    const [infoMarker, setInfoMarker] = useState<MarkerType>(props.marker)
     const [editOpen, setEditOpen] = useState<boolean>(false)
+
+    function updateMarker(marker: MarkerType) {
+        props.updateMarker(marker)
+        setInfoMarker(marker)
+    }
 
     return (
         <Box sx={{}}>
@@ -101,7 +106,7 @@ export const OpenSpaceInfo = (props: OpenSpaceInfoProps) => {
             </Grid>
 
             <OpenSpaceInfoEditDialog editOpen={editOpen} closeDialogHandler={() => setEditOpen(false)}
-                                     marker={infoMarker}/>
+                                     marker={infoMarker} saveMarker={updateMarker}/>
         </Box>
     )
 }
