@@ -40,7 +40,7 @@ export const OpenSpaceInfo = (props: OpenSpaceInfoProps) => {
                 {/* Title */}
                 <Grid item xs={12}>
                     <Box sx={{p: 2}}>
-                        <Typography variant={"h6"}>{infoMarker.title}</Typography>
+                        <Typography data-testid={'os-title'} variant={"h6"}>{infoMarker.title}</Typography>
                     </Box>
                 </Grid>
 
@@ -82,10 +82,13 @@ export const OpenSpaceInfo = (props: OpenSpaceInfoProps) => {
                     </Box>
                 </Grid>
                 {/* Dates */}
-                <IconTextGrid icon={<WbSunnyIcon/>} text={infoMarker.startDate.format("DD.MM.YYYY - HH:mm ")}/>
-                <IconTextGrid icon={<NightlightIcon/>} text={infoMarker.endDate.format("DD.MM.YYYY - HH:mm ")}/>
-                <IconTextGrid icon={<LocationOnIcon/>} text={`${infoMarker.position.lat}, ${infoMarker.position.lng}`}/>
-                <IconTextGrid icon={<TagIcon/>} text={infoMarker.identifier}/>
+                <IconTextGrid name={'start date'} icon={<WbSunnyIcon/>}
+                              text={infoMarker.startDate.format("DD.MM.YYYY - HH:mm ")}/>
+                <IconTextGrid name={'end date'} icon={<NightlightIcon/>}
+                              text={infoMarker.endDate.format("DD.MM.YYYY - HH:mm ")}/>
+                <IconTextGrid name={'position'} icon={<LocationOnIcon/>}
+                              text={`${infoMarker.position.lat}, ${infoMarker.position.lng}`}/>
+                <IconTextGrid name={'identifier'} icon={<TagIcon/>} text={infoMarker.identifier}/>
             </Grid>
 
             <OpenSpaceInfoEditDialog editOpen={editOpen} closeDialogHandler={() => setEditOpen(false)}

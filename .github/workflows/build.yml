@@ -14,6 +14,8 @@ jobs:
           cache: 'yarn'
       - name: yarn install
         run: yarn install
+      - name: yarn test
+        run: yarn test --no-watchman --cik
       - name: yarn run build
         run: yarn run build
       - name: Push to build branch
