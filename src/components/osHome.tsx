@@ -1,7 +1,19 @@
 import React, {useEffect, useRef, useState} from "react";
 import {Map} from "leaflet";
 import {MarkerType, TransientMarker} from "../types/marker";
-import {Alert, AppBar, Avatar, Box, Button, IconButton, Paper, Snackbar, Toolbar, Typography} from "@mui/material";
+import {
+    Alert,
+    AlertColor,
+    AppBar,
+    Avatar,
+    Box,
+    Button,
+    IconButton,
+    Paper,
+    Snackbar,
+    Toolbar,
+    Typography
+} from "@mui/material";
 import {Image} from "mui-image";
 import {OpenSpaceMap} from "./osMap";
 import AddIcon from "@mui/icons-material/Add";
@@ -12,14 +24,26 @@ import {putMarker} from "../helper/updater";
 import {localDayjs} from "../helper/dayjsTimezone";
 import {StyledFab} from "./styledFab";
 
+type StatusMessage = {
+    id: string
+    message: string
+    type: AlertColor
+    withLink?: {
+        to: string
+        text: string
+    }
+}
+
 export const OpenSpaceHarvesterHome = () => {
     const {id} = useParams<"id">();
     const loadedMarker = useLoaderData() as MarkerType[]
 
     const map = useRef<Map>()
     const [markers, setMarkers] = useState<MarkerType[]>([])
-    const [markerAdded, setMarkerAdded] = useState<MarkerType | null>(null)
     const [urlMarker, setUrlMarker] = useState<MarkerType>()
+
+    const [statusMessages, setStatusMessages] = useState<StatusMessage[]>([])
+    const [currentStatusMessage, setCurrentStatusMessage] = useState<StatusMessage | null>(null)
 
     useEffect(() => {
         let foundMarker = markers.find(m => m.identifier === id);
@@ -48,12 +72,25 @@ export const OpenSpaceHarvesterHome = () => {
         }
         saveMarker(marker).then(savedMarker => {
             setMarkers((previous: MarkerType[]) => [...previous, savedMarker])
-            setMarkerAdded(savedMarker)
+            addStatusMessage({
+                id: savedMarker.identifier,
+                message: `New Open Space [${savedMarker.identifier}] added`,
+                type: 'success',
+                withLink: {
+                    to: `/os/${savedMarker.identifier}`,
+                    text: 'Open'
+                }
+            })
         })
     }
 
     const removeMarker = (marker: MarkerType) => {
         setMarkers((previous: MarkerType[]) => previous.filter(m => m.identifier !== marker.identifier))
+        addStatusMessage({
+            id: marker.identifier,
+            message: `Open Space [${marker.identifier}] removed`,
+            type: "error"
+        })
     }
 
     const updateMarker = (marker: MarkerType) => {
@@ -61,6 +98,26 @@ export const OpenSpaceHarvesterHome = () => {
             setMarkers((previous: MarkerType[]) => {
                 return [...previous.filter(m => m.identifier !== updatedMarker.identifier), updatedMarker]
             })
+        })
+    }
+
+    useEffect(() => {
+        if (statusMessages.length > 0) {
+            setCurrentStatusMessage(statusMessages[0])
+        } else {
+            setCurrentStatusMessage(null)
+        }
+    }, [statusMessages])
+
+    const addStatusMessage = (message: StatusMessage) => {
+        console.log('adding status message', message)
+        setStatusMessages(prevState => [...prevState, message])
+    }
+
+    const popMessage = (messageId: string) => {
+        setStatusMessages(prevState => {
+            console.log(`poping ${messageId} from messages`)
+            return prevState.filter(m => m.id !== messageId)
         })
     }
 
@@ -72,7 +129,6 @@ export const OpenSpaceHarvesterHome = () => {
     const locationSuccess = (position: GeolocationPosition) => {
         map.current?.setView({lat: position.coords.latitude, lng: position.coords.longitude})
     }
-
 
     return (
         <Paper sx={{height: '100vh'}}>
@@ -96,17 +152,20 @@ export const OpenSpaceHarvesterHome = () => {
                           removeMarker={removeMarker} updateMarker={updateMarker}/>
 
             <Snackbar
-                open={Boolean(markerAdded)}
+                open={Boolean(currentStatusMessage)}
                 autoHideDuration={6000}
-                message="Archived"
-                onClose={() => setMarkerAdded(null)}
+                onClose={() => {
+                    popMessage(currentStatusMessage!.id)
+                }}
                 sx={{bottom: {xs: 90, sm: '10vh'}}}
                 anchorOrigin={{vertical: "bottom", horizontal: "right"}}>
-                <Alert onClose={() => setMarkerAdded(null)} severity="success" sx={{width: '100%'}}>
-                    New Open Space [{markerAdded?.identifier}] added
-                    <Button color="inherit" size="small" component={Link} to={`/os/${markerAdded?.identifier}`}>
-                        Open
-                    </Button>
+                <Alert onClose={() => popMessage(currentStatusMessage!.id)} severity={currentStatusMessage?.type}
+                       sx={{width: '100%'}}>
+                    {currentStatusMessage?.message}
+                    {currentStatusMessage?.withLink !== undefined ?
+                        <Button color="inherit" size="small" component={Link} to={currentStatusMessage.withLink.to}>
+                            {currentStatusMessage.withLink.text}
+                        </Button> : null}
                 </Alert>
             </Snackbar>
 
