@@ -23,10 +23,6 @@ function getDateInputElement(label: string) {
     return screen.getByRole('textbox', {name: label});
 }
 
-function clickSaveButton() {
-    screen.getByTestId('os-edit-save').click();
-}
-
 function setNewDateValue(label: string, newDateString: string) {
     fireEvent.change(getDateInputElement(label), {target: {value: newDateString}})
     fireEvent.click(getByRole(screen.getByLabelText(label).parentElement!, 'button'))
@@ -35,11 +31,11 @@ function setNewDateValue(label: string, newDateString: string) {
 
 describe('Open Space Info Page', () => {
     const saveMarkerMock = jest.fn()
+    const closeDialogMock = jest.fn()
     beforeEach(() => {
         act(() => {
             render(<OpenSpaceInfoEditDialog marker={testOpenSpaceMarker} saveMarker={saveMarkerMock} editOpen={true}
-                                            closeDialogHandler={() => {
-                                            }}/>);
+                                            closeDialogHandler={closeDialogMock}/>);
         })
     })
     it('displays the Open Space Title', () => {
@@ -56,7 +52,7 @@ describe('Open Space Info Page', () => {
 
     it('updates title on save', () => {
         fireEvent.change(getTitleInputElement(), {target: {value: 'new title'}})
-        clickSaveButton();
+        screen.getByTestId('os-edit-save').click();
         expect(saveMarkerMock).toHaveBeenCalledWith({
             ...testOpenSpaceMarker,
             title: 'new title',
@@ -66,7 +62,7 @@ describe('Open Space Info Page', () => {
     it('updates start when end is before start date', () => {
         let newDateString = testOpenSpaceMarker.endDate.subtract(11, 'hours').format('DD.MM.YYYY HH:mm')
         setNewDateValue('End Date', newDateString);
-        clickSaveButton();
+        screen.getByTestId('os-edit-save').click();
 
         expect(saveMarkerMock).toHaveBeenCalledWith({
             ...testOpenSpaceMarker,
@@ -79,14 +75,29 @@ describe('Open Space Info Page', () => {
     it('updates end when start is before end date', () => {
         let newDateString = testOpenSpaceMarker.startDate.add(11, 'hours').format('DD.MM.YYYY HH:mm')
         setNewDateValue('Start Date', newDateString);
-        clickSaveButton();
+        screen.getByTestId('os-edit-save').click();
 
         expect(saveMarkerMock).toHaveBeenCalledWith({
             ...testOpenSpaceMarker,
             startDate: localDayjs(newDateString, 'DD.MM.YYYY HH:mm'),
             endDate: localDayjs(newDateString, 'DD.MM.YYYY HH:mm').add(2, 'hours'),
         })
-
     })
+
+    it('doesnt calls save when canceled', () => {
+        screen.getByTestId('os-edit-cancel').click();
+        expect(saveMarkerMock).not.toHaveBeenCalled()
+    })
+
+    it('calls the close popup handler on save', () => {
+        screen.getByTestId('os-edit-save').click();
+        expect(closeDialogMock).toHaveBeenCalled()
+    })
+
+    it('calls the close popup handler on cancel', () => {
+        screen.getByTestId('os-edit-cancel').click();
+        expect(closeDialogMock).toHaveBeenCalled()
+    })
+
 
 })
