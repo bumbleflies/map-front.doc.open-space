@@ -53,7 +53,7 @@ export const OpenSpaceInfo = (props: OpenSpaceInfoProps) => {
                     <Grid item xs={4}/>
                     <Grid item xs={2}>
                         <Typography color='text.secondary' textAlign={"center"}>
-                            <IconButton aria-label="edit" onClick={() => {
+                            <IconButton data-testid={'os-edit-button'} aria-label="edit" onClick={() => {
                                 setEditOpen(true)
                             }}>
                                 <Avatar sx={{bgcolor: yellow[700]}}>
@@ -65,7 +65,7 @@ export const OpenSpaceInfo = (props: OpenSpaceInfoProps) => {
                     </Grid>
                     <Grid item xs={2}>
                         <Typography color='text.secondary' textAlign={"center"}>
-                            <IconButton aria-label="delete"
+                            <IconButton data-testid={'os-remove-button'} aria-label="delete"
                                         onClick={() => props.removeMarker(props.marker)}>
                                 <Avatar sx={{bgcolor: yellow[700]}}>
                                     <DeleteIcon/>

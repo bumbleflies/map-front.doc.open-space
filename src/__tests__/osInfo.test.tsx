@@ -14,9 +14,9 @@ const testOpenSpaceMarker: MarkerType = {
 }
 
 describe('Open Space Info Page', () => {
+    const removeMarkerMock = jest.fn()
     beforeEach(() => {
-        render(<OpenSpaceInfo marker={testOpenSpaceMarker} removeMarker={() => {
-        }} updateMarker={() => {
+        render(<OpenSpaceInfo marker={testOpenSpaceMarker} removeMarker={removeMarkerMock} updateMarker={() => {
         }}/>);
     })
     it('displays the Open Space Title', () => {
@@ -33,5 +33,10 @@ describe('Open Space Info Page', () => {
     })
     it('displays the Open Space Identifier', () => {
         expect(screen.getByTestId('grid-identifier-text')).toBeInTheDocument();
+    })
+
+    it('calls the removeMarker when delete is clicked', () => {
+        screen.getByTestId('os-remove-button').click();
+        expect(removeMarkerMock).toHaveBeenCalled()
     })
 })
