@@ -15,7 +15,7 @@ jobs:
       - name: yarn install
         run: yarn install
       - name: yarn test
-        run: yarn test --no-watchman --cik
+        run: yarn test --no-watchman --ci
       - name: yarn run build
         run: yarn run build
       - name: Push to build branch
