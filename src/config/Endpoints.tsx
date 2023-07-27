@@ -2,13 +2,13 @@
 export {}
 type ConfigType = {
     [hostname: string]: {
-        url: string
+        url: URL
     }
 }
 
 const config: ConfigType = {
-    'localhost': {url: 'http://localhost:5000'},
-    'open-space-app.servyy.duckdns.org': {url: 'https://api.open-space-app.servyy.duckdns.org'}
+    'localhost': {url: new URL('http://localhost:5000/')},
+    'open-space-app.servyy.duckdns.org': {url: new URL('https://api.open-space-app.servyy.duckdns.org/')}
 }
 
 const determineEnvironment = () => {
@@ -23,6 +23,9 @@ const ApiServer = determineEnvironment()
 export const Endpoints = {
     imageUpload: ApiServer.url + '/image-upload',
     images: ApiServer.url + '/i',
-    openSpaces: ApiServer.url + '/os/'
+    openSpaces: new URL('os/', ApiServer.url.href).href,
+    openSpace: (id: string) => new URL(id + '/', Endpoints.openSpaces).href,
+    openSpaceImages: (id: string) => new URL('images/', Endpoints.openSpace(id)).href,
+    openSpaceImage: (osId: string, imageId: string) => new URL(imageId + '/', Endpoints.openSpaceImages(osId)).href
 }
 

@@ -154,9 +154,7 @@ export const OpenSpaceHarvesterHome = () => {
             <Snackbar
                 open={Boolean(currentStatusMessage)}
                 autoHideDuration={6000}
-                onClose={() => {
-                    popMessage(currentStatusMessage!.id)
-                }}
+                onClose={() => popMessage(currentStatusMessage!.id)}
                 sx={{bottom: {xs: 90, sm: '10vh'}}}
                 anchorOrigin={{vertical: "bottom", horizontal: "right"}}>
                 <Alert onClose={() => popMessage(currentStatusMessage!.id)} severity={currentStatusMessage?.type}

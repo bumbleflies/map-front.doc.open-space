@@ -66,9 +66,7 @@ export const OpenSpaceMap = (props: OpenSpaceMapProps) => {
                 <>
                     <Drawer
                         anchor={"left"} open={Boolean(activeMarker)}
-                        onClose={() => {
-                            navigate("/")
-                        }}
+                        onClose={() => navigate("/")}
                         sx={{
                             flexShrink: 0,
                             [`& .MuiDrawer-paper`]: {width: '400px', boxSizing: 'border-box'},
@@ -92,9 +90,7 @@ export const OpenSpaceMap = (props: OpenSpaceMapProps) => {
                         anchor={'bottom'}
                         onOpen={() => {
                         }}
-                        onClose={() => {
-                            navigate('/')
-                        }}
+                        onClose={() => navigate('/')}
                         open={Boolean(activeMarker)}
                     >
                         <OpenSpaceInfo marker={activeMarker} removeMarker={removeMarker}
