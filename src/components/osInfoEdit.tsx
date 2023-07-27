@@ -26,14 +26,26 @@ export const OpenSpaceInfoEditDialog = (props: OpenSpaceInfoEditDialogProps) => 
     const [startDate, setStartDate] = useState<Dayjs>(props.marker.startDate)
     const [endDate, setEndDate] = useState<Dayjs>(props.marker.endDate)
 
-    const acceptStartDate = (startDate: Dayjs | null) => {
-        if (startDate != null) {
-            if (startDate.isAfter(endDate)) {
+    const acceptStartDate = (newStartDate: Dayjs | null) => {
+        if (newStartDate != null) {
+            if (newStartDate.isAfter(endDate)) {
                 let dateDifference = endDate.diff(startDate)
-                setStartDate(startDate)
-                setEndDate(startDate.add(dateDifference))
+                setStartDate(newStartDate)
+                setEndDate(newStartDate.add(dateDifference))
             } else {
-                setStartDate(startDate)
+                setStartDate(newStartDate)
+            }
+        }
+    }
+
+    function acceptEndDate(newEndDate: Dayjs | null) {
+        if (newEndDate !== null) {
+            if (newEndDate.isBefore(startDate)) {
+                let dateDifference = endDate.diff(startDate)
+                setEndDate(newEndDate)
+                setStartDate(newEndDate.subtract(dateDifference))
+            } else {
+                setEndDate(newEndDate)
             }
         }
     }
@@ -88,8 +100,7 @@ export const OpenSpaceInfoEditDialog = (props: OpenSpaceInfoEditDialogProps) => 
                             <Grid item xs={6}>
                                 <DateTimePicker label={"End Date"} value={endDate}
                                                 format="DD.MM.YYYY HH:mm"
-                                                onAccept={() => {
-                                                }}/>
+                                                onAccept={acceptEndDate}/>
                             </Grid>
                         </LocalizationProvider>
                     </Grid>

@@ -12,6 +12,7 @@ export type MarkerType = TransientMarker &
     {
         identifier: string,
     }
+
 export type OptionalMarkerProps = {
     position?: LatLng,
     title?: string,

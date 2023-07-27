@@ -1,20 +1,7 @@
 import React, {useEffect, useRef, useState} from "react";
 import {Map} from "leaflet";
 import {MarkerType, TransientMarker} from "../types/marker";
-import {
-    Alert,
-    AppBar,
-    Avatar,
-    Box,
-    Button,
-    Fab,
-    IconButton,
-    Paper,
-    Snackbar,
-    styled,
-    Toolbar,
-    Typography
-} from "@mui/material";
+import {Alert, AppBar, Avatar, Box, Button, IconButton, Paper, Snackbar, Toolbar, Typography} from "@mui/material";
 import {Image} from "mui-image";
 import {OpenSpaceMap} from "./osMap";
 import AddIcon from "@mui/icons-material/Add";
@@ -23,15 +10,7 @@ import {Link, useLoaderData, useParams} from "react-router-dom";
 import {saveMarker} from "../helper/saver";
 import {putMarker} from "../helper/updater";
 import {localDayjs} from "../helper/dayjsTimezone";
-
-const StyledFab = styled(Fab)({
-    position: 'absolute',
-    zIndex: 1,
-    top: -30,
-    left: 0,
-    right: 0,
-    margin: '0 auto',
-});
+import {StyledFab} from "./styledFab";
 
 export const OpenSpaceHarvesterHome = () => {
     const {id} = useParams<"id">();

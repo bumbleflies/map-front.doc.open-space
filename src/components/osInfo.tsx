@@ -1,4 +1,4 @@
-import React, {ReactElement, useState} from "react";
+import React, {useState} from "react";
 import {MarkerType} from "../types/marker";
 import {Avatar, Box, ButtonBase, Divider, Grid, IconButton, Typography} from "@mui/material";
 import {Image} from "mui-image";
@@ -10,29 +10,12 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import {OpenSpaceInfoEditDialog} from "./osInfoEdit";
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import TagIcon from '@mui/icons-material/Tag';
+import {IconTextGrid} from "./iconTextGrid";
 
 type OpenSpaceInfoProps = {
     marker: MarkerType
     removeMarker: (marker: MarkerType) => void
     updateMarker: (marker: MarkerType) => void
-}
-type IconTextGridProps = {
-    icon: ReactElement,
-    text: string
-}
-const IconTextGrid = (props: IconTextGridProps) => {
-    return (
-        <Grid item xs={12} container>
-            <Grid item xs={2} textAlign={"center"}>
-                {props.icon}
-            </Grid>
-            <Grid item xs={10} textAlign={"left"}>
-                <Typography color='text.secondary'>
-                    {props.text}
-                </Typography>
-            </Grid>
-        </Grid>
-    )
 }
 
 export const OpenSpaceInfo = (props: OpenSpaceInfoProps) => {
