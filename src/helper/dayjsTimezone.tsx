@@ -6,4 +6,4 @@ dayjs.extend(utc);
 dayjs.extend(timezone);
 dayjs.tz.setDefault('Europe/Berlin');
 
-export const localDayjs = (date?: dayjs.ConfigType) => dayjs(date).tz()
+export const localDayjs = (date?: dayjs.ConfigType, format?: dayjs.OptionType) => dayjs(date, format).tz()

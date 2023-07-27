@@ -74,6 +74,7 @@ export const OpenSpaceInfoEditDialog = (props: OpenSpaceInfoEditDialogProps) => 
                     </Grid>
                     <Grid item xs={12}>
                         <TextField
+                            inputProps={{"data-testid": "os-edit-title"}}
                             autoFocus
                             margin="dense"
                             id="name"
@@ -93,22 +94,24 @@ export const OpenSpaceInfoEditDialog = (props: OpenSpaceInfoEditDialogProps) => 
                         <LocalizationProvider dateAdapter={AdapterDayjs}
                                               adapterLocale={"de"}>
                             <Grid item xs={6}>
-                                <DateTimePicker label={"Start Date"} value={startDate}
-                                                format="DD.MM.YYYY HH:mm"
-                                                onAccept={acceptStartDate}/>
+                                <DateTimePicker
+                                    label={"Start Date"} value={startDate}
+                                    format="DD.MM.YYYY HH:mm"
+                                    onAccept={acceptStartDate}/>
                             </Grid>
                             <Grid item xs={6}>
-                                <DateTimePicker label={"End Date"} value={endDate}
-                                                format="DD.MM.YYYY HH:mm"
-                                                onAccept={acceptEndDate}/>
+                                <DateTimePicker
+                                    label={"End Date"} value={endDate}
+                                    format="DD.MM.YYYY HH:mm"
+                                    onAccept={acceptEndDate}/>
                             </Grid>
                         </LocalizationProvider>
                     </Grid>
                 </Grid>
             </DialogContent>
             <DialogActions>
-                <Button onClick={cancelEdit}>Cancel</Button>
-                <Button onClick={saveEdit}>Save</Button>
+                <Button data-testid='os-edit-cancel' onClick={cancelEdit}>Cancel</Button>
+                <Button data-testid='os-edit-save' onClick={saveEdit}>Save</Button>
             </DialogActions>
         </Dialog>
     )
