@@ -74,5 +74,10 @@
     "@types/react-dom": "^18.2.6",
     "@types/react-swipeable-views": "^0.13.2",
     "@types/uuid": "^9.0.2"
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "axios": "axios/dist/node/axios.cjs"
+    }
   }
 }
