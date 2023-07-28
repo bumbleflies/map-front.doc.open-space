@@ -15,13 +15,12 @@ export const osLoaderToMarker = (os: OSApiType): MarkerType => {
     }
 }
 
-export const osLoader = async () => {
-    let openSpaces: OSApiType[] = []
-    await axios.get(Endpoints.openSpaces).then(response => {
-        openSpaces = response.data
+export const osLoader = () => {
+    return axios.get(Endpoints.openSpaces).then(response => {
+        console.log(`loaded open spaces: ${JSON.stringify(response.data)}`)
+        return response.data.map(osLoaderToMarker)
     }).catch(error => {
         console.log(`Failed to load Open Spaces: ${error}`)
+        return []
     })
-    console.log(`loaded open spaces: ${JSON.stringify(openSpaces)}`)
-    return openSpaces.map(osLoaderToMarker)
 }

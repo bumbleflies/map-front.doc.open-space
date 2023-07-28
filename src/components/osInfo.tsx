@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useRef, useState} from "react";
+import React, {ChangeEvent, useContext, useRef, useState} from "react";
 import {MarkerType} from "../types/marker";
 import {Avatar, Box, Button, CardMedia, Divider, Fab, Grid, IconButton, Typography} from "@mui/material";
 import WbSunnyIcon from "@mui/icons-material/WbSunny";
@@ -14,6 +14,7 @@ import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import {Endpoints} from "../config/Endpoints";
 import {uploadImage} from "../helper/upload";
 import {OsImageNotAvailable, OsImageType} from "../types/api";
+import OpenSpaceImagesContext, {OpenSpaceImagesContextType} from "./os/openSpaces";
 
 type OpenSpaceInfoProps = {
     marker: MarkerType
@@ -56,7 +57,7 @@ export const OpenSpaceInfo = (props: OpenSpaceInfoProps) => {
     const [infoMarker, setInfoMarker] = useState<MarkerType>(props.marker)
     const [editOpen, setEditOpen] = useState<boolean>(false)
     const [popoverOpen, setPopoverOpen] = useState<boolean>(false)
-    const [headerImage, setHeaderImage] = useState<OsImageType | OsImageNotAvailable>(new OsImageNotAvailable())
+    const {headerImage, setHeaderImage} = useContext<OpenSpaceImagesContextType>(OpenSpaceImagesContext)
 
     const popoverRef = useRef<HTMLDivElement | null>(null)
 
