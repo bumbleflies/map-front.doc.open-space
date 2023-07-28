@@ -4,6 +4,8 @@ import {OpenSpaceInfo} from "../components/osInfo";
 import {MarkerType} from "../types/marker";
 import {localDayjs} from "../helper/dayjsTimezone";
 import {LatLng} from "leaflet";
+// https://github.com/testing-library/react-testing-library/issues/379
+import '@testing-library/jest-dom/extend-expect'
 
 const testOpenSpaceMarker: MarkerType = {
     identifier: 'test-123',
