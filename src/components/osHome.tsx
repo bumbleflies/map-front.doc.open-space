@@ -18,7 +18,7 @@ import {Image} from "mui-image";
 import {OpenSpaceMap} from "./osMap";
 import AddIcon from "@mui/icons-material/Add";
 import MyLocationIcon from "@mui/icons-material/MyLocation";
-import {Link, useLoaderData, useParams} from "react-router-dom";
+import {useLoaderData, useNavigate, useParams} from "react-router-dom";
 import {saveMarker} from "../helper/saver";
 import {putMarker} from "../helper/updater";
 import {localDayjs} from "../helper/dayjsTimezone";
@@ -44,6 +44,7 @@ export const OpenSpaceHarvesterHome = () => {
 
     const [statusMessages, setStatusMessages] = useState<StatusMessage[]>([])
     const [currentStatusMessage, setCurrentStatusMessage] = useState<StatusMessage | null>(null)
+    const navigate = useNavigate();
 
     useEffect(() => {
         let foundMarker = markers.find(m => m.identifier === id);
@@ -51,12 +52,11 @@ export const OpenSpaceHarvesterHome = () => {
         if (foundMarker !== undefined) {
             map.current?.setView(foundMarker.position!, 15, {animate: true})
         }
-    }, [id, markers])
+    }, [id, markers.length, urlMarker])
 
     useEffect(() => {
-            setMarkers(loadedMarker)
-        }
-        , [loadedMarker])
+        setMarkers(loadedMarker)
+    }, [loadedMarker.length])
 
     const captureMap = (m: Map) => {
         map.current = m
@@ -161,7 +161,11 @@ export const OpenSpaceHarvesterHome = () => {
                        sx={{width: '100%'}}>
                     {currentStatusMessage?.message}
                     {currentStatusMessage?.withLink !== undefined ?
-                        <Button color="inherit" size="small" component={Link} to={currentStatusMessage.withLink.to}>
+                        <Button color="inherit" size="small"
+                                onClick={() => {
+                                    popMessage(currentStatusMessage!.id)
+                                    navigate(currentStatusMessage.withLink!.to)
+                                }}>
                             {currentStatusMessage.withLink.text}
                         </Button> : null}
                 </Alert>
@@ -170,7 +174,7 @@ export const OpenSpaceHarvesterHome = () => {
             <AppBar position="sticky" color="primary" sx={{top: 'auto', bottom: 10}}>
                 <Toolbar>
                     <Box sx={{flexGrow: 1}}/>
-                    <StyledFab color="secondary" aria-label="add" onClick={addMarker}>
+                    <StyledFab data-testid={"os-home-fab-add"} color="secondary" aria-label="add" onClick={addMarker}>
                         <AddIcon/>
                     </StyledFab>
                     <Box sx={{flexGrow: 1}}/>
