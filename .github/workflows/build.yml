@@ -16,6 +16,8 @@ jobs:
         run: yarn install
       - name: yarn test
         run: yarn test --no-watchman --ci
+        env:
+          JEST_SKIP: true
       - name: yarn run build
         run: yarn run build
       - name: Push to build branch
@@ -27,4 +29,3 @@ jobs:
           # https://github.com/ad-m/github-push-action/issues/96
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # GitHub will automatically add this - you don't need to bother getting a token
           MESSAGE: "Build: ({sha}) {msg}" # The commit message
-          JEST_SKIP: true
