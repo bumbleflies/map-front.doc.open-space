@@ -29,7 +29,7 @@ function setNewDateValue(label: string, newDateString: string) {
     fireEvent.click(screen.getByRole('button', {name: 'OK'}))
 }
 
-const maybe = process.env.JEST_SKIP ? it.skip : it;
+const maybe = process.env.JEST_NO_SKIP ? it : it.skip;
 
 
 describe('Open Space Info Page', () => {

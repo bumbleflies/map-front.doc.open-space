@@ -16,8 +16,6 @@ jobs:
         run: yarn install
       - name: yarn test
         run: yarn test --no-watchman --ci
-        env:
-          JEST_SKIP: true
       - name: yarn run build
         run: yarn run build
       - name: Push to build branch
