@@ -58,7 +58,9 @@ export const OpenSpaceHarvesterHome = (props: OpenSpaceHarvesterHomeType) => {
     }, [id, markers, urlMarker, map])
 
     useEffect(() => {
-        setMarkers(loadedMarker)
+        if (loadedMarker.length > 0) {
+            setMarkers(loadedMarker)
+        }
     }, [loadedMarker])
 
     useEffect(() => {
