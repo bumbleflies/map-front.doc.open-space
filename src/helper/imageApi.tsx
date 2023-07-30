@@ -1,14 +1,7 @@
+import {OsImageNotAvailable, OsImageUpload} from "../types/api";
 import axios from "axios";
 import {Endpoints} from "../config/Endpoints";
-import {OsApiImageType, OsImageNotAvailable, OsImageType, OsImageUpload} from "../types/api";
-
-const uploadResponseToImageType = (uploadedImage: OsApiImageType): OsImageType => {
-    return {
-        imageIdentifier: uploadedImage.identifier,
-        osIdentifier: uploadedImage.os_identifier,
-        isAvailable: true
-    }
-}
+import {uploadResponseToImageType} from "./apiMapper";
 
 export const uploadImage = (image: OsImageUpload) => {
     const uploadData = new FormData()

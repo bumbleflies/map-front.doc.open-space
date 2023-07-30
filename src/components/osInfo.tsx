@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useContext, useRef, useState} from "react";
+import React, {ChangeEvent, useContext, useState} from "react";
 import {MarkerType} from "../types/marker";
 import {Avatar, Box, Button, CardMedia, Divider, Fab, Grid, IconButton, Typography} from "@mui/material";
 import WbSunnyIcon from "@mui/icons-material/WbSunny";
@@ -12,9 +12,10 @@ import TagIcon from '@mui/icons-material/Tag';
 import {IconTextGrid} from "./iconTextGrid";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import {Endpoints} from "../config/Endpoints";
-import {uploadImage} from "../helper/upload";
 import {OsImageNotAvailable, OsImageType} from "../types/api";
-import OpenSpaceImagesContext, {OpenSpaceImagesContextType} from "./os/openSpaces";
+import OpenSpaceImagesContext, {OpenSpaceImagesContextType} from "./os/openSpaceContext";
+
+import {uploadImage} from "../helper/imageApi";
 
 type OpenSpaceInfoProps = {
     marker: MarkerType
@@ -59,8 +60,6 @@ export const OpenSpaceInfo = (props: OpenSpaceInfoProps) => {
     const [popoverOpen, setPopoverOpen] = useState<boolean>(false)
     const {headerImage, setHeaderImage} = useContext<OpenSpaceImagesContextType>(OpenSpaceImagesContext)
 
-    const popoverRef = useRef<HTMLDivElement | null>(null)
-
     function updateMarker(marker: MarkerType) {
         props.updateMarker(marker)
         setInfoMarker(marker)
@@ -84,8 +83,7 @@ export const OpenSpaceInfo = (props: OpenSpaceInfoProps) => {
                 <Grid item xs={12} textAlign={"center"}>
                     <div onMouseLeave={() => setPopoverOpen(false)}
                         //onClick={() => setPopoverOpen(true)}
-                         onMouseEnter={() => setPopoverOpen(true)}
-                         ref={popoverRef}>
+                         onMouseEnter={() => setPopoverOpen(true)}>
                         {headerImage.isAvailable ?
                             <CardMedia
                                 component="img"

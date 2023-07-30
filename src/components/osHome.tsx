@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Map} from "leaflet";
 import {MarkerType, TransientMarker} from "../types/marker";
 import {
@@ -19,10 +19,10 @@ import {OpenSpaceMap} from "./osMap";
 import AddIcon from "@mui/icons-material/Add";
 import MyLocationIcon from "@mui/icons-material/MyLocation";
 import {useLoaderData, useNavigate, useParams} from "react-router-dom";
-import {saveMarker} from "../helper/saver";
-import {putMarker} from "../helper/updater";
 import {localDayjs} from "../helper/dayjsTimezone";
 import {StyledFab} from "./styledFab";
+import MapContext from "./os/mapContext";
+import {apiServices} from "../helper/markerApi";
 
 type StatusMessage = {
     id: string
@@ -33,12 +33,15 @@ type StatusMessage = {
         text: string
     }
 }
-
-export const OpenSpaceHarvesterHome = () => {
+type OpenSpaceHarvesterHomeType = {
+    // mainly used for testing the module
+    map?: Map
+}
+export const OpenSpaceHarvesterHome = (props: OpenSpaceHarvesterHomeType) => {
     const {id} = useParams<"id">();
     const loadedMarker = useLoaderData() as MarkerType[]
 
-    const map = useRef<Map>()
+    const [map, setMap] = useState<Map | null>(props.map ? props.map : null)
     const [markers, setMarkers] = useState<MarkerType[]>([])
     const [urlMarker, setUrlMarker] = useState<MarkerType>()
 
@@ -50,27 +53,34 @@ export const OpenSpaceHarvesterHome = () => {
         let foundMarker = markers.find(m => m.identifier === id);
         setUrlMarker(foundMarker)
         if (foundMarker !== undefined) {
-            map.current?.setView(foundMarker.position!, 15, {animate: true})
+            map?.setView(foundMarker.position!, 15, {animate: true})
         }
-    }, [id, markers.length, urlMarker])
+    }, [id, markers, urlMarker])
 
     useEffect(() => {
         setMarkers(loadedMarker)
     }, [loadedMarker.length])
 
-    const captureMap = (m: Map) => {
-        map.current = m
-    }
+    useEffect(() => {
+        if (statusMessages.length > 0) {
+            console.log(`Setting current status message: ${statusMessages[0]}`)
+            setCurrentStatusMessage(statusMessages[0])
+        } else {
+            setCurrentStatusMessage(null)
+        }
+    }, [statusMessages])
 
     const addMarker = () => {
-        let currentCenter = map.current?.getCenter()!;
+        let currentCenter = map!.getCenter()!;
         let marker: TransientMarker = {
             position: currentCenter,
             title: `Open Space @ ${currentCenter.lat}, ${currentCenter.lng}`,
             startDate: localDayjs().startOf('hour'),
             endDate: localDayjs().startOf('hour').add(2, 'hours')
         }
-        saveMarker(marker).then(savedMarker => {
+        console.log(apiServices)
+        console.log(apiServices.save)
+        apiServices.save(marker).then(savedMarker => {
             setMarkers((previous: MarkerType[]) => [...previous, savedMarker])
             addStatusMessage({
                 id: savedMarker.identifier,
@@ -82,8 +92,8 @@ export const OpenSpaceHarvesterHome = () => {
                 }
             })
         })
-    }
 
+    }
     const removeMarker = (marker: MarkerType) => {
         setMarkers((previous: MarkerType[]) => previous.filter(m => m.identifier !== marker.identifier))
         addStatusMessage({
@@ -91,23 +101,16 @@ export const OpenSpaceHarvesterHome = () => {
             message: `Open Space [${marker.identifier}] removed`,
             type: "error"
         })
-    }
 
+    }
     const updateMarker = (marker: MarkerType) => {
-        putMarker(marker).then(updatedMarker => {
+        apiServices.put(marker).then(updatedMarker => {
             setMarkers((previous: MarkerType[]) => {
                 return [...previous.filter(m => m.identifier !== updatedMarker.identifier), updatedMarker]
             })
         })
-    }
 
-    useEffect(() => {
-        if (statusMessages.length > 0) {
-            setCurrentStatusMessage(statusMessages[0])
-        } else {
-            setCurrentStatusMessage(null)
-        }
-    }, [statusMessages])
+    }
 
     const addStatusMessage = (message: StatusMessage) => {
         console.log('adding status message', message)
@@ -116,18 +119,17 @@ export const OpenSpaceHarvesterHome = () => {
 
     const popMessage = (messageId: string) => {
         setStatusMessages(prevState => {
-            console.log(`poping ${messageId} from messages`)
+            console.log(`popping ${messageId} from messages`)
             return prevState.filter(m => m.id !== messageId)
         })
     }
-
 
     const centerCurrentLocation = () => {
         navigator.geolocation.getCurrentPosition(locationSuccess)
     }
 
     const locationSuccess = (position: GeolocationPosition) => {
-        map.current?.setView({lat: position.coords.latitude, lng: position.coords.longitude})
+        map?.setView({lat: position.coords.latitude, lng: position.coords.longitude})
     }
 
     return (
@@ -148,8 +150,10 @@ export const OpenSpaceHarvesterHome = () => {
                 </Toolbar>
             </AppBar>
 
-            <OpenSpaceMap activeMarker={urlMarker} markers={markers} map={map.current!} captureMap={captureMap}
-                          removeMarker={removeMarker} updateMarker={updateMarker}/>
+            <MapContext.Provider value={{map: map, setMap: setMap}}>
+                <OpenSpaceMap activeMarker={urlMarker} markers={markers}
+                              removeMarker={removeMarker} updateMarker={updateMarker}/>
+            </MapContext.Provider>
 
             <Snackbar
                 open={Boolean(currentStatusMessage)}

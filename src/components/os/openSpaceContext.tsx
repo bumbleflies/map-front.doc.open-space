@@ -1,9 +1,9 @@
-import {createContext} from 'react';
+import React, {createContext} from 'react';
 import {OsImageNotAvailable, OsImageType} from "../../types/api";
 
 export type  OpenSpaceImagesContextType = {
     headerImage: OsImageNotAvailable | OsImageType,
-    setHeaderImage: any
+    setHeaderImage: React.Dispatch<React.SetStateAction<OsImageNotAvailable | OsImageType>>
 }
 const OpenSpaceImagesContext = createContext<OpenSpaceImagesContextType>({
     headerImage: new OsImageNotAvailable(),
