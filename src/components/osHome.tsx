@@ -55,11 +55,11 @@ export const OpenSpaceHarvesterHome = (props: OpenSpaceHarvesterHomeType) => {
         if (foundMarker !== undefined) {
             map?.setView(foundMarker.position!, 15, {animate: true})
         }
-    }, [id, markers, urlMarker])
+    }, [id, markers, urlMarker, map])
 
     useEffect(() => {
         setMarkers(loadedMarker)
-    }, [loadedMarker.length])
+    }, [loadedMarker])
 
     useEffect(() => {
         if (statusMessages.length > 0) {
