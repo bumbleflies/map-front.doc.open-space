@@ -18,7 +18,7 @@ const uploadImage = (image: OsImageUpload) => {
 
 const loadImages = (args: LoaderFunctionArgs) => {
     return axios.get(Endpoints.openSpaceImages(args.params.id!)).then(response => {
-        console.log(`loaded images for os ${args.params.id}`)
+        console.log(`loaded images for os ${args.params.id}: ${JSON.stringify(response.data)}`)
         return (response.data as OsApiImageType[]).map(image => uploadResponseToImageType(image))
     })
 }

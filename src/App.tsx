@@ -15,6 +15,7 @@ const router = createBrowserRouter([
             {
                 path: '/os/:id',
                 element: <OpenSpaceHarvesterHome/>,
+                id: 'os_selected',
                 loader: imageApi.load,
             }
         ]

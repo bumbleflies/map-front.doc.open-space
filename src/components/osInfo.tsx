@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useContext, useState} from "react";
+import React, {ChangeEvent, useContext, useEffect, useState} from "react";
 import {MarkerType} from "../types/marker";
 import {Box, CardMedia, Divider, Grid, Typography} from "@mui/material";
 import WbSunnyIcon from "@mui/icons-material/WbSunny";
@@ -16,6 +16,7 @@ import OpenSpaceImagesContext, {OpenSpaceImagesContextType} from "./os/openSpace
 import {apiServices as imageApi} from "../helper/imageApi";
 import {OverlayButton} from "./overlayButton";
 import {MenuActionButton} from "./menuActionButton";
+import {useRouteLoaderData} from "react-router-dom";
 
 type OpenSpaceInfoProps = {
     marker: MarkerType
@@ -28,6 +29,14 @@ export const OpenSpaceInfo = (props: OpenSpaceInfoProps) => {
     const [editOpen, setEditOpen] = useState<boolean>(false)
     const [popoverOpen, setPopoverOpen] = useState<boolean>(false)
     const {headerImage, setHeaderImage} = useContext<OpenSpaceImagesContextType>(OpenSpaceImagesContext)
+    const loadedImages = useRouteLoaderData('os_selected') as OsImageType[]
+
+    useEffect(() => {
+        if (loadedImages !== undefined && loadedImages.length > 0) {
+            console.log(`setting header image: ${JSON.stringify(loadedImages[0])}`)
+            setHeaderImage(loadedImages[0])
+        }
+    }, [loadedImages, headerImage])
 
     function updateMarker(marker: MarkerType) {
         props.updateMarker(marker)
