@@ -54,6 +54,31 @@ const OverlayButton = (props: ButtonType) => {
     );
 };
 
+type MenuActionButtonType = {
+    onClickHandler: () => void,
+    icon: React.JSX.Element,
+    name: string
+}
+const MenuActionButton = (props: MenuActionButtonType) => {
+    return (
+        <Grid item xs={2} container textAlign={"center"}>
+            <Grid item xs={12}>
+                <IconButton data-testid={`os-${props.name.toLowerCase()}-button`} aria-label="edit"
+                            onClick={props.onClickHandler}>
+                    <Avatar sx={{bgcolor: yellow[700]}}>
+                        {props.icon}
+                    </Avatar>
+                </IconButton>
+            </Grid>
+            <Grid item xs={12}>
+                <Typography color='text.secondary' textAlign={"center"}>
+                    {props.name}
+                </Typography>
+            </Grid>
+        </Grid>
+    )
+}
+
 export const OpenSpaceInfo = (props: OpenSpaceInfoProps) => {
     const [infoMarker, setInfoMarker] = useState<MarkerType>(props.marker)
     const [editOpen, setEditOpen] = useState<boolean>(false)
@@ -117,29 +142,9 @@ export const OpenSpaceInfo = (props: OpenSpaceInfoProps) => {
                 </Grid>
                 <Grid item xs={12} container>
                     <Grid item xs={4}/>
-                    <Grid item xs={2}>
-                        <Typography color='text.secondary' textAlign={"center"}>
-                            <IconButton data-testid={'os-edit-button'} aria-label="edit" onClick={() => {
-                                setEditOpen(true)
-                            }}>
-                                <Avatar sx={{bgcolor: yellow[700]}}>
-                                    <EditIcon/>
-                                </Avatar>
-                            </IconButton>
-                            Edit
-                        </Typography>
-                    </Grid>
-                    <Grid item xs={2}>
-                        <Typography color='text.secondary' textAlign={"center"}>
-                            <IconButton data-testid={'os-remove-button'} aria-label="delete"
-                                        onClick={() => props.removeMarker(props.marker)}>
-                                <Avatar sx={{bgcolor: yellow[700]}}>
-                                    <DeleteIcon/>
-                                </Avatar>
-                            </IconButton>
-                            Delete
-                        </Typography>
-                    </Grid>
+                    <MenuActionButton onClickHandler={() => setEditOpen(true)} icon={<EditIcon/>} name={"Edit"}/>
+                    <MenuActionButton onClickHandler={() => props.removeMarker(props.marker)} icon={<DeleteIcon/>}
+                                      name={"Delete"}/>
                     <Grid item xs={4}/>
                 </Grid>
                 <Grid item xs={12} container>
