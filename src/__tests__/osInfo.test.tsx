@@ -38,7 +38,7 @@ describe('Open Space Info Page', () => {
     })
 
     it('calls the removeMarker when delete is clicked', () => {
-        screen.getByTestId('os-remove-button').click();
+        screen.getByTestId('os-delete-button').click();
         expect(removeMarkerMock).toHaveBeenCalled()
     })
 })
