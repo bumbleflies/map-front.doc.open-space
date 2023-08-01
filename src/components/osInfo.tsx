@@ -13,7 +13,7 @@ import {Endpoints} from "../config/Endpoints";
 import {OsImageNotAvailable, OsImageType} from "../types/api";
 import OpenSpaceImagesContext, {OpenSpaceImagesContextType} from "./os/openSpaceContext";
 
-import {uploadImage} from "../helper/imageApi";
+import {apiServices as imageApi} from "../helper/imageApi";
 import {OverlayButton} from "./overlayButton";
 import {MenuActionButton} from "./menuActionButton";
 
@@ -36,7 +36,7 @@ export const OpenSpaceInfo = (props: OpenSpaceInfoProps) => {
 
     function handleImageUpload(e: ChangeEvent<HTMLInputElement>) {
         if (e.target.files !== null && e.target.files.length > 0) {
-            uploadImage({
+            imageApi.upload({
                 osIdentifier: infoMarker.identifier,
                 imageFile: e.target.files[0]
             }).then((result: OsImageType | OsImageNotAvailable) => {

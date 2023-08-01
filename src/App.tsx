@@ -3,17 +3,19 @@ import './App.css';
 import {OpenSpaceHarvesterHome} from "./components/osHome";
 import {createBrowserRouter, RouterProvider} from 'react-router-dom';
 
-import {apiServices} from "./helper/markerApi";
+import {apiServices as osApi} from "./helper/markerApi";
+import {apiServices as imageApi} from "./helper/imageApi";
 
 const router = createBrowserRouter([
     {
         path: '/',
         element: <OpenSpaceHarvesterHome/>,
-        loader: apiServices.load,
+        loader: osApi.load,
         children: [
             {
                 path: '/os/:id',
-                element: <OpenSpaceHarvesterHome/>
+                element: <OpenSpaceHarvesterHome/>,
+                loader: imageApi.load,
             }
         ]
     }
