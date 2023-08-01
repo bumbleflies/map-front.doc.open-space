@@ -7,6 +7,14 @@ import {LatLng} from "leaflet";
 // https://github.com/testing-library/react-testing-library/issues/379
 import '@testing-library/jest-dom/extend-expect'
 
+jest.mock('react-router-dom', () => ({
+    useRouteLoaderData: (id: any) => [],
+    useNavigate: () => ({}),
+    useParams: () => ({
+        id: null
+    })
+}));
+
 const testOpenSpaceMarker: MarkerType = {
     identifier: 'test-123',
     title: 'Test title',
