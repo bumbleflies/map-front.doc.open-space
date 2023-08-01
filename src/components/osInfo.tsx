@@ -35,6 +35,8 @@ export const OpenSpaceInfo = (props: OpenSpaceInfoProps) => {
         if (loadedImages !== undefined && loadedImages.length > 0) {
             console.log(`setting header image: ${JSON.stringify(loadedImages[0])}`)
             setHeaderImage(loadedImages[0])
+        } else {
+            setHeaderImage(new OsImageNotAvailable())
         }
     }, [loadedImages, setHeaderImage])
 
