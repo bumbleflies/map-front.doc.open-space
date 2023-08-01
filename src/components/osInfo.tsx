@@ -36,7 +36,7 @@ export const OpenSpaceInfo = (props: OpenSpaceInfoProps) => {
             console.log(`setting header image: ${JSON.stringify(loadedImages[0])}`)
             setHeaderImage(loadedImages[0])
         }
-    }, [loadedImages, headerImage])
+    }, [loadedImages, setHeaderImage])
 
     function updateMarker(marker: MarkerType) {
         props.updateMarker(marker)
