@@ -1,82 +1,26 @@
 import React, {ChangeEvent, useContext, useState} from "react";
 import {MarkerType} from "../types/marker";
-import {Avatar, Box, Button, CardMedia, Divider, Fab, Grid, IconButton, Typography} from "@mui/material";
+import {Box, CardMedia, Divider, Grid, Typography} from "@mui/material";
 import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import NightlightIcon from "@mui/icons-material/Nightlight";
-import {yellow} from "@mui/material/colors";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {OpenSpaceInfoEditDialog} from "./osInfoEdit";
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import TagIcon from '@mui/icons-material/Tag';
 import {IconTextGrid} from "./iconTextGrid";
-import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import {Endpoints} from "../config/Endpoints";
 import {OsImageNotAvailable, OsImageType} from "../types/api";
 import OpenSpaceImagesContext, {OpenSpaceImagesContextType} from "./os/openSpaceContext";
 
 import {uploadImage} from "../helper/imageApi";
+import {OverlayButton} from "./overlayButton";
+import {MenuActionButton} from "./menuActionButton";
 
 type OpenSpaceInfoProps = {
     marker: MarkerType
     removeMarker: (marker: MarkerType) => void
     updateMarker: (marker: MarkerType) => void
-}
-
-type ButtonType = {
-    onImageUpload: (e: ChangeEvent<HTMLInputElement>) => void;
-    display: boolean
-}
-const OverlayButton = (props: ButtonType) => {
-    return (
-        <Button
-            sx={{
-                position: "fixed",
-                display: props.display ? 'block' : 'none',
-                transform: 'translate(330px,-50px)'
-            }}
-        >
-            <label htmlFor="upload-photo">
-                <input
-                    style={{display: "none"}}
-                    id="upload-photo"
-                    name="upload-photo"
-                    type="file"
-                    accept={".png,.jpg"}
-                    onChange={props.onImageUpload}
-                />
-                <Fab color="primary" size="medium" component="span"
-                     aria-label="add">
-                    <AddPhotoAlternateIcon/>
-                </Fab>
-            </label>
-        </Button>
-    );
-};
-
-type MenuActionButtonType = {
-    onClickHandler: () => void,
-    icon: React.JSX.Element,
-    name: string
-}
-const MenuActionButton = (props: MenuActionButtonType) => {
-    return (
-        <Grid item xs={2} container textAlign={"center"}>
-            <Grid item xs={12}>
-                <IconButton data-testid={`os-${props.name.toLowerCase()}-button`} aria-label="edit"
-                            onClick={props.onClickHandler}>
-                    <Avatar sx={{bgcolor: yellow[700]}}>
-                        {props.icon}
-                    </Avatar>
-                </IconButton>
-            </Grid>
-            <Grid item xs={12}>
-                <Typography color='text.secondary' textAlign={"center"}>
-                    {props.name}
-                </Typography>
-            </Grid>
-        </Grid>
-    )
 }
 
 export const OpenSpaceInfo = (props: OpenSpaceInfoProps) => {

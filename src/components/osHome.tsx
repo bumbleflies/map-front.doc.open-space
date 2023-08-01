@@ -119,7 +119,7 @@ export const OpenSpaceHarvesterHome = (props: OpenSpaceHarvesterHomeType) => {
         setStatusMessages(prevState => [...prevState, message])
     }
 
-    const popMessage = (messageId: string) => {
+    const popMessage = (messageId?: string) => {
         setStatusMessages(prevState => {
             console.log(`popping ${messageId} from messages`)
             return prevState.filter(m => m.id !== messageId)
@@ -160,7 +160,7 @@ export const OpenSpaceHarvesterHome = (props: OpenSpaceHarvesterHomeType) => {
             <Snackbar
                 open={Boolean(currentStatusMessage)}
                 autoHideDuration={6000}
-                onClose={() => popMessage(currentStatusMessage!.id)}
+                onClose={() => popMessage(currentStatusMessage?.id)}
                 sx={{bottom: {xs: 90, sm: '10vh'}}}
                 anchorOrigin={{vertical: "bottom", horizontal: "right"}}>
                 <Alert onClose={() => popMessage(currentStatusMessage!.id)} severity={currentStatusMessage?.type}
@@ -169,7 +169,7 @@ export const OpenSpaceHarvesterHome = (props: OpenSpaceHarvesterHomeType) => {
                     {currentStatusMessage?.withLink !== undefined ?
                         <Button color="inherit" size="small"
                                 onClick={() => {
-                                    popMessage(currentStatusMessage!.id)
+                                    popMessage(currentStatusMessage?.id)
                                     navigate(currentStatusMessage.withLink!.to)
                                 }}>
                             {currentStatusMessage.withLink.text}

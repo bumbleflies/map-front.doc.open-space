@@ -1,0 +1,34 @@
+import {Button, Fab} from "@mui/material";
+import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
+import React, {ChangeEvent} from "react";
+
+type OverlayButtonType = {
+    onImageUpload: (e: ChangeEvent<HTMLInputElement>) => void;
+    display: boolean
+}
+export const OverlayButton = (props: OverlayButtonType) => {
+    return (
+        <Button
+            sx={{
+                position: "fixed",
+                display: props.display ? 'block' : 'none',
+                transform: 'translate(330px,-50px)'
+            }}
+        >
+            <label htmlFor="upload-photo">
+                <input
+                    style={{display: "none"}}
+                    id="upload-photo"
+                    name="upload-photo"
+                    type="file"
+                    accept={".png,.jpg"}
+                    onChange={props.onImageUpload}
+                />
+                <Fab color="primary" size="medium" component="span"
+                     aria-label="add">
+                    <AddPhotoAlternateIcon/>
+                </Fab>
+            </label>
+        </Button>
+    );
+};
