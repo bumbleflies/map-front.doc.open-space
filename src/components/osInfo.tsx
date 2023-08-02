@@ -14,9 +14,9 @@ import {OsImageNotAvailable, OsImageType} from "../types/api";
 import OpenSpaceImagesContext, {OpenSpaceImagesContextType} from "./os/openSpaceContext";
 
 import {apiServices as imageApi} from "../helper/imageApi";
-import {OverlayButton} from "./overlayButton";
-import {MenuActionButton} from "./menuActionButton";
-import {useRouteLoaderData} from "react-router-dom";
+import {OverlayButton} from "./button/overlayButton";
+import {MenuActionButton} from "./button/menuActionButton";
+import {useNavigate, useRouteLoaderData} from "react-router-dom";
 
 type OpenSpaceInfoProps = {
     marker: MarkerType
@@ -24,12 +24,14 @@ type OpenSpaceInfoProps = {
     updateMarker: (marker: MarkerType) => void
 }
 
+
 export const OpenSpaceInfo = (props: OpenSpaceInfoProps) => {
     const [infoMarker, setInfoMarker] = useState<MarkerType>(props.marker)
     const [editOpen, setEditOpen] = useState<boolean>(false)
     const [popoverOpen, setPopoverOpen] = useState<boolean>(false)
     const {headerImage, setHeaderImage} = useContext<OpenSpaceImagesContextType>(OpenSpaceImagesContext)
     const loadedImages = useRouteLoaderData('os_selected') as OsImageType[]
+    const navigate = useNavigate()
 
     useEffect(() => {
         if (loadedImages !== undefined && loadedImages.length > 0) {
@@ -62,7 +64,7 @@ export const OpenSpaceInfo = (props: OpenSpaceInfoProps) => {
                 {/* Image */}
                 <Grid item xs={12} textAlign={"center"}>
                     <div onMouseLeave={() => setPopoverOpen(false)}
-                        //onClick={() => setPopoverOpen(true)}
+                         onClick={() => navigate(`os/${infoMarker.identifier}/i/${(headerImage as OsImageType).imageIdentifier}`)}
                          onMouseEnter={() => setPopoverOpen(true)}>
                         {headerImage.isAvailable ?
                             <CardMedia

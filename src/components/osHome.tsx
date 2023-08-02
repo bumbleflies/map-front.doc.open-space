@@ -20,7 +20,7 @@ import AddIcon from "@mui/icons-material/Add";
 import MyLocationIcon from "@mui/icons-material/MyLocation";
 import {useLoaderData, useNavigate, useParams} from "react-router-dom";
 import {localDayjs} from "../helper/dayjsTimezone";
-import {StyledFab} from "./styledFab";
+import {StyledFab} from "./button/styledFab";
 import MapContext from "./os/mapContext";
 import {apiServices} from "../helper/markerApi";
 

@@ -26,6 +26,5 @@ export const Endpoints = {
     openSpaces: new URL('os/', ApiServer.url.href).href,
     openSpace: (id: string) => new URL(id + '/', Endpoints.openSpaces).href,
     openSpaceImages: (id: string) => new URL('i/', Endpoints.openSpace(id)).href,
-    openSpaceImage: (osId: string, imageId: string) => new URL(imageId + '/', Endpoints.openSpaceImages(osId)).href
+    openSpaceImage: (osId: string, imageId: string) => new URL(imageId, Endpoints.openSpaceImages(osId)).href
 }
-
