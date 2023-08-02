@@ -31,7 +31,7 @@ export const uploadResponseToImageType = (uploadedImage: OsApiImageType): OsImag
 export const markerToOs = (os: MarkerType): OSApiType => {
     return {
         identifier: os.identifier,
-        location: os.position,
+        location: {lat: os.position.lat, lng: os.position.lng},
         title: os.title,
         start_date: os.startDate.toISOString(),
         end_date: os.endDate.toISOString()

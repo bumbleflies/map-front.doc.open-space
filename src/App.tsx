@@ -4,20 +4,31 @@ import {OpenSpaceHarvesterHome} from "./components/osHome";
 import {createBrowserRouter, RouterProvider} from 'react-router-dom';
 
 import {apiServices as osApi} from "./helper/markerApi";
-import {apiServices as imageApi} from "./helper/imageApi";
+import OpenSpaceInfoDrawer from "./components/OpenSpaceInfoDrawer";
+import {handleEditAction, handleInfoAction} from "./action/osInfo";
+import {OpenSpaceInfoEditDialog} from './components/osInfoEdit';
 
 const router = createBrowserRouter([
     {
         path: '/',
         element: <OpenSpaceHarvesterHome/>,
-        loader: osApi.load,
+        loader: osApi.loadAll,
         children: [
             {
-                path: '/os/:id',
-                element: <OpenSpaceHarvesterHome/>,
-                id: 'os_selected',
-                loader: imageApi.load,
-            }
+                path: 'os/:os_id',
+                loader: osApi.load,
+                action: handleInfoAction,
+                element: <OpenSpaceInfoDrawer/>,
+                children: [
+                    {
+                        path: 'edit',
+                        loader: osApi.load,
+                        action: handleEditAction,
+                        element: <OpenSpaceInfoEditDialog/>
+
+                    }
+                ]
+            },
         ]
     }
 ])

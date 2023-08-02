@@ -1,11 +1,10 @@
-import React, {ChangeEvent, useContext, useEffect, useState} from "react";
+import React, {ChangeEvent, useContext, useState} from "react";
 import {MarkerType} from "../types/marker";
 import {Box, CardMedia, Divider, Grid, Typography} from "@mui/material";
 import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import NightlightIcon from "@mui/icons-material/Nightlight";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import {OpenSpaceInfoEditDialog} from "./osInfoEdit";
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import TagIcon from '@mui/icons-material/Tag';
 import {IconTextGrid} from "./iconTextGrid";
@@ -16,36 +15,15 @@ import OpenSpaceImagesContext, {OpenSpaceImagesContextType} from "./os/openSpace
 import {apiServices as imageApi} from "../helper/imageApi";
 import {OverlayButton} from "./button/overlayButton";
 import {MenuActionButton} from "./button/menuActionButton";
-import {useNavigate, useRouteLoaderData} from "react-router-dom";
-
-type OpenSpaceInfoProps = {
-    marker: MarkerType
-    removeMarker: (marker: MarkerType) => void
-    updateMarker: (marker: MarkerType) => void
-}
+import {Outlet, useLoaderData, useNavigate, useSubmit} from "react-router-dom";
 
 
-export const OpenSpaceInfo = (props: OpenSpaceInfoProps) => {
-    const [infoMarker, setInfoMarker] = useState<MarkerType>(props.marker)
-    const [editOpen, setEditOpen] = useState<boolean>(false)
+export const OpenSpaceInfo = () => {
     const [popoverOpen, setPopoverOpen] = useState<boolean>(false)
     const {headerImage, setHeaderImage} = useContext<OpenSpaceImagesContextType>(OpenSpaceImagesContext)
-    const loadedImages = useRouteLoaderData('os_selected') as OsImageType[]
+    const infoMarker = useLoaderData() as MarkerType
     const navigate = useNavigate()
-
-    useEffect(() => {
-        if (loadedImages !== undefined && loadedImages.length > 0) {
-            console.log(`setting header image: ${JSON.stringify(loadedImages[0])}`)
-            setHeaderImage(loadedImages[0])
-        } else {
-            setHeaderImage(new OsImageNotAvailable())
-        }
-    }, [loadedImages, setHeaderImage])
-
-    function updateMarker(marker: MarkerType) {
-        props.updateMarker(marker)
-        setInfoMarker(marker)
-    }
+    const submit = useSubmit();
 
     function handleImageUpload(e: ChangeEvent<HTMLInputElement>) {
         if (e.target.files !== null && e.target.files.length > 0) {
@@ -56,6 +34,13 @@ export const OpenSpaceInfo = (props: OpenSpaceInfoProps) => {
                 setHeaderImage(result)
             })
         }
+    }
+
+    const deleteMarker = () => {
+        submit({}, {
+            method: 'delete',
+            action: `/os/${infoMarker.identifier}`
+        })
     }
 
     return (
@@ -99,9 +84,9 @@ export const OpenSpaceInfo = (props: OpenSpaceInfoProps) => {
                 </Grid>
                 <Grid item xs={12} container>
                     <Grid item xs={4}/>
-                    <MenuActionButton onClickHandler={() => setEditOpen(true)} icon={<EditIcon/>} name={"Edit"}/>
-                    <MenuActionButton onClickHandler={() => props.removeMarker(props.marker)} icon={<DeleteIcon/>}
-                                      name={"Delete"}/>
+                    <MenuActionButton onClickHandler={() => navigate(`/os/${infoMarker.identifier}/edit`)}
+                                      icon={<EditIcon/>} name={"Edit"}/>
+                    <MenuActionButton onClickHandler={deleteMarker} icon={<DeleteIcon/>} name={"Delete"}/>
                     <Grid item xs={4}/>
                 </Grid>
                 <Grid item xs={12} container>
@@ -119,8 +104,7 @@ export const OpenSpaceInfo = (props: OpenSpaceInfoProps) => {
                 <IconTextGrid name={'identifier'} icon={<TagIcon/>} text={infoMarker.identifier}/>
             </Grid>
 
-            <OpenSpaceInfoEditDialog editOpen={editOpen} closeDialogHandler={() => setEditOpen(false)}
-                                     marker={infoMarker} saveMarker={updateMarker}/>
+            <Outlet/>
         </Box>
     )
 }

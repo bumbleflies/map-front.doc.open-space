@@ -28,5 +28,5 @@ const loadImages = (args: LoaderFunctionArgs) => {
 
 export const apiServices = {
     upload: uploadImage,
-    load: loadImages
+    loadAll: loadImages
 }

@@ -96,15 +96,6 @@ export const OpenSpaceHarvesterHome = (props: OpenSpaceHarvesterHomeType) => {
         })
 
     }
-    const removeMarker = (marker: MarkerType) => {
-        setMarkers((previous: MarkerType[]) => previous.filter(m => m.identifier !== marker.identifier))
-        addStatusMessage({
-            id: marker.identifier,
-            message: `Open Space [${marker.identifier}] removed`,
-            type: "error"
-        })
-
-    }
     const updateMarker = (marker: MarkerType) => {
         apiServices.put(marker).then(updatedMarker => {
             setMarkers((previous: MarkerType[]) => {
@@ -153,8 +144,7 @@ export const OpenSpaceHarvesterHome = (props: OpenSpaceHarvesterHomeType) => {
             </AppBar>
 
             <MapContext.Provider value={{map: map, setMap: setMap}}>
-                <OpenSpaceMap activeMarker={urlMarker} markers={markers}
-                              removeMarker={removeMarker} updateMarker={updateMarker}/>
+                <OpenSpaceMap markers={markers} updateMarker={updateMarker}/>
             </MapContext.Provider>
 
             <Snackbar

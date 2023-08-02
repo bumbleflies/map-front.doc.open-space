@@ -1,5 +1,5 @@
 import {MarkerType, update} from "../types/marker";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Dayjs} from "dayjs";
 import {
     Button,
@@ -14,24 +14,33 @@ import {
 import {DateTimePicker, LocalizationProvider} from "@mui/x-date-pickers";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import 'dayjs/locale/de';
+import {useLoaderData, useNavigate, useSubmit} from "react-router-dom";
+import {markerToOs} from "../helper/apiMapper";
 
-type OpenSpaceInfoEditDialogProps = {
-    editOpen: boolean
-    closeDialogHandler: () => void
-    marker: MarkerType
-    saveMarker(marker: MarkerType): void;
-}
-export const OpenSpaceInfoEditDialog = (props: OpenSpaceInfoEditDialogProps) => {
-    const [title, setTitle] = useState<string>(props.marker.title)
-    const [startDate, setStartDate] = useState<Dayjs>(props.marker.startDate)
-    const [endDate, setEndDate] = useState<Dayjs>(props.marker.endDate)
+
+export const OpenSpaceInfoEditDialog = () => {
+    const [title, setTitle] = useState<string | null>(null)
+    const [startDate, setStartDate] = useState<Dayjs | null>(null)
+    const [endDate, setEndDate] = useState<Dayjs | null>(null)
+    const infoEditMarker = useLoaderData() as MarkerType
+    const navigate = useNavigate()
+    const editSubmit = useSubmit();
+
+    useEffect(() => {
+        if (infoEditMarker) {
+            console.log(`setting edit marker to ${JSON.stringify(infoEditMarker)}`)
+            setTitle(infoEditMarker.title)
+            setStartDate(infoEditMarker.startDate)
+            setEndDate(infoEditMarker.endDate)
+        }
+    }, [infoEditMarker, setTitle, setStartDate, setEndDate])
 
     const acceptStartDate = (newStartDate: Dayjs | null) => {
         if (newStartDate != null) {
             if (newStartDate.isAfter(endDate)) {
-                let dateDifference = endDate.diff(startDate)
+                let dateDifference = endDate?.diff(startDate)
                 setStartDate(newStartDate)
-                setEndDate(newStartDate.add(dateDifference))
+                setEndDate(newStartDate.add(dateDifference!))
             } else {
                 setStartDate(newStartDate)
             }
@@ -41,9 +50,9 @@ export const OpenSpaceInfoEditDialog = (props: OpenSpaceInfoEditDialogProps) => 
     function acceptEndDate(newEndDate: Dayjs | null) {
         if (newEndDate !== null) {
             if (newEndDate.isBefore(startDate)) {
-                let dateDifference = endDate.diff(startDate)
+                let dateDifference = endDate?.diff(startDate)
                 setEndDate(newEndDate)
-                setStartDate(newEndDate.subtract(dateDifference))
+                setStartDate(newEndDate.subtract(dateDifference!))
             } else {
                 setEndDate(newEndDate)
             }
@@ -51,19 +60,24 @@ export const OpenSpaceInfoEditDialog = (props: OpenSpaceInfoEditDialogProps) => 
     }
 
     const cancelEdit = () => {
-        setTitle(props.marker.title)
-        setStartDate(props.marker.startDate)
-        setEndDate(props.marker.endDate)
-        props.closeDialogHandler()
+        navigate(`/os/${infoEditMarker.identifier}`)
     }
 
     const saveEdit = () => {
-        props.saveMarker(update(props.marker).with({title: title, startDate: startDate, endDate: endDate}))
-        props.closeDialogHandler()
+        const newMarkerApiType = markerToOs(update(infoEditMarker).with({
+            title: title!,
+            startDate: startDate!,
+            endDate: endDate!
+        }))
+
+        editSubmit(newMarkerApiType, {
+            method: 'put',
+            encType: "application/json"
+        })
     }
 
     return (
-        <Dialog open={props.editOpen} onClose={props.closeDialogHandler}>
+        <Dialog open={Boolean(title)}>
             <DialogTitle>Edit Open Space Info</DialogTitle>
             <DialogContent>
                 <Grid container spacing={2}>
