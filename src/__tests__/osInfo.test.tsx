@@ -7,15 +7,7 @@ import {LatLng} from "leaflet";
 // https://github.com/testing-library/react-testing-library/issues/379
 import '@testing-library/jest-dom/extend-expect'
 
-jest.mock('react-router-dom', () => ({
-    useRouteLoaderData: (id: any) => [],
-    useNavigate: () => ({}),
-    useParams: () => ({
-        id: null
-    })
-}));
-
-const testOpenSpaceMarker: MarkerType = {
+const mockOpenSpaceMarker: MarkerType = {
     identifier: 'test-123',
     title: 'Test title',
     startDate: localDayjs(),
@@ -23,16 +15,37 @@ const testOpenSpaceMarker: MarkerType = {
     position: new LatLng(1, 2)
 }
 
+const mockDeleteHandler = jest.fn()
+
+jest.mock('react-router-dom', () => ({
+    useLoaderData: () => {
+        return {
+            identifier: 'test-123',
+            title: 'Test title',
+            startDate: {format: () => 12},
+            endDate: {format: () => 13},
+            position: [1, 2]
+        }
+    },
+    useNavigate: () => ({}),
+    useParams: () => ({
+        id: null
+    }),
+    useSubmit: () => () => {
+        mockDeleteHandler()
+    },
+    Outlet: () => null
+}));
+
+
 describe('Open Space Info Page', () => {
-    const removeMarkerMock = jest.fn()
     beforeEach(() => {
-        render(<OpenSpaceInfo marker={testOpenSpaceMarker} removeMarker={removeMarkerMock} updateMarker={() => {
-        }}/>);
+        render(<OpenSpaceInfo/>);
     })
     it('displays the Open Space Title', () => {
         const titleElement = screen.getByTestId('os-title');
         expect(titleElement).toBeInTheDocument();
-        expect(titleElement.textContent).toBe(testOpenSpaceMarker.title)
+        expect(titleElement.textContent).toBe(mockOpenSpaceMarker.title)
     })
     it('displays the Open Space Dates', () => {
         expect(screen.getByTestId('grid-start date-text')).toBeInTheDocument();
@@ -47,6 +60,6 @@ describe('Open Space Info Page', () => {
 
     it('calls the removeMarker when delete is clicked', () => {
         screen.getByTestId('os-delete-button').click();
-        expect(removeMarkerMock).toHaveBeenCalled()
+        expect(mockDeleteHandler).toHaveBeenCalled()
     })
 })
