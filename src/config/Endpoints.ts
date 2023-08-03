@@ -1,5 +1,4 @@
 // https://a-carreras-c.medium.com/development-and-production-variables-for-react-apps-c04af8b430a5
-export {}
 type ConfigType = {
     [hostname: string]: {
         url: URL

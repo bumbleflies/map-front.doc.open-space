@@ -4,7 +4,7 @@ import {OpenSpaceHarvesterHome} from "./components/osHome";
 import {createBrowserRouter, RouterProvider} from 'react-router-dom';
 
 import {apiServices as osApi} from "./helper/markerApi";
-import OpenSpaceInfoDrawer from "./components/OpenSpaceInfoDrawer";
+import OpenSpaceInfoDrawer from "./components/osInfoDrawer";
 import {handleEditAction, handleInfoAction} from "./action/osInfo";
 import {OpenSpaceInfoEditDialog} from './components/osInfoEdit';
 

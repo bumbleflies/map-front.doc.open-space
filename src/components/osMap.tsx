@@ -41,8 +41,8 @@ export const OpenSpaceMap = (props: OpenSpaceMapProps) => {
                             {marker.identifier}
                         </Tooltip>
                     </Marker>
-                )}
+            )}
             <Outlet/>
-            </MapContainer>
+        </MapContainer>
     )
 }

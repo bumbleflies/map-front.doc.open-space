@@ -43,7 +43,6 @@ export const OpenSpaceHarvesterHome = (props: OpenSpaceHarvesterHomeType) => {
 
     const [map, setMap] = useState<Map | null>(props.map ? props.map : null)
     const [markers, setMarkers] = useState<MarkerType[]>([])
-    const [urlMarker, setUrlMarker] = useState<MarkerType>()
 
     const [statusMessages, setStatusMessages] = useState<StatusMessage[]>([])
     const [currentStatusMessage, setCurrentStatusMessage] = useState<StatusMessage | null>(null)
@@ -51,11 +50,10 @@ export const OpenSpaceHarvesterHome = (props: OpenSpaceHarvesterHomeType) => {
 
     useEffect(() => {
         let foundMarker = markers.find(m => m.identifier === id);
-        setUrlMarker(foundMarker)
         if (foundMarker !== undefined) {
             map?.setView(foundMarker.position!, 15, {animate: true})
         }
-    }, [id, markers, urlMarker, map])
+    }, [id, markers, map])
 
     useEffect(() => {
         if (loadedMarker.length > 0) {
