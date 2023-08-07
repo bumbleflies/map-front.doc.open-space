@@ -86,7 +86,7 @@ function ImageUpload() {
     useEffect(() => {
         // Make sure to revoke the data uris to avoid memory leaks, will run on unmount
         return () => files.forEach(file => URL.revokeObjectURL(file.preview));
-    }, []);
+    }, [files]);
 
     const thumbs = files.map(file => (
         <div style={thumb} key={file.name}>
@@ -98,6 +98,7 @@ function ImageUpload() {
                     onLoad={() => {
                         URL.revokeObjectURL(file.preview)
                     }}
+                    alt={"preview"}
                 />
             </div>
         </div>
