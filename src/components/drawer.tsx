@@ -45,6 +45,11 @@ export const MobileDrawer = (props: DrawerProps) => {
             }}
             onClose={props.onCloseHandler}
             open={true}
+            PaperProps={{
+                sx: {
+                    height: '90vh',
+                },
+            }}
         >
             {props.children}
         </SwipeableDrawer>

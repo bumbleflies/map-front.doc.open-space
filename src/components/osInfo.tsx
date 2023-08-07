@@ -62,7 +62,6 @@ export const OpenSpaceInfo = () => {
                             :
                             <CardMedia
                                 component="img"
-                                height="300"
                                 image={'/img/no-image-icon.png'}
                                 alt={'no image yet available'}
                             />
