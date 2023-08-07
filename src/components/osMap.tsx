@@ -4,7 +4,7 @@ import React, {useContext} from "react";
 import {MapContainer, Marker, Tooltip} from "react-leaflet";
 import ReactLeafletGoogleLayer from "react-leaflet-google-layer";
 import {Outlet, useNavigate} from "react-router-dom";
-import MapContext, {MapContextType} from "./os/mapContext";
+import MapContext, {MapContextType} from "./context/mapContext";
 
 const munich = {
     lat: 48.135125,
@@ -16,6 +16,7 @@ type OpenSpaceMapProps = {
 }
 
 export const OpenSpaceMap = (props: OpenSpaceMapProps) => {
+    console.log('OpenSpaceMap')
     const {setMap} = useContext<MapContextType>(MapContext)
     const navigate = useNavigate();
 

@@ -10,7 +10,7 @@ import TagIcon from '@mui/icons-material/Tag';
 import {IconTextGrid} from "./iconTextGrid";
 import {Endpoints} from "../config/Endpoints";
 import {OsImageNotAvailable, OsImageType} from "../types/api";
-import OpenSpaceImagesContext, {OpenSpaceImagesContextType} from "./os/openSpaceContext";
+import OpenSpaceImagesContext, {OpenSpaceImagesContextType} from "./context/openSpaceContext";
 
 import {apiServices as imageApi} from "../helper/imageApi";
 import {OverlayButton} from "./button/overlayButton";
@@ -19,6 +19,7 @@ import {Outlet, useLoaderData, useNavigate, useSubmit} from "react-router-dom";
 
 
 export const OpenSpaceInfo = () => {
+    console.log('OpenSpaceInfo')
     const [popoverOpen, setPopoverOpen] = useState<boolean>(false)
     const {headerImage, setHeaderImage} = useContext<OpenSpaceImagesContextType>(OpenSpaceImagesContext)
     const infoMarker = useLoaderData() as MarkerType
@@ -49,7 +50,7 @@ export const OpenSpaceInfo = () => {
                 {/* Image */}
                 <Grid item xs={12} textAlign={"center"}>
                     <div onMouseLeave={() => setPopoverOpen(false)}
-                         onClick={() => navigate(`os/${infoMarker.identifier}/i/${(headerImage as OsImageType).imageIdentifier}`)}
+                         onClick={() => navigate(`i/`)}
                          onMouseEnter={() => setPopoverOpen(true)}>
                         {headerImage.isAvailable ?
                             <CardMedia
@@ -84,7 +85,7 @@ export const OpenSpaceInfo = () => {
                 </Grid>
                 <Grid item xs={12} container>
                     <Grid item xs={4}/>
-                    <MenuActionButton onClickHandler={() => navigate(`/os/${infoMarker.identifier}/edit`)}
+                    <MenuActionButton onClickHandler={() => navigate(`edit`)}
                                       icon={<EditIcon/>} name={"Edit"}/>
                     <MenuActionButton onClickHandler={deleteMarker} icon={<DeleteIcon/>} name={"Delete"}/>
                     <Grid item xs={4}/>

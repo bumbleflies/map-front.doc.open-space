@@ -21,7 +21,7 @@ import MyLocationIcon from "@mui/icons-material/MyLocation";
 import {useLoaderData, useNavigate, useParams} from "react-router-dom";
 import {localDayjs} from "../helper/dayjsTimezone";
 import {StyledFab} from "./button/styledFab";
-import MapContext from "./os/mapContext";
+import MapContext from "./context/mapContext";
 import {apiServices} from "../helper/markerApi";
 
 type StatusMessage = {
@@ -38,6 +38,7 @@ type OpenSpaceHarvesterHomeType = {
     map?: Map
 }
 export const OpenSpaceHarvesterHome = (props: OpenSpaceHarvesterHomeType) => {
+    console.log('OpenSpaceHarvesterHome')
     const {id} = useParams<"id">();
     const loadedMarker = useLoaderData() as MarkerType[]
 

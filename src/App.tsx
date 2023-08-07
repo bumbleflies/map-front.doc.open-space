@@ -7,6 +7,8 @@ import {apiServices as osApi} from "./helper/markerApi";
 import OpenSpaceInfoDrawer from "./components/osInfoDrawer";
 import {handleEditAction, handleInfoAction} from "./action/osInfo";
 import {OpenSpaceInfoEditDialog} from './components/osInfoEdit';
+import OpenSpaceImageDrawer from "./components/osImageDrawer";
+import {OpenSpaceImageAddDialog} from "./components/osImageAddDialog";
 
 const router = createBrowserRouter([
     {
@@ -26,6 +28,16 @@ const router = createBrowserRouter([
                         action: handleEditAction,
                         element: <OpenSpaceInfoEditDialog/>
 
+                    },
+                ]
+            },
+            {
+                path: 'os/:os_id/i/',
+                element: <OpenSpaceImageDrawer/>,
+                children: [
+                    {
+                        path: 'add',
+                        element: <OpenSpaceImageAddDialog/>
                     }
                 ]
             },

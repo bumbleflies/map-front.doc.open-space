@@ -1,43 +1,22 @@
-import {Drawer, SwipeableDrawer, Toolbar} from "@mui/material";
+import {Toolbar} from "@mui/material";
 import React from "react";
 import {useNavigate} from "react-router-dom";
 import {OpenSpaceInfo} from "./osInfo";
+import {DesktopDrawer, MobileDrawer} from "./drawer";
 
 const OpenSpaceInfoDrawer = () => {
     const navigate = useNavigate()
+    console.log('OpenSpaceInfoDrawer')
     return (
         <>
             {/* Drawer on big screens https://mui.com/system/display/ */}
-            <Drawer
-                anchor={"left"} open={true}
-                onClose={() => navigate("/")}
-                sx={{
-                    flexShrink: 0,
-                    [`& .MuiDrawer-paper`]: {width: '400px', boxSizing: 'border-box'},
-                    display: {xs: 'none', sm: 'block'}
-                }}
-                PaperProps={{
-                    sx: {
-                        height: '90vh',
-                        top: 0,
-                    },
-                }}
-            >
+            <DesktopDrawer onCloseHandler={() => navigate("/")}>
                 <Toolbar/>
                 <OpenSpaceInfo/>
-            </Drawer>
-            <SwipeableDrawer
-                sx={{
-                    display: {xs: 'block', sm: 'none'}
-                }}
-                anchor={'bottom'}
-                onOpen={() => {
-                }}
-                onClose={() => navigate('/')}
-                open={true}
-            >
+            </DesktopDrawer>
+            <MobileDrawer onCloseHandler={() => navigate('/')}>
                 <OpenSpaceInfo/>
-            </SwipeableDrawer>
+            </MobileDrawer>
         </>
     )
 }
