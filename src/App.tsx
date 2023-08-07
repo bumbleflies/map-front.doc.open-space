@@ -4,11 +4,13 @@ import {OpenSpaceHarvesterHome} from "./components/osHome";
 import {createBrowserRouter, RouterProvider} from 'react-router-dom';
 
 import {apiServices as osApi} from "./helper/markerApi";
+import {apiServices as imageApi} from "./helper/imageApi";
 import OpenSpaceInfoDrawer from "./components/osInfoDrawer";
-import {handleEditAction, handleInfoAction} from "./action/osInfo";
+import {handleDeleteAction, handleEditAction} from "./action/osInfo";
 import {OpenSpaceInfoEditDialog} from './components/osInfoEdit';
 import OpenSpaceImageDrawer from "./components/osImageDrawer";
 import {OpenSpaceImageAddDialog} from "./components/osImageAddDialog";
+import {handleImageUploadAction} from "./action/osImage";
 
 const router = createBrowserRouter([
     {
@@ -19,7 +21,7 @@ const router = createBrowserRouter([
             {
                 path: 'os/:os_id',
                 loader: osApi.load,
-                action: handleInfoAction,
+                action: handleDeleteAction,
                 element: <OpenSpaceInfoDrawer/>,
                 children: [
                     {
@@ -34,9 +36,11 @@ const router = createBrowserRouter([
             {
                 path: 'os/:os_id/i/',
                 element: <OpenSpaceImageDrawer/>,
+                loader: imageApi.loadAll,
                 children: [
                     {
                         path: 'add',
+                        action: handleImageUploadAction,
                         element: <OpenSpaceImageAddDialog/>
                     }
                 ]

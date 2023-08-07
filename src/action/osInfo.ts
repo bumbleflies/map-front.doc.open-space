@@ -1,7 +1,7 @@
 import {ActionFunctionArgs, redirect} from "react-router-dom";
 import {apiServices} from "../helper/markerApi";
 
-export const handleInfoAction = async (args: ActionFunctionArgs) => {
+export const handleDeleteAction = async (args: ActionFunctionArgs) => {
     const osId = args.params.os_id!;
     return apiServices.delete(osId).then(() => {
         return redirect('/')

@@ -18,7 +18,7 @@ import {Image} from "mui-image";
 import {OpenSpaceMap} from "./osMap";
 import AddIcon from "@mui/icons-material/Add";
 import MyLocationIcon from "@mui/icons-material/MyLocation";
-import {useLoaderData, useNavigate, useParams} from "react-router-dom";
+import {useLoaderData, useNavigate} from "react-router-dom";
 import {localDayjs} from "../helper/dayjsTimezone";
 import {StyledFab} from "./button/styledFab";
 import MapContext from "./context/mapContext";
@@ -39,7 +39,6 @@ type OpenSpaceHarvesterHomeType = {
 }
 export const OpenSpaceHarvesterHome = (props: OpenSpaceHarvesterHomeType) => {
     console.log('OpenSpaceHarvesterHome')
-    const {id} = useParams<"id">();
     const loadedMarker = useLoaderData() as MarkerType[]
 
     const [map, setMap] = useState<Map | null>(props.map ? props.map : null)
@@ -48,13 +47,6 @@ export const OpenSpaceHarvesterHome = (props: OpenSpaceHarvesterHomeType) => {
     const [statusMessages, setStatusMessages] = useState<StatusMessage[]>([])
     const [currentStatusMessage, setCurrentStatusMessage] = useState<StatusMessage | null>(null)
     const navigate = useNavigate();
-
-    useEffect(() => {
-        let foundMarker = markers.find(m => m.identifier === id);
-        if (foundMarker !== undefined) {
-            map?.setView(foundMarker.position!, 15, {animate: true})
-        }
-    }, [id, markers, map])
 
     useEffect(() => {
         if (loadedMarker.length > 0) {

@@ -24,7 +24,7 @@ export const OpenSpaceInfo = () => {
     const {headerImage, setHeaderImage} = useContext<OpenSpaceImagesContextType>(OpenSpaceImagesContext)
     const infoMarker = useLoaderData() as MarkerType
     const navigate = useNavigate()
-    const submit = useSubmit();
+    const deleteSubmit = useSubmit();
 
     function handleImageUpload(e: ChangeEvent<HTMLInputElement>) {
         if (e.target.files !== null && e.target.files.length > 0) {
@@ -38,7 +38,7 @@ export const OpenSpaceInfo = () => {
     }
 
     const deleteMarker = () => {
-        submit({}, {
+        deleteSubmit({}, {
             method: 'delete',
             action: `/os/${infoMarker.identifier}`
         })

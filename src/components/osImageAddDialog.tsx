@@ -1,8 +1,9 @@
 import {Box, Button, Dialog, DialogActions, DialogContent, DialogTitle} from "@mui/material";
 import React, {useEffect, useState} from "react";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams, useSubmit} from "react-router-dom";
 import {DropzoneRootProps, useDropzone} from 'react-dropzone'
 import styled from 'styled-components';
+import {apiServices as imageApi} from "../helper/imageApi";
 
 
 const thumbsContainer = {
@@ -64,31 +65,27 @@ const Container = styled.div`
   transition: border .24s ease-in-out;
 `;
 
-function ImageUpload() {
+type ImageUploadProps = {
+    files: FilePreview[],
+    onSelectHandler: (acceptedFiles: File[]) => void
+}
+const ImageUpload = (props: ImageUploadProps) => {
     const {
         getRootProps,
         getInputProps,
-        isFocused,
-        isDragAccept,
-        isDragReject
     } = useDropzone({
             accept: {'image/*': []},
-            onDrop: acceptedFiles => {
-                setFiles(acceptedFiles.map(file => Object.assign(file, {
-                    preview: URL.createObjectURL(file)
-                })));
-            }
+            onDrop: props.onSelectHandler,
         }
     );
 
-    const [files, setFiles] = useState<FilePreview[]>([]);
 
     useEffect(() => {
         // Make sure to revoke the data uris to avoid memory leaks, will run on unmount
-        return () => files.forEach(file => URL.revokeObjectURL(file.preview));
-    }, [files]);
+        return () => props.files.forEach(file => URL.revokeObjectURL(file.preview));
+    }, [props.files]);
 
-    const thumbs = files.map(file => (
+    const thumbs = props.files.map(file => (
         <div style={thumb} key={file.name}>
             <div style={thumbInner}>
                 <img
@@ -105,7 +102,7 @@ function ImageUpload() {
     ));
     return (
         <Box>
-            <Container {...getRootProps({isFocused, isDragAccept, isDragReject})}>
+            <Container {...getRootProps()}>
                 <input {...getInputProps()} />
                 <p>Drag 'n' drop some files here, or click to select files</p>
             </Container>
@@ -117,17 +114,45 @@ function ImageUpload() {
 }
 
 export const OpenSpaceImageAddDialog = () => {
-    console.log("OpenSpaceImageAddDialog")
+    const {os_id} = useParams<"os_id">();
     const navigate = useNavigate()
+    const [files, setFiles] = useState<FilePreview[]>([]);
+    const uploadSubmit = useSubmit()
+
+    const onFilesDropped = (acceptedFiles: File[]) => {
+        setFiles(acceptedFiles.map(file => Object.assign(file, {
+            preview: URL.createObjectURL(file)
+        })));
+    }
+
+    const saveSelectedFiles = async () => {
+
+        files.forEach((file) => {
+            imageApi.upload({
+                osIdentifier: os_id!,
+                imageFile: file
+            }).then(() => {
+                console.log(`Upload ${file.name} to ${os_id}`)
+                navigate(`/os/${os_id}/i`)
+            })
+        })
+
+
+        const formData = new FormData()
+        files.map((file, index) => formData.append(`file_${index}`, file.slice(), file.name))
+        uploadSubmit(formData, {method: 'POST'})
+
+    }
+
     return (
         <Dialog open={true}>
             <DialogTitle>Add Session Picture</DialogTitle>
             <DialogContent>
-                <ImageUpload/>
+                <ImageUpload files={files} onSelectHandler={onFilesDropped}/>
             </DialogContent>
             <DialogActions>
                 <Button data-testid='os-edit-cancel' onClick={() => navigate('')}>Cancel</Button>
-                <Button data-testid='os-edit-save' onClick={() => navigate('')}>Upload</Button>
+                <Button data-testid='os-edit-save' onClick={saveSelectedFiles}>Upload</Button>
             </DialogActions>
 
         </Dialog>

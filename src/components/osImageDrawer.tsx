@@ -8,7 +8,7 @@ const OpenSpaceImageDrawer = () => {
     console.log("OpenSpaceImages")
     return (
         <>
-            <DesktopDrawer onCloseHandler={() => navigate('')}>
+            <DesktopDrawer onCloseHandler={() => navigate(`/`)}>
                 <Toolbar/>
                 <OpenSpaceImages/>
             </DesktopDrawer>

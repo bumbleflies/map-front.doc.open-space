@@ -17,11 +17,11 @@ const uploadImage = (image: OsImageUpload) => {
 }
 
 const loadImages = (args: LoaderFunctionArgs) => {
-    return axios.get(Endpoints.openSpaceImages(args.params.id!)).then(response => {
-        console.log(`loaded images for os ${args.params.id}: ${JSON.stringify(response.data)}`)
+    return axios.get(Endpoints.openSpaceImages(args.params.os_id!)).then(response => {
+        console.log(`loaded images for os ${args.params.os_id}: ${JSON.stringify(response.data)}`)
         return (response.data as OsApiImageType[]).map(image => uploadResponseToImageType(image))
     }).catch(error => {
-        console.log(`error fetching images for os ${args.params.id}: ${error}`)
+        console.log(`error fetching images for os ${args.params.os_id}: ${error}`)
         return []
     })
 }
