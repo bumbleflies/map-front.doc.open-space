@@ -1,5 +1,6 @@
 import {LatLng} from "leaflet";
 import {Dayjs} from "dayjs";
+import {OsImageNotAvailable, OsImageType} from "./image";
 
 export type TransientMarker = {
     position: LatLng,
@@ -20,6 +21,8 @@ export type OptionalMarkerProps = {
     endDate?: Dayjs
     identifier?: string,
 }
+
+export type MarkerWithImage = MarkerType & (OsImageType | OsImageNotAvailable)
 
 
 export function update(marker: MarkerType) {

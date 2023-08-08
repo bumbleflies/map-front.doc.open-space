@@ -1,5 +1,6 @@
 import React, {createContext} from 'react';
-import {OsImageNotAvailable, OsImageType} from "../../types/api";
+
+import {OsImageNotAvailable, OsImageType} from "../../types/image";
 
 export type  OpenSpaceImagesContextType = {
     headerImage: OsImageNotAvailable | OsImageType,

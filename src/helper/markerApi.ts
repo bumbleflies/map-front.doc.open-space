@@ -1,10 +1,11 @@
-import {MarkerType, TransientMarker} from "../types/marker";
+import {MarkerType, MarkerWithImage, TransientMarker} from "../types/marker";
 import axios from "axios";
 import {Endpoints} from "../config/Endpoints";
 import {v4 as uuidv4} from "uuid";
 import {markerToOs, osLoaderToMarker, transientMarkerToOs} from "./apiMapper";
 import {LoaderFunctionArgs} from "react-router-dom";
 import {OSApiType} from "../types/api";
+import {apiImageServices} from "./imageApi";
 
 const saveMarker = (marker: TransientMarker) => {
     return axios.post(Endpoints.openSpaces, transientMarkerToOs(marker)).then(response => {
@@ -34,12 +35,19 @@ const loadAllMarker = () => {
     })
 }
 
-const loadMarker = (args: LoaderFunctionArgs) => {
+const loadMarker = (args: LoaderFunctionArgs): Promise<null | MarkerWithImage> => {
     return axios.get(Endpoints.openSpace(args.params.os_id!)).then(response => {
         console.log(`loaded open space: ${JSON.stringify(response.data)}`)
         return osLoaderToMarker(response.data)
+    }).then(marker => {
+        return apiImageServices.getHeaderImage(args.params.os_id!).then(headerImage => {
+            return {
+                ...marker,
+                ...headerImage
+            }
+        })
     }).catch(error => {
-        console.log(`Failed to load Open Space ${args.params.id}: ${error}`)
+        console.log(`Failed to load Open Space ${args.params.os_id}: ${error}`)
         return null
     })
 }

@@ -1,8 +1,9 @@
-import {OsApiImageType, OsImageNotAvailable, OsImageType, OsImageUpload} from "../types/api";
+import {OsApiImageType} from "../types/api";
 import axios from "axios";
 import {Endpoints} from "../config/Endpoints";
 import {uploadResponseToImageType} from "./apiMapper";
 import {LoaderFunctionArgs} from "react-router-dom";
+import {OsImageNotAvailable, OsImageUpload, OsTransientImageType} from "../types/image";
 
 const uploadImage = (image: OsImageUpload) => {
     const uploadData = new FormData()
@@ -26,14 +27,31 @@ const loadImages = (args: LoaderFunctionArgs) => {
     })
 }
 
-const deleteImage = (image: OsImageType) => {
+const deleteImage = (image: OsTransientImageType) => {
     return axios.delete(Endpoints.openSpaceImage(image.osIdentifier, image.imageIdentifier)).catch((error) => {
         console.log(`error deleting image: ${image}: ${error}`)
     })
 }
 
-export const apiServices = {
+export const apiImageServices = {
     upload: uploadImage,
     loadAll: loadImages,
-    delete: deleteImage
+    delete: deleteImage,
+
+    makeHeader: (image: OsTransientImageType) => {
+        return axios.patch(Endpoints.openSpaceImage(image.osIdentifier, image.imageIdentifier), {is_header: true}).then((response) => {
+            console.log(`made: ${image} to header image`)
+            return uploadResponseToImageType(response.data)
+        })
+    },
+    getHeaderImage: (osId: string) => {
+        return axios.get(Endpoints.headerImage(osId)).then((response) => {
+            console.log(`getting header image for ${osId}: ${JSON.stringify(response)}`)
+            if (response.data.length === 1) {
+                return uploadResponseToImageType(response.data[0])
+            } else {
+                return new OsImageNotAvailable()
+            }
+        })
+    }
 }

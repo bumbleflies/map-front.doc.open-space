@@ -14,12 +14,12 @@ import {
 import React, {useState} from "react";
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import {Outlet, useLoaderData, useNavigate, useParams, useSubmit} from "react-router-dom";
-import {OsImageType} from "../types/api";
 import {Endpoints} from "../config/Endpoints";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import DeleteIcon from "@mui/icons-material/Delete";
 import CollectionsIcon from '@mui/icons-material/Collections';
+import {OsImageType} from "../types/image";
 
 export const OpenSpaceImages = () => {
     const navigate = useNavigate()
@@ -45,6 +45,14 @@ export const OpenSpaceImages = () => {
         actionSubmit({}, {
             method: 'delete',
             action: `/os/${os_id}/i/${selectedImage}`
+        })
+    }
+
+    const makeImageHeader = () => {
+        closeMenu()
+        actionSubmit({is_header: true}, {
+            method: 'patch',
+            action: `/os/${os_id}/i/${selectedImage}/make_header`
         })
     }
 
@@ -106,7 +114,7 @@ export const OpenSpaceImages = () => {
                     horizontal: 'center',
                 }}
             >
-                <MenuItem onClick={closeMenu}>
+                <MenuItem onClick={makeImageHeader}>
                     <ListItemIcon>
                         <CollectionsIcon/>
                     </ListItemIcon>

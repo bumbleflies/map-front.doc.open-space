@@ -1,5 +1,5 @@
 import {ActionFunctionArgs, redirect} from "react-router-dom";
-import {apiServices} from "../helper/imageApi";
+import {apiImageServices} from "../helper/imageApi";
 
 export const handleImageUploadAction = async (args: ActionFunctionArgs) => {
     // use the action just to trigger the loader reload...actual upload is done on the caller side
@@ -8,11 +8,15 @@ export const handleImageUploadAction = async (args: ActionFunctionArgs) => {
 }
 
 export const handleImageDeleteAction = (args: ActionFunctionArgs) => {
-    const osId = args.params.os_id!;
-    const imageId = args.params.image_id!;
-    return apiServices.delete({
-        osIdentifier: osId,
-        imageIdentifier: imageId,
-        isAvailable: true
-    }).then(() => redirect(`/os/${osId}/i`))
+    return apiImageServices.delete({
+        osIdentifier: args.params.os_id!,
+        imageIdentifier: args.params.image_id!,
+    }).then(() => redirect(`/os/${args.params.os_id!}/i`))
+}
+
+export const handleImageHeaderAction = (args: ActionFunctionArgs) => {
+    return apiImageServices.makeHeader({
+        osIdentifier: args.params.os_id!,
+        imageIdentifier: args.params.image_id!,
+    }).then(() => redirect(`/os/${args.params.os_id!}/i`))
 }

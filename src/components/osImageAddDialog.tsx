@@ -3,7 +3,7 @@ import React, {useEffect, useState} from "react";
 import {useNavigate, useParams, useSubmit} from "react-router-dom";
 import {DropzoneRootProps, useDropzone} from 'react-dropzone'
 import styled from 'styled-components';
-import {apiServices as imageApi} from "../helper/imageApi";
+import {apiImageServices as imageApi} from "../helper/imageApi";
 
 
 const thumbsContainer = {

@@ -1,5 +1,5 @@
-import React, {ChangeEvent, useContext, useState} from "react";
-import {MarkerType} from "../types/marker";
+import React from "react";
+import {MarkerWithImage} from "../types/marker";
 import {Box, CardMedia, Divider, Grid, Typography} from "@mui/material";
 import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import NightlightIcon from "@mui/icons-material/Nightlight";
@@ -9,33 +9,16 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import TagIcon from '@mui/icons-material/Tag';
 import {IconTextGrid} from "./iconTextGrid";
 import {Endpoints} from "../config/Endpoints";
-import {OsImageNotAvailable, OsImageType} from "../types/api";
-import OpenSpaceImagesContext, {OpenSpaceImagesContextType} from "./context/openSpaceContext";
-
-import {apiServices as imageApi} from "../helper/imageApi";
-import {OverlayButton} from "./button/overlayButton";
 import {MenuActionButton} from "./button/menuActionButton";
 import {Outlet, useLoaderData, useNavigate, useSubmit} from "react-router-dom";
+import {OsImageType} from "../types/image";
 
 
 export const OpenSpaceInfo = () => {
     console.log('OpenSpaceInfo')
-    const [popoverOpen, setPopoverOpen] = useState<boolean>(false)
-    const {headerImage, setHeaderImage} = useContext<OpenSpaceImagesContextType>(OpenSpaceImagesContext)
-    const infoMarker = useLoaderData() as MarkerType
+    const infoMarker = useLoaderData() as MarkerWithImage
     const navigate = useNavigate()
     const deleteSubmit = useSubmit();
-
-    function handleImageUpload(e: ChangeEvent<HTMLInputElement>) {
-        if (e.target.files !== null && e.target.files.length > 0) {
-            imageApi.upload({
-                osIdentifier: infoMarker.identifier,
-                imageFile: e.target.files[0]
-            }).then((result: OsImageType | OsImageNotAvailable) => {
-                setHeaderImage(result)
-            })
-        }
-    }
 
     const deleteMarker = () => {
         deleteSubmit({}, {
@@ -44,20 +27,19 @@ export const OpenSpaceInfo = () => {
         })
     }
 
+    console.log('info marker: ' + JSON.stringify(infoMarker))
     return (
         <Box sx={{}}>
             <Grid container spacing={0} alignItems={"center"}>
                 {/* Image */}
                 <Grid item xs={12} textAlign={"center"}>
-                    <div onMouseLeave={() => setPopoverOpen(false)}
-                         onClick={() => navigate(`i/`)}
-                         onMouseEnter={() => setPopoverOpen(true)}>
-                        {headerImage.isAvailable ?
+                    <div onClick={() => navigate(`i/`)}>
+                        {infoMarker.isAvailable ?
                             <CardMedia
                                 component="img"
                                 height="300"
-                                image={Endpoints.openSpaceImage(infoMarker.identifier, (headerImage as OsImageType).imageIdentifier)}
-                                alt={`Image ${(headerImage as OsImageType).imageIdentifier} in Open Space ${infoMarker.identifier}`}
+                                image={Endpoints.openSpaceImage(infoMarker.identifier, (infoMarker as OsImageType).imageIdentifier)}
+                                alt={`Image ${(infoMarker as OsImageType).imageIdentifier} in Open Space ${infoMarker.identifier}`}
                             />
                             :
                             <CardMedia
@@ -67,7 +49,6 @@ export const OpenSpaceInfo = () => {
                             />
 
                         }
-                        <OverlayButton display={popoverOpen} onImageUpload={handleImageUpload}/>
                     </div>
                 </Grid>
                 {/* Title */}
