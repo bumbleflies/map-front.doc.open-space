@@ -125,6 +125,10 @@ export const OpenSpaceImageAddDialog = () => {
         })));
     }
 
+    function navigateBack() {
+        navigate(`/os/${os_id}/i`)
+    }
+
     const saveSelectedFiles = async () => {
 
         files.forEach((file) => {
@@ -133,7 +137,6 @@ export const OpenSpaceImageAddDialog = () => {
                 imageFile: file
             }).then(() => {
                 console.log(`Upload ${file.name} to ${os_id}`)
-                navigate(`/os/${os_id}/i`)
             })
         })
 
@@ -151,7 +154,7 @@ export const OpenSpaceImageAddDialog = () => {
                 <ImageUpload files={files} onSelectHandler={onFilesDropped}/>
             </DialogContent>
             <DialogActions>
-                <Button data-testid='os-edit-cancel' onClick={() => navigate('')}>Cancel</Button>
+                <Button data-testid='os-edit-cancel' onClick={navigateBack}>Cancel</Button>
                 <Button data-testid='os-edit-save' onClick={saveSelectedFiles}>Upload</Button>
             </DialogActions>
 

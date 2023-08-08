@@ -10,7 +10,7 @@ import {handleDeleteAction, handleEditAction} from "./action/osInfo";
 import {OpenSpaceInfoEditDialog} from './components/osInfoEdit';
 import OpenSpaceImageDrawer from "./components/osImageDrawer";
 import {OpenSpaceImageAddDialog} from "./components/osImageAddDialog";
-import {handleImageUploadAction} from "./action/osImage";
+import {handleImageDeleteAction, handleImageUploadAction} from "./action/osImage";
 
 const router = createBrowserRouter([
     {
@@ -42,6 +42,10 @@ const router = createBrowserRouter([
                         path: 'add',
                         action: handleImageUploadAction,
                         element: <OpenSpaceImageAddDialog/>
+                    },
+                    {
+                        path: ':image_id',
+                        action: handleImageDeleteAction,
                     }
                 ]
             },

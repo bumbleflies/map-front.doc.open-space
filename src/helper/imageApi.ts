@@ -1,4 +1,4 @@
-import {OsApiImageType, OsImageNotAvailable, OsImageUpload} from "../types/api";
+import {OsApiImageType, OsImageNotAvailable, OsImageType, OsImageUpload} from "../types/api";
 import axios from "axios";
 import {Endpoints} from "../config/Endpoints";
 import {uploadResponseToImageType} from "./apiMapper";
@@ -26,7 +26,14 @@ const loadImages = (args: LoaderFunctionArgs) => {
     })
 }
 
+const deleteImage = (image: OsImageType) => {
+    return axios.delete(Endpoints.openSpaceImage(image.osIdentifier, image.imageIdentifier)).catch((error) => {
+        console.log(`error deleting image: ${image}: ${error}`)
+    })
+}
+
 export const apiServices = {
     upload: uploadImage,
-    loadAll: loadImages
+    loadAll: loadImages,
+    delete: deleteImage
 }
