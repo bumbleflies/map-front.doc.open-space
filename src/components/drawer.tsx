@@ -47,7 +47,7 @@ export const MobileDrawer = (props: DrawerProps) => {
             open={true}
             PaperProps={{
                 sx: {
-                    height: '90vh',
+                    height: '80vh',
                 },
             }}
         >
