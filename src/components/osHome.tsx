@@ -22,7 +22,7 @@ import {useLoaderData, useNavigate} from "react-router-dom";
 import {localDayjs} from "../helper/dayjsTimezone";
 import {StyledFab} from "./button/styledFab";
 import MapContext from "./context/mapContext";
-import {apiServices} from "../helper/markerApi";
+import {apiOsServices} from "../helper/markerApi";
 
 type StatusMessage = {
     id: string
@@ -71,9 +71,9 @@ export const OpenSpaceHarvesterHome = (props: OpenSpaceHarvesterHomeType) => {
             startDate: localDayjs().startOf('hour'),
             endDate: localDayjs().startOf('hour').add(2, 'hours')
         }
-        console.log(apiServices)
-        console.log(apiServices.save)
-        apiServices.save(marker).then(savedMarker => {
+        console.log(apiOsServices)
+        console.log(apiOsServices.save)
+        apiOsServices.save(marker).then(savedMarker => {
             setMarkers((previous: MarkerType[]) => [...previous, savedMarker])
             addStatusMessage({
                 id: savedMarker.identifier,
@@ -88,7 +88,7 @@ export const OpenSpaceHarvesterHome = (props: OpenSpaceHarvesterHomeType) => {
 
     }
     const updateMarker = (marker: MarkerType) => {
-        apiServices.put(marker).then(updatedMarker => {
+        apiOsServices.put(marker).then(updatedMarker => {
             setMarkers((previous: MarkerType[]) => {
                 return [...previous.filter(m => m.identifier !== updatedMarker.identifier), updatedMarker]
             })

@@ -4,7 +4,7 @@ import {OpenSpaceHarvesterHome} from "../components/osHome";
 import {LatLng, Map} from 'leaflet'
 import {localDayjs} from "../helper/dayjsTimezone";
 import {TransientMarker} from "../types/marker";
-import {apiServices} from "../helper/markerApi";
+import {apiOsServices} from "../helper/markerApi";
 
 jest.mock('../components/osMap')
 jest.mock('react-router-dom', () => ({
@@ -16,7 +16,7 @@ jest.mock('react-router-dom', () => ({
 }));
 
 const saveMockResult = {called: false}
-apiServices.save = (marker: TransientMarker) => {
+apiOsServices.save = (marker: TransientMarker) => {
     console.log('save marker mocked')
     saveMockResult.called = true
     return Promise.resolve({
