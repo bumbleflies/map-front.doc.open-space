@@ -23,7 +23,6 @@ export const osLoaderToMarker = (os: OSApiType): MarkerType => {
     }
 }
 export const uploadResponseToImageType = (uploadedImage: OsApiImageType): OsImageType => {
-    console.log(`converting ${JSON.stringify(uploadedImage)} to OsImageType`)
     return {
         imageIdentifier: uploadedImage.identifier,
         osIdentifier: uploadedImage.os_identifier,

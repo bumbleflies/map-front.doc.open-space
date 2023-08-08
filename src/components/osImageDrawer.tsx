@@ -6,7 +6,6 @@ import React from "react";
 
 const OpenSpaceImageDrawer = () => {
     const navigate = useNavigate()
-    console.log("OpenSpaceImages")
     return (
         <>
             <DesktopDrawer onCloseHandler={() => navigate(`/`)}>

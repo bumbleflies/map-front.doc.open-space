@@ -9,7 +9,6 @@ type DrawerProps = {
 export const DesktopDrawer = (props: DrawerProps) => {
     const theme = useTheme()
     const shouldDraw = useMediaQuery(theme.breakpoints.up('sm'))
-    console.log('DesktopDrawer: ' + shouldDraw)
     return shouldDraw ? (
         <Drawer
             anchor={"left"} open={true}
@@ -34,7 +33,6 @@ export const DesktopDrawer = (props: DrawerProps) => {
 export const MobileDrawer = (props: DrawerProps) => {
     const theme = useTheme()
     const shouldDraw = useMediaQuery(theme.breakpoints.down('sm'))
-    console.log('MobileDrawer: ' + shouldDraw)
     return shouldDraw ? (
         <SwipeableDrawer
             sx={{

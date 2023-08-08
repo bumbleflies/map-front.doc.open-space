@@ -6,7 +6,6 @@ import {DesktopDrawer, MobileDrawer} from "./drawer";
 
 const OpenSpaceInfoDrawer = () => {
     const navigate = useNavigate()
-    console.log('OpenSpaceInfoDrawer')
     return (
         <>
             {/* Drawer on big screens https://mui.com/system/display/ */}

@@ -14,3 +14,8 @@ export const handleEditAction = async (args: ActionFunctionArgs) => {
         return redirect(`/os/${result.identifier}`)
     })
 }
+
+export const handleAddAction = async (args: ActionFunctionArgs) => {
+    const formData = await args.request.json();
+    return apiOsServices.save(formData)
+}

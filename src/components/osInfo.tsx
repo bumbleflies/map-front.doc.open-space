@@ -15,7 +15,6 @@ import {OsImageType} from "../types/image";
 
 
 export const OpenSpaceInfo = () => {
-    console.log('OpenSpaceInfo')
     const infoMarker = useLoaderData() as MarkerWithImage
     const navigate = useNavigate()
     const deleteSubmit = useSubmit();
@@ -27,7 +26,6 @@ export const OpenSpaceInfo = () => {
         })
     }
 
-    console.log('info marker: ' + JSON.stringify(infoMarker))
     return (
         <Box sx={{}}>
             <Grid container spacing={0} alignItems={"center"}>

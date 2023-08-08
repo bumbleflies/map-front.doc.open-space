@@ -28,7 +28,6 @@ export const OpenSpaceInfoEditDialog = () => {
 
     useEffect(() => {
         if (infoEditMarker) {
-            console.log(`setting edit marker to ${JSON.stringify(infoEditMarker)}`)
             setTitle(infoEditMarker.title)
             setStartDate(infoEditMarker.startDate)
             setEndDate(infoEditMarker.endDate)

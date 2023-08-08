@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {Map} from "leaflet";
-import {MarkerType, TransientMarker} from "../types/marker";
+import {MarkerType} from "../types/marker";
 import {
     Alert,
     AlertColor,
@@ -18,11 +18,11 @@ import {Image} from "mui-image";
 import {OpenSpaceMap} from "./osMap";
 import AddIcon from "@mui/icons-material/Add";
 import MyLocationIcon from "@mui/icons-material/MyLocation";
-import {useLoaderData, useNavigate} from "react-router-dom";
+import {useFetcher, useNavigate} from "react-router-dom";
 import {localDayjs} from "../helper/dayjsTimezone";
 import {StyledFab} from "./button/styledFab";
 import MapContext from "./context/mapContext";
-import {apiOsServices} from "../helper/markerApi";
+import {transientMarkerToOs} from "../helper/apiMapper";
 
 type StatusMessage = {
     id: string
@@ -38,21 +38,13 @@ type OpenSpaceHarvesterHomeType = {
     map?: Map
 }
 export const OpenSpaceHarvesterHome = (props: OpenSpaceHarvesterHomeType) => {
-    console.log('OpenSpaceHarvesterHome')
-    const loadedMarker = useLoaderData() as MarkerType[]
 
     const [map, setMap] = useState<Map | null>(props.map ? props.map : null)
-    const [markers, setMarkers] = useState<MarkerType[]>([])
-
     const [statusMessages, setStatusMessages] = useState<StatusMessage[]>([])
     const [currentStatusMessage, setCurrentStatusMessage] = useState<StatusMessage | null>(null)
-    const navigate = useNavigate();
 
-    useEffect(() => {
-        if (loadedMarker.length > 0) {
-            setMarkers(loadedMarker)
-        }
-    }, [loadedMarker])
+    const navigate = useNavigate();
+    const fetcher = useFetcher()
 
     useEffect(() => {
         if (statusMessages.length > 0) {
@@ -61,20 +53,11 @@ export const OpenSpaceHarvesterHome = (props: OpenSpaceHarvesterHomeType) => {
         } else {
             setCurrentStatusMessage(null)
         }
-    }, [statusMessages])
+    }, [statusMessages, setCurrentStatusMessage])
 
-    const addMarker = () => {
-        let currentCenter = map!.getCenter()!;
-        let marker: TransientMarker = {
-            position: currentCenter,
-            title: `Open Space @ ${currentCenter.lat}, ${currentCenter.lng}`,
-            startDate: localDayjs().startOf('hour'),
-            endDate: localDayjs().startOf('hour').add(2, 'hours')
-        }
-        console.log(apiOsServices)
-        console.log(apiOsServices.save)
-        apiOsServices.save(marker).then(savedMarker => {
-            setMarkers((previous: MarkerType[]) => [...previous, savedMarker])
+    useEffect(() => {
+        if (Boolean(fetcher.data)) {
+            const savedMarker = fetcher.data as MarkerType
             addStatusMessage({
                 id: savedMarker.identifier,
                 message: `New Open Space [${savedMarker.identifier}] added`,
@@ -84,16 +67,21 @@ export const OpenSpaceHarvesterHome = (props: OpenSpaceHarvesterHomeType) => {
                     text: 'Open'
                 }
             })
-        })
+        }
+    }, [fetcher.data]);
 
-    }
-    const updateMarker = (marker: MarkerType) => {
-        apiOsServices.put(marker).then(updatedMarker => {
-            setMarkers((previous: MarkerType[]) => {
-                return [...previous.filter(m => m.identifier !== updatedMarker.identifier), updatedMarker]
-            })
+    const addMarker = () => {
+        let currentCenter = map!.getCenter()!;
+        fetcher.submit(transientMarkerToOs({
+            position: currentCenter,
+            title: `Open Space @ ${currentCenter.lat}, ${currentCenter.lng}`,
+            startDate: localDayjs().startOf('hour'),
+            endDate: localDayjs().startOf('hour').add(2, 'hours')
+        }), {
+            method: 'post',
+            encType: "application/json",
+            action: 'os/'
         })
-
     }
 
     const addStatusMessage = (message: StatusMessage) => {
@@ -135,7 +123,7 @@ export const OpenSpaceHarvesterHome = (props: OpenSpaceHarvesterHomeType) => {
             </AppBar>
 
             <MapContext.Provider value={{map: map, setMap: setMap}}>
-                <OpenSpaceMap markers={markers} updateMarker={updateMarker}/>
+                <OpenSpaceMap/>
             </MapContext.Provider>
 
             <Snackbar

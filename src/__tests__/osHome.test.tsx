@@ -2,9 +2,8 @@ import {act, fireEvent, render, screen} from "@testing-library/react";
 import React from "react";
 import {OpenSpaceHarvesterHome} from "../components/osHome";
 import {LatLng, Map} from 'leaflet'
-import {localDayjs} from "../helper/dayjsTimezone";
-import {TransientMarker} from "../types/marker";
-import {apiOsServices} from "../helper/markerApi";
+
+const saveMockResult = {called: false}
 
 jest.mock('../components/osMap')
 jest.mock('react-router-dom', () => ({
@@ -12,21 +11,17 @@ jest.mock('react-router-dom', () => ({
     useNavigate: () => ({}),
     useParams: () => ({
         id: null
-    })
+    }),
+    useFetcher: () => {
+        return {
+            data: null,
+            submit: () => {
+                saveMockResult.called = true
+            }
+        }
+    }
 }));
 
-const saveMockResult = {called: false}
-apiOsServices.save = (marker: TransientMarker) => {
-    console.log('save marker mocked')
-    saveMockResult.called = true
-    return Promise.resolve({
-        position: new LatLng(1, 1),
-        endDate: localDayjs(),
-        startDate: localDayjs(),
-        title: '123',
-        identifier: 'test-1234'
-    })
-}
 
 jest.mock('leaflet')
 const map = new Map("");
