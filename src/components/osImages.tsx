@@ -9,17 +9,19 @@ import {
     ListItemText,
     ListSubheader,
     Menu,
-    MenuItem
+    MenuItem,
+    Skeleton
 } from "@mui/material";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
-import {Outlet, useLoaderData, useNavigate, useParams, useSubmit} from "react-router-dom";
+import {Outlet, useFetcher, useLoaderData, useNavigate, useParams, useSubmit} from "react-router-dom";
 import {Endpoints} from "../config/Endpoints";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import DeleteIcon from "@mui/icons-material/Delete";
 import CollectionsIcon from '@mui/icons-material/Collections';
 import {OsImageType} from "../types/image";
+import {OpenSpaceImageAddDialog} from "./osImageAddDialog";
 
 export const OpenSpaceImages = () => {
     const navigate = useNavigate()
@@ -28,7 +30,17 @@ export const OpenSpaceImages = () => {
     const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
     const actionSubmit = useSubmit()
+    const imageUploadFetcher = useFetcher()
 
+    const [editOpen, setEditOpen] = useState<boolean>(false)
+    const [pendingImages, setPendingImages] = useState<string[]>([])
+
+    useEffect(() => {
+        if (Boolean(imageUploadFetcher.data)) {
+            console.log('make skeletons for pending images: ' + JSON.stringify(imageUploadFetcher.data))
+            setPendingImages(imageUploadFetcher.data)
+        }
+    }, [imageUploadFetcher.data, setPendingImages])
 
     const openMenu = (event: React.MouseEvent<HTMLButtonElement>, imageIdentifier: string) => {
         setMenuAnchorEl(event.currentTarget);
@@ -73,9 +85,16 @@ export const OpenSpaceImages = () => {
                     alignItems: "center",
                     verticalAlign: "middle",
                 }}>
-                    <ListItemButton onClick={() => navigate('add')}>
+                    <ListItemButton onClick={() => setEditOpen(true)} sx={{
+                        minHeight: 150
+                    }}>
                         <AddPhotoAlternateIcon fontSize={"large"}/>
                     </ListItemButton>
+                    <OpenSpaceImageAddDialog isOpen={editOpen} closeHandler={() => setEditOpen(false)}
+                                             submit={imageUploadFetcher.submit}/>
+                    <ImageListItemBar {...images.length === 0 ? {title: "no images yet"} : null}
+                                      subtitle={"click to add impressions"}/>
+
                 </ImageListItem>
                 {images.map((item) => (
                     <ImageListItem key={item.imageIdentifier}>
@@ -96,6 +115,14 @@ export const OpenSpaceImages = () => {
                                     <KeyboardArrowUpIcon/>
                                 </IconButton>
                             }
+                        />
+                    </ImageListItem>
+                ))}
+                {pendingImages.map((image) => (
+                    <ImageListItem key={image}>
+                        <Skeleton variant="rectangular" width={210} height={150}/>
+                        <ImageListItemBar
+                            title={image}
                         />
                     </ImageListItem>
                 ))}

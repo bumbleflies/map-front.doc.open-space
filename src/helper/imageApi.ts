@@ -40,8 +40,8 @@ export const apiImageServices = {
     },
     getHeaderImage: (osId: string) => {
         return axios.get(Endpoints.headerImage(osId)).then((response) => {
-            console.log(`getting header image for ${osId}: ${JSON.stringify(response)}`)
             if (response.data.length === 1) {
+                console.log(`getting header image for ${osId}: ${JSON.stringify(response.data[0])}`)
                 return uploadResponseToImageType(response.data[0])
             } else {
                 return new OsImageNotAvailable()

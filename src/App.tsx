@@ -9,7 +9,6 @@ import OpenSpaceInfoDrawer from "./components/osInfoDrawer";
 import {handleAddAction, handleDeleteAction, handleEditAction} from "./action/osInfo";
 import {OpenSpaceInfoEditDialog} from './components/osInfoEdit';
 import OpenSpaceImageDrawer from "./components/osImageDrawer";
-import {OpenSpaceImageAddDialog} from "./components/osImageAddDialog";
 import {handleImageDeleteAction, handleImageHeaderAction, handleImageUploadAction} from "./action/osImage";
 
 const router = createBrowserRouter([
@@ -40,12 +39,8 @@ const router = createBrowserRouter([
                 path: 'os/:os_id/i/',
                 element: <OpenSpaceImageDrawer/>,
                 loader: apiImageServices.loadAll,
+                action: handleImageUploadAction,
                 children: [
-                    {
-                        path: 'add',
-                        action: handleImageUploadAction,
-                        element: <OpenSpaceImageAddDialog/>
-                    },
                     {
                         path: ':image_id',
                         action: handleImageDeleteAction,

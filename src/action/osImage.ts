@@ -2,9 +2,14 @@ import {ActionFunctionArgs, redirect} from "react-router-dom";
 import {apiImageServices} from "../helper/imageApi";
 
 export const handleImageUploadAction = async (args: ActionFunctionArgs) => {
-    // use the action just to trigger the loader reload...actual upload is done on the caller side
-    const osId = args.params.os_id!;
-    return redirect(`/os/${osId}/i`)
+    // return the ids of uploading images until they are finally uploaded
+    return args.request.formData().then((data) => {
+        for (const [key, value] of data.entries()) {
+            console.log(key + '=' + value)
+        }
+        console.log(`handle upload image action for ${JSON.stringify(Array.from(data.values()))}`)
+        return Array.from(data.values())
+    })
 }
 
 export const handleImageDeleteAction = (args: ActionFunctionArgs) => {
