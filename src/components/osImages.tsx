@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import React, {useEffect, useState} from "react";
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
-import {Outlet, useFetcher, useLoaderData, useNavigate, useParams} from "react-router-dom";
+import {useFetcher, useLoaderData, useNavigate, useParams} from "react-router-dom";
 import {Endpoints} from "../config/Endpoints";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
@@ -107,7 +107,6 @@ export const OpenSpaceImages = () => {
                 ))}
             </ImageList>
             <OsImageMenu anchorElement={menuAnchorEl} imageId={selectedImage} closeMenuHandler={closeMenu}/>
-            <Outlet/>
         </>
     )
 }

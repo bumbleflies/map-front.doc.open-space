@@ -10,6 +10,7 @@ import {handleAddAction, handleDeleteAction, handleEditAction} from "./action/os
 import {OpenSpaceInfoEditDialog} from './components/osInfoEdit';
 import OpenSpaceImageDrawer from "./components/osImageDrawer";
 import {handleImageDeleteAction, handleImageHeaderAction, handleImageUploadAction} from "./action/osImage";
+import {OsImageEditDialog} from "./components/osImageEditDialog";
 
 const router = createBrowserRouter([
     {
@@ -48,6 +49,10 @@ const router = createBrowserRouter([
                             {
                                 path: 'make_header',
                                 action: handleImageHeaderAction
+                            },
+                            {
+                                path: 'edit',
+                                element: <OsImageEditDialog/>
                             }
                         ]
                     }
