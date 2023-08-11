@@ -5,23 +5,18 @@ import {
     ImageListItemBar,
     ListItem,
     ListItemButton,
-    ListItemIcon,
-    ListItemText,
     ListSubheader,
-    Menu,
-    MenuItem,
     Skeleton
 } from "@mui/material";
 import React, {useEffect, useState} from "react";
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
-import {Outlet, useFetcher, useLoaderData, useNavigate, useParams, useSubmit} from "react-router-dom";
+import {Outlet, useFetcher, useLoaderData, useNavigate, useParams} from "react-router-dom";
 import {Endpoints} from "../config/Endpoints";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import DeleteIcon from "@mui/icons-material/Delete";
-import CollectionsIcon from '@mui/icons-material/Collections';
 import {OsImageType} from "../types/image";
 import {OpenSpaceImageAddDialog} from "./osImageAddDialog";
+import {OsImageMenu} from "./menu/osImageMenu";
 
 export const OpenSpaceImages = () => {
     const navigate = useNavigate()
@@ -29,7 +24,6 @@ export const OpenSpaceImages = () => {
     const {os_id} = useParams<"os_id">();
     const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
-    const actionSubmit = useSubmit()
     const imageUploadFetcher = useFetcher()
 
     const [editOpen, setEditOpen] = useState<boolean>(false)
@@ -52,21 +46,6 @@ export const OpenSpaceImages = () => {
         setSelectedImage(null)
     }
 
-    const deleteImage = () => {
-        closeMenu()
-        actionSubmit({}, {
-            method: 'delete',
-            action: `/os/${os_id}/i/${selectedImage}`
-        })
-    }
-
-    const makeImageHeader = () => {
-        closeMenu()
-        actionSubmit({is_header: true}, {
-            method: 'patch',
-            action: `/os/${os_id}/i/${selectedImage}/make_header`
-        })
-    }
 
     return (
         <>
@@ -127,37 +106,7 @@ export const OpenSpaceImages = () => {
                     </ImageListItem>
                 ))}
             </ImageList>
-            <Menu
-                id="image-action-meu"
-                anchorEl={menuAnchorEl}
-                open={Boolean(menuAnchorEl)}
-                onClose={closeMenu}
-                anchorOrigin={{
-                    vertical: 'top',
-                    horizontal: 'center',
-                }}
-                transformOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'center',
-                }}
-            >
-                <MenuItem onClick={makeImageHeader}>
-                    <ListItemIcon>
-                        <CollectionsIcon/>
-                    </ListItemIcon>
-                    <ListItemText>
-                        Make Header
-                    </ListItemText>
-                </MenuItem>
-                <MenuItem onClick={deleteImage}>
-                    <ListItemIcon>
-                        <DeleteIcon/>
-                    </ListItemIcon>
-                    <ListItemText>
-                        Delete Image
-                    </ListItemText>
-                </MenuItem>
-            </Menu>
+            <OsImageMenu anchorElement={menuAnchorEl} imageId={selectedImage} closeMenuHandler={closeMenu}/>
             <Outlet/>
         </>
     )
