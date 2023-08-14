@@ -50,22 +50,22 @@ jobs:
           python app.py &
       - name: Cypress run
         uses: cypress-io/github-action@v5
-    deploy:
-      runs-on: ubuntu-latest
-      needs:
-        - e2e_test
-        - build_and_test
-      steps:
-        - name: Checkout repository
-          uses: actions/checkout@v3
-        - name: yarn run build
-          run: yarn run build
-        - name: Push to build branch
-          uses: s0/git-publish-subdir-action@develop
-          env:
-            REPO: self
-            BRANCH: build
-            FOLDER: build
-            # https://github.com/ad-m/github-push-action/issues/96
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # GitHub will automatically add this - you don't need to bother getting a token
-            MESSAGE: "Build: ({sha}) {msg}" # The commit message
+  deploy:
+    runs-on: ubuntu-latest
+    needs:
+      - e2e_test
+      - build_and_test
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: yarn run build
+        run: yarn run build
+      - name: Push to build branch
+        uses: s0/git-publish-subdir-action@develop
+        env:
+          REPO: self
+          BRANCH: build
+          FOLDER: build
+          # https://github.com/ad-m/github-push-action/issues/96
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # GitHub will automatically add this - you don't need to bother getting a token
+          MESSAGE: "Build: ({sha}) {msg}" # The commit message
