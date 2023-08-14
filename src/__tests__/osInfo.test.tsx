@@ -1,6 +1,6 @@
 import React from 'react';
 import {render, screen} from '@testing-library/react';
-import {OpenSpaceInfo} from "../components/osInfo";
+import {OpenSpaceInfo} from "../components/info/osInfo";
 import {MarkerType} from "../types/marker";
 import {localDayjs} from "../helper/dayjsTimezone";
 import {LatLng} from "leaflet";

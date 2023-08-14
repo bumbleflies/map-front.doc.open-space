@@ -1,4 +1,4 @@
-import {MarkerType, update} from "../types/marker";
+import {MarkerType, update} from "../../types/marker";
 import React, {useEffect, useState} from "react";
 import {Dayjs} from "dayjs";
 import {
@@ -15,7 +15,7 @@ import {DateTimePicker, LocalizationProvider} from "@mui/x-date-pickers";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import 'dayjs/locale/de';
 import {useLoaderData, useNavigate, useSubmit} from "react-router-dom";
-import {markerToOs} from "../helper/apiMapper";
+import {markerToOs} from "../../helper/apiMapper";
 
 
 export const OpenSpaceInfoEditDialog = () => {

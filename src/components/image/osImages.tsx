@@ -11,12 +11,12 @@ import {
 import React, {useEffect, useState} from "react";
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import {useFetcher, useLoaderData, useNavigate, useParams} from "react-router-dom";
-import {Endpoints} from "../config/Endpoints";
+import {Endpoints} from "../../config/Endpoints";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import {ImageWithDetailsType} from "../types/image";
+import {ImageWithDetailsType} from "../../types/image";
 import {OpenSpaceImageAddDialog} from "./osImageAddDialog";
-import {OsImageMenu} from "./menu/osImageMenu";
+import {OsImageMenu} from "../menu/osImageMenu";
 
 export const OpenSpaceImages = () => {
     const navigate = useNavigate()

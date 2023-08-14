@@ -1,5 +1,5 @@
 import {Toolbar} from "@mui/material";
-import {DesktopDrawer, MobileDrawer} from "./drawer";
+import {DesktopDrawer, MobileDrawer} from "../drawer";
 import {useNavigate} from "react-router-dom";
 import {OpenSpaceImages} from "./osImages";
 import React from "react";

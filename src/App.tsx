@@ -5,17 +5,17 @@ import {createBrowserRouter, RouterProvider} from 'react-router-dom';
 
 import {OsApiServices} from "./helper/osApi";
 import {ImageApiServices} from "./helper/imageApi";
-import OpenSpaceInfoDrawer from "./components/osInfoDrawer";
+import OpenSpaceInfoDrawer from "./components/info/osInfoDrawer";
 import {handleAddAction, handleDeleteAction, handleEditAction} from "./action/osInfo";
-import {OpenSpaceInfoEditDialog} from './components/osInfoEdit';
-import OpenSpaceImageDrawer from "./components/osImageDrawer";
+import {OpenSpaceInfoEditDialog} from './components/info/osInfoEdit';
+import OpenSpaceImageDrawer from "./components/image/osImageDrawer";
 import {
     handleImageDeleteAction,
     handleImageDetailsEditAction,
     handleImageHeaderAction,
     handleImageUploadAction
 } from "./action/osImage";
-import {OsImageEditDialog} from "./components/osImageEditDialog";
+import {OsImageEditDialog} from "./components/image/osImageEditDialog";
 import {ImageDetailsApiService} from "./helper/imageDetailsApi";
 
 const router = createBrowserRouter([

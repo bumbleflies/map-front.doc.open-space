@@ -1,5 +1,5 @@
 import React from "react";
-import {ListItemIcon, ListItemText, Menu, MenuItem} from "@mui/material"
+import {Divider, ListItemIcon, ListItemText, Menu, MenuItem} from "@mui/material"
 import DeleteIcon from "@mui/icons-material/Delete";
 import CollectionsIcon from '@mui/icons-material/Collections';
 import EditIcon from "@mui/icons-material/Edit";
@@ -60,20 +60,21 @@ export const OsImageMenu = (props: OsImageMenuProps) => {
                         Make Header
                     </ListItemText>
                 </MenuItem>
-                <MenuItem data-testid={"os-image-delete-menu"} onClick={deleteImage}>
-                    <ListItemIcon>
-                        <DeleteIcon/>
-                    </ListItemIcon>
-                    <ListItemText>
-                        Delete Image
-                    </ListItemText>
-                </MenuItem>
                 <MenuItem data-testid={"os-image-edit-menu"} onClick={editImage}>
                     <ListItemIcon>
                         <EditIcon/>
                     </ListItemIcon>
                     <ListItemText>
                         Edit Image
+                    </ListItemText>
+                </MenuItem>
+                <Divider></Divider>
+                <MenuItem data-testid={"os-image-delete-menu"} onClick={deleteImage}>
+                    <ListItemIcon>
+                        <DeleteIcon/>
+                    </ListItemIcon>
+                    <ListItemText>
+                        Delete Image
                     </ListItemText>
                 </MenuItem>
             </Menu>

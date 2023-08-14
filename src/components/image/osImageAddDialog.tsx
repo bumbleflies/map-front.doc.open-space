@@ -2,9 +2,8 @@ import {Box, Button, Dialog, DialogActions, DialogContent, DialogTitle} from "@m
 import React, {useEffect, useState} from "react";
 import {FetcherSubmitFunction, useParams} from "react-router-dom";
 import {useDropzone} from 'react-dropzone'
-import {ImageApiServices as imageApi} from "../helper/imageApi";
+import {ImageApiServices as imageApi} from "../../helper/imageApi";
 import {Container, FilePreview, img, thumb, thumbInner, thumbsContainer} from "./filePreview";
-
 
 type ImageUploadProps = {
     files: FilePreview[],

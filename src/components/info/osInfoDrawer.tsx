@@ -2,7 +2,7 @@ import {Toolbar} from "@mui/material";
 import React from "react";
 import {useNavigate} from "react-router-dom";
 import {OpenSpaceInfo} from "./osInfo";
-import {DesktopDrawer, MobileDrawer} from "./drawer";
+import {DesktopDrawer, MobileDrawer} from "../drawer";
 
 const OpenSpaceInfoDrawer = () => {
     const navigate = useNavigate()

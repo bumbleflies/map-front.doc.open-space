@@ -1,5 +1,5 @@
 import React from "react";
-import {MarkerWithImage} from "../types/marker";
+import {MarkerWithImage} from "../../types/marker";
 import {Box, ButtonBase, CardMedia, Divider, Grid, Typography} from "@mui/material";
 import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import NightlightIcon from "@mui/icons-material/Nightlight";
@@ -8,10 +8,10 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import TagIcon from '@mui/icons-material/Tag';
 import {IconTextGrid} from "./iconTextGrid";
-import {Endpoints} from "../config/Endpoints";
-import {MenuActionButton} from "./button/menuActionButton";
+import {Endpoints} from "../../config/Endpoints";
+import {MenuActionButton} from "../button/menuActionButton";
 import {Outlet, useLoaderData, useNavigate, useSubmit} from "react-router-dom";
-import {ImageType} from "../types/image";
+import {ImageType} from "../../types/image";
 
 
 export const OpenSpaceInfo = () => {
