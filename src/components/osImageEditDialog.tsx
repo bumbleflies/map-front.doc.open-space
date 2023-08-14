@@ -1,17 +1,31 @@
 import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField} from "@mui/material";
-import React from "react";
+import React, {useEffect, useState} from "react";
+import {useLoaderData, useNavigate, useSubmit} from "react-router-dom";
+import {ImageWithDetailsType} from "../types/image";
 
 export const OsImageEditDialog = () => {
-    const closeImageEdit = () => {
+    const imageDetails = useLoaderData() as ImageWithDetailsType;
+    const navigate = useNavigate()
 
+    const [description, setDescription] = useState<string>('')
+    const imageEditSubmit = useSubmit()
+
+    useEffect(() => {
+        console.log('effect: ' + JSON.stringify(imageDetails))
+        setDescription(imageDetails.description)
+    }, [imageDetails, setDescription])
+
+    const closeImageEdit = () => {
+        navigate('../..')
     }
     const saveImageEdit = () => {
-
+        imageEditSubmit({description: description},
+            {
+                method: 'POST',
+                encType: "application/json"
+            }
+        )
     }
-
-    console.log('OsImageEdit')
-
-    const description = "test"
     return (
         <Dialog open={true}>
             <DialogTitle>Describe your image</DialogTitle>
@@ -27,8 +41,8 @@ export const OsImageEditDialog = () => {
                     label="Image description"
                     fullWidth
                     variant="standard"
-                    defaultValue={description}
-                    onChange={v => console.log(v.target.value)}
+                    value={description}
+                    onChange={v => setDescription(v.target.value)}
                 />
 
             </DialogContent>

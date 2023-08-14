@@ -9,7 +9,7 @@ export type OSApiType = {
 } & TransientOSApiType
 
 
-export type OsApiImageType = {
+export type OsImageApiType = {
     identifier: string,
     os_identifier: string
 }

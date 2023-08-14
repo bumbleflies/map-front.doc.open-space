@@ -34,6 +34,7 @@ export const OsImageMenu = (props: OsImageMenuProps) => {
     }
 
     const editImage = () => {
+        props.closeMenuHandler()
         navigate(`${props.imageId}/edit`)
     }
     return (

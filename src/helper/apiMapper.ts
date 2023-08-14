@@ -1,8 +1,8 @@
 import {MarkerType, TransientMarker} from "../types/marker";
-import {OsApiImageType, OSApiType, TransientOSApiType} from "../types/api";
+import {OSApiType, OsImageApiType, TransientOSApiType} from "../types/api";
 import {LatLng} from "leaflet";
 import {localDayjs} from "./dayjsTimezone";
-import {OsImageType} from "../types/image";
+import {ImageType} from "../types/image";
 
 export const transientMarkerToOs = (os: TransientMarker): TransientOSApiType => {
     return {
@@ -22,7 +22,7 @@ export const osLoaderToMarker = (os: OSApiType): MarkerType => {
         endDate: localDayjs(os.end_date)
     }
 }
-export const uploadResponseToImageType = (uploadedImage: OsApiImageType): OsImageType => {
+export const uploadResponseToImageType = (uploadedImage: OsImageApiType): ImageType => {
     return {
         imageIdentifier: uploadedImage.identifier,
         osIdentifier: uploadedImage.os_identifier,

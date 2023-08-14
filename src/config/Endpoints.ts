@@ -1,4 +1,6 @@
 // https://a-carreras-c.medium.com/development-and-production-variables-for-react-apps-c04af8b430a5
+import {TransientImageType} from "../types/image";
+
 type ConfigType = {
     [hostname: string]: {
         url: URL
@@ -23,6 +25,7 @@ export const Endpoints = {
     openSpaces: new URL('os/', ApiServer.url.href).href,
     openSpace: (id: string) => new URL(id, Endpoints.openSpaces).href,
     openSpaceImages: (id: string) => new URL('i/', Endpoints.openSpace(id) + '/').href,
-    openSpaceImage: (osId: string, imageId: string) => new URL(imageId, Endpoints.openSpaceImages(osId)).href,
     headerImage: (osId: string) => new URL('?only_header=True', Endpoints.openSpaceImages(osId)).href,
+    openSpaceImage: (image: TransientImageType) => new URL(image.imageIdentifier, Endpoints.openSpaceImages(image.osIdentifier)).href,
+    openSpaceImageDetails: (image: TransientImageType) => new URL('details', Endpoints.openSpaceImage(image) + '/').href,
 }

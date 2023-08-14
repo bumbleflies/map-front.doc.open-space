@@ -14,13 +14,13 @@ import {useFetcher, useLoaderData, useNavigate, useParams} from "react-router-do
 import {Endpoints} from "../config/Endpoints";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import {OsImageType} from "../types/image";
+import {ImageWithDetailsType} from "../types/image";
 import {OpenSpaceImageAddDialog} from "./osImageAddDialog";
 import {OsImageMenu} from "./menu/osImageMenu";
 
 export const OpenSpaceImages = () => {
     const navigate = useNavigate()
-    const images = useLoaderData() as OsImageType[]
+    const images = useLoaderData() as ImageWithDetailsType[]
     const {os_id} = useParams<"os_id">();
     const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -75,21 +75,21 @@ export const OpenSpaceImages = () => {
                                       subtitle={"click to add impressions"}/>
 
                 </ImageListItem>
-                {images.map((item) => (
-                    <ImageListItem key={item.imageIdentifier}>
+                {images.map((image) => (
+                    <ImageListItem key={image.imageIdentifier}>
                         <img
-                            src={Endpoints.openSpaceImage(item.osIdentifier, item.imageIdentifier)}
-                            alt={item.imageIdentifier}
+                            src={Endpoints.openSpaceImage(image)}
+                            alt={image.imageIdentifier}
                             loading="lazy"
                         />
                         <ImageListItemBar
-                            title={item.imageIdentifier}
-                            subtitle={item.imageIdentifier}
+                            title={image.description}
+                            subtitle={image.imageIdentifier}
                             actionIcon={
                                 <IconButton
                                     sx={{color: 'white'}}
-                                    aria-label={`star ${item.imageIdentifier}`}
-                                    onClick={(event: React.MouseEvent<HTMLButtonElement>) => openMenu(event, item.imageIdentifier)}
+                                    aria-label={`star ${image.imageIdentifier}`}
+                                    onClick={(event: React.MouseEvent<HTMLButtonElement>) => openMenu(event, image.imageIdentifier)}
                                 >
                                     <KeyboardArrowUpIcon/>
                                 </IconButton>

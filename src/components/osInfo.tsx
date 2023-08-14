@@ -11,7 +11,7 @@ import {IconTextGrid} from "./iconTextGrid";
 import {Endpoints} from "../config/Endpoints";
 import {MenuActionButton} from "./button/menuActionButton";
 import {Outlet, useLoaderData, useNavigate, useSubmit} from "react-router-dom";
-import {OsImageType} from "../types/image";
+import {ImageType} from "../types/image";
 
 
 export const OpenSpaceInfo = () => {
@@ -36,8 +36,8 @@ export const OpenSpaceInfo = () => {
                             <CardMedia
                                 component="img"
                                 height="300"
-                                image={Endpoints.openSpaceImage(infoMarker.identifier, (infoMarker as OsImageType).imageIdentifier)}
-                                alt={`Image ${(infoMarker as OsImageType).imageIdentifier} in Open Space ${infoMarker.identifier}`}
+                                image={Endpoints.openSpaceImage((infoMarker as ImageType))}
+                                alt={`Image ${(infoMarker as ImageType).imageIdentifier} in Open Space ${infoMarker.identifier}`}
                             />
                             :
                             <CardMedia

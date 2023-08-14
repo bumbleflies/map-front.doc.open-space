@@ -4,9 +4,9 @@ import {Endpoints} from "../config/Endpoints";
 import {markerToOs, osLoaderToMarker} from "./apiMapper";
 import {LoaderFunctionArgs} from "react-router-dom";
 import {OSApiType, TransientOSApiType} from "../types/api";
-import {apiImageServices} from "./imageApi";
+import {ImageApiServices} from "./imageApi";
 
-export const apiOsServices = {
+export const OsApiServices = {
     save: (marker: TransientOSApiType) => {
         return axios.post(Endpoints.openSpaces, marker).then(response => {
             console.log(`saved marker: ${JSON.stringify(marker)}`)
@@ -30,7 +30,7 @@ export const apiOsServices = {
             console.log(`loaded open space: ${JSON.stringify(response.data)}`)
             return osLoaderToMarker(response.data)
         }).then(marker => {
-            return apiImageServices.getHeaderImage(args.params.os_id!).then(headerImage => {
+            return ImageApiServices.getHeaderImage(args.params.os_id!).then(headerImage => {
                 return {
                     ...marker,
                     ...headerImage
@@ -50,7 +50,7 @@ export const apiOsServices = {
         })
     },
     put: (marker: MarkerType) => {
-        return apiOsServices.putApiMarker(markerToOs(marker))
+        return OsApiServices.putApiMarker(markerToOs(marker))
     },
     delete: (identifier: string) => {
         console.log(`deleting open space: ${identifier}`)

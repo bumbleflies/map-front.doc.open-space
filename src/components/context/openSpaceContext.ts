@@ -1,13 +1,13 @@
 import React, {createContext} from 'react';
 
-import {OsImageNotAvailable, OsImageType} from "../../types/image";
+import {ImageNotAvailable, ImageType} from "../../types/image";
 
 export type  OpenSpaceImagesContextType = {
-    headerImage: OsImageNotAvailable | OsImageType,
-    setHeaderImage: React.Dispatch<React.SetStateAction<OsImageNotAvailable | OsImageType>>
+    headerImage: ImageNotAvailable | ImageType,
+    setHeaderImage: React.Dispatch<React.SetStateAction<ImageNotAvailable | ImageType>>
 }
 const OpenSpaceImagesContext = createContext<OpenSpaceImagesContextType>({
-    headerImage: new OsImageNotAvailable(),
+    headerImage: new ImageNotAvailable(),
     setHeaderImage: () => {
     }
 })

@@ -1,5 +1,6 @@
 import {ActionFunctionArgs, redirect} from "react-router-dom";
-import {apiImageServices} from "../helper/imageApi";
+import {ImageApiServices} from "../helper/imageApi";
+import {ImageDetailsApiService} from "../helper/imageDetailsApi";
 
 export const handleImageUploadAction = async (args: ActionFunctionArgs) => {
     // return the ids of uploading images until they are finally uploaded
@@ -13,15 +14,23 @@ export const handleImageUploadAction = async (args: ActionFunctionArgs) => {
 }
 
 export const handleImageDeleteAction = (args: ActionFunctionArgs) => {
-    return apiImageServices.delete({
+    return ImageApiServices.delete({
         osIdentifier: args.params.os_id!,
         imageIdentifier: args.params.image_id!,
     }).then(() => redirect(`/os/${args.params.os_id!}/i`))
 }
 
 export const handleImageHeaderAction = (args: ActionFunctionArgs) => {
-    return apiImageServices.makeHeader({
+    return ImageApiServices.makeHeader({
         osIdentifier: args.params.os_id!,
         imageIdentifier: args.params.image_id!,
     }).then(() => redirect(`/os/${args.params.os_id!}/i`))
+}
+
+export const handleImageDetailsEditAction = async (args: ActionFunctionArgs) => {
+    const details = await args.request.json();
+    return ImageDetailsApiService.editDetails({
+        osIdentifier: args.params.os_id!,
+        imageIdentifier: args.params.image_id!,
+    }, details)
 }
