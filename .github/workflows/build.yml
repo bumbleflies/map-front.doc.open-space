@@ -3,7 +3,7 @@ name: Build React App
 on: [push]
 
 jobs:
-  build_and_branch:
+  build_and_test:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -16,7 +16,19 @@ jobs:
         run: yarn install
       - name: yarn test
         run: yarn test
-      # e2e tests
+  e2e_test:
+    runs-on: ubuntu-latest
+    steps:
+      # frontend
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'yarn'
+      - name: yarn install
+        run: yarn install
+      # backend
       - name: Checkout backend
         uses: actions/checkout@v3
         with:
@@ -36,14 +48,22 @@ jobs:
           python app.py &
       - name: Cypress run
         uses: cypress-io/github-action@v5
-      - name: yarn run build
-        run: yarn run build
-      - name: Push to build branch
-        uses: s0/git-publish-subdir-action@develop
-        env:
-          REPO: self
-          BRANCH: build
-          FOLDER: build
-          # https://github.com/ad-m/github-push-action/issues/96
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # GitHub will automatically add this - you don't need to bother getting a token
-          MESSAGE: "Build: ({sha}) {msg}" # The commit message
+    deploy:
+      runs-on: ubuntu-latest
+      needs:
+        - e2e_test
+        - build_and_test
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v3
+        - name: yarn run build
+          run: yarn run build
+        - name: Push to build branch
+          uses: s0/git-publish-subdir-action@develop
+          env:
+            REPO: self
+            BRANCH: build
+            FOLDER: build
+            # https://github.com/ad-m/github-push-action/issues/96
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # GitHub will automatically add this - you don't need to bother getting a token
+            MESSAGE: "Build: ({sha}) {msg}" # The commit message
