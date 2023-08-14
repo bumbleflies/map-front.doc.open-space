@@ -22,7 +22,20 @@ jobs:
         with:
           repository: bumbleflies/os_backend.doc.open-space
           path: backend
-
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.10"
+          cache: 'pip'
+      - name: Install dependencies
+        run: |
+          cd backend
+          python -m pip install --upgrade pip
+          pip install flake8 pytest
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          python app.py &
+      - name: Cypress run
+        uses: cypress-io/github-action@v5
       - name: yarn run build
         run: yarn run build
       - name: Push to build branch
