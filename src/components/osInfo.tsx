@@ -1,6 +1,6 @@
 import React from "react";
 import {MarkerWithImage} from "../types/marker";
-import {Box, CardMedia, Divider, Grid, Typography} from "@mui/material";
+import {Box, ButtonBase, CardMedia, Divider, Grid, Typography} from "@mui/material";
 import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import NightlightIcon from "@mui/icons-material/Nightlight";
 import EditIcon from "@mui/icons-material/Edit";
@@ -31,7 +31,7 @@ export const OpenSpaceInfo = () => {
             <Grid container spacing={0} alignItems={"center"}>
                 {/* Image */}
                 <Grid item xs={12} textAlign={"center"}>
-                    <div onClick={() => navigate(`i/`)}>
+                    <ButtonBase data-testid={"os-images-button"} onClick={() => navigate(`i/`)}>
                         {infoMarker.isAvailable ?
                             <CardMedia
                                 component="img"
@@ -47,7 +47,7 @@ export const OpenSpaceInfo = () => {
                             />
 
                         }
-                    </div>
+                    </ButtonBase>
                 </Grid>
                 {/* Title */}
                 <Grid item xs={12}>

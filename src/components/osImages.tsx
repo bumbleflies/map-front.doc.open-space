@@ -51,7 +51,7 @@ export const OpenSpaceImages = () => {
         <>
             <ImageList>
                 <ListItem key="Subheader">
-                    <ListItemButton onClick={() => {
+                    <ListItemButton data-testid={"os-images-back-button"} aria-label={"back"} onClick={() => {
                         navigate(`/os/${os_id}`)
                     }}>
                         <ArrowBackIcon/>
@@ -64,7 +64,7 @@ export const OpenSpaceImages = () => {
                     alignItems: "center",
                     verticalAlign: "middle",
                 }}>
-                    <ListItemButton onClick={() => setEditOpen(true)} sx={{
+                    <ListItemButton data-testid={"os-image-add-button"} onClick={() => setEditOpen(true)} sx={{
                         minHeight: 150
                     }}>
                         <AddPhotoAlternateIcon fontSize={"large"}/>
@@ -87,6 +87,7 @@ export const OpenSpaceImages = () => {
                             subtitle={image.imageIdentifier}
                             actionIcon={
                                 <IconButton
+                                    data-testid={"os-image-menu"}
                                     sx={{color: 'white'}}
                                     aria-label={`Open Space impression ${image.description}`}
                                     onClick={(event: React.MouseEvent<HTMLButtonElement>) => openMenu(event, image.imageIdentifier)}

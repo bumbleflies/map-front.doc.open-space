@@ -28,7 +28,7 @@ const ImageUpload = (props: ImageUploadProps) => {
 
     const thumbs = props.files.map(file => (
         <div style={thumb} key={file.name}>
-            <div style={thumbInner}>
+            <div data-testid={`os-image-add-preview-${file.name}`} style={thumbInner}>
                 <img
                     src={file.preview}
                     style={img}
@@ -44,7 +44,7 @@ const ImageUpload = (props: ImageUploadProps) => {
     return (
         <Box>
             <Container {...getRootProps()}>
-                <input {...getInputProps()} />
+                <input data-testid={"os-image-upload"} {...getInputProps()} />
                 <p>Drag 'n' drop some files here, or click to select files</p>
             </Container>
             <aside style={thumbsContainer}>
@@ -109,8 +109,8 @@ export const OpenSpaceImageAddDialog = (props: OpenSpaceImageAddDialogProps) => 
                 <ImageUpload files={files} onSelectHandler={onFilesDropped}/>
             </DialogContent>
             <DialogActions>
-                <Button data-testid='os-edit-cancel' onClick={props.closeHandler}>Cancel</Button>
-                <Button data-testid='os-edit-save' onClick={saveSelectedFiles}>Upload</Button>
+                <Button data-testid='os-image-add-cancel' onClick={props.closeHandler}>Cancel</Button>
+                <Button data-testid='os-image-add-save' onClick={saveSelectedFiles}>Upload</Button>
             </DialogActions>
         </Dialog>
     )

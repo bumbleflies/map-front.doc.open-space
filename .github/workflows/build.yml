@@ -16,6 +16,13 @@ jobs:
         run: yarn install
       - name: yarn test
         run: yarn test
+      # e2e tests
+      - name: Checkout backend
+        uses: actions/checkout@v3
+        with:
+          repository: bumbleflies/os_backend.doc.open-space
+          path: backend
+
       - name: yarn run build
         run: yarn run build
       - name: Push to build branch

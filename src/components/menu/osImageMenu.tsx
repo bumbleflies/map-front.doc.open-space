@@ -52,7 +52,7 @@ export const OsImageMenu = (props: OsImageMenuProps) => {
                     horizontal: 'center',
                 }}
             >
-                <MenuItem onClick={makeImageHeader}>
+                <MenuItem data-testid={"os-image-make-header-menu"} onClick={makeImageHeader}>
                     <ListItemIcon>
                         <CollectionsIcon/>
                     </ListItemIcon>
@@ -60,7 +60,7 @@ export const OsImageMenu = (props: OsImageMenuProps) => {
                         Make Header
                     </ListItemText>
                 </MenuItem>
-                <MenuItem onClick={deleteImage}>
+                <MenuItem data-testid={"os-image-delete-menu"} onClick={deleteImage}>
                     <ListItemIcon>
                         <DeleteIcon/>
                     </ListItemIcon>
@@ -68,7 +68,7 @@ export const OsImageMenu = (props: OsImageMenuProps) => {
                         Delete Image
                     </ListItemText>
                 </MenuItem>
-                <MenuItem onClick={editImage}>
+                <MenuItem data-testid={"os-image-edit-menu"} onClick={editImage}>
                     <ListItemIcon>
                         <EditIcon/>
                     </ListItemIcon>

@@ -136,7 +136,7 @@ export const OpenSpaceHarvesterHome = (props: OpenSpaceHarvesterHomeType) => {
                        sx={{width: '100%'}}>
                     {currentStatusMessage?.message}
                     {currentStatusMessage?.withLink !== undefined ?
-                        <Button color="inherit" size="small"
+                        <Button data-testid="status-message-button" color="inherit" size="small"
                                 onClick={() => {
                                     popMessage(currentStatusMessage?.id)
                                     navigate(currentStatusMessage.withLink!.to)
