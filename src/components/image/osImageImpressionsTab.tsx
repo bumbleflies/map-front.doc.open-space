@@ -1,14 +1,14 @@
 import {IconButton, ImageList, ImageListItem, ImageListItemBar, ListItemButton, Skeleton} from "@mui/material";
 import React, {useEffect, useState} from "react";
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
-import {useFetcher, useLoaderData} from "react-router-dom";
+import {useFetcher, useLoaderData, useNavigate} from "react-router-dom";
 import {Endpoints} from "../../config/Endpoints";
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import {ImageWithDetailsType} from "../../types/image";
 import {OpenSpaceImageAddDialog} from "./osImageAddDialog";
 import {OsImageMenu} from "../menu/osImageMenu";
 
-export const OsImageImpressionsList = () => {
+export const OsImageImpressionsTab = () => {
     const images = useLoaderData() as ImageWithDetailsType[]
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
     const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
@@ -16,6 +16,7 @@ export const OsImageImpressionsList = () => {
     const [pendingImages, setPendingImages] = useState<string[]>([])
 
     const imageUploadFetcher = useFetcher()
+    const navigate = useNavigate()
 
     useEffect(() => {
         if (Boolean(imageUploadFetcher.data)) {
@@ -54,10 +55,10 @@ export const OsImageImpressionsList = () => {
                 </ImageListItem>
                 {images.map((image) => (
                     <ImageListItem key={image.imageIdentifier}>
-                        <img
-                            src={Endpoints.openSpaceImage(image)}
-                            alt={image.imageIdentifier}
-                            loading="lazy"
+                        <img onClick={() => navigate(image.imageIdentifier)}
+                             src={Endpoints.openSpaceImage(image)}
+                             alt={image.imageIdentifier}
+                             loading="lazy"
                         />
                         <ImageListItemBar
                             title={image.description}

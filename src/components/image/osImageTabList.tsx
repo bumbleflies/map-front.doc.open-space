@@ -1,14 +1,14 @@
 import {ButtonBase, Tab} from "@mui/material";
 import React, {useState} from "react";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {TabContext, TabList, TabPanel} from "@mui/lab";
-import {OsImageImpressionsList} from "./imageImpressions";
+import {OsImageImpressionsTab} from "./osImageImpressionsTab";
 
-export const OpenSpaceImages = () => {
+export const OsImageTabList = () => {
     const navigate = useNavigate()
     const [selectedTab, setSelectedTab] = useState<string>("1")
-
+    const {os_id} = useParams<"os_id">()
 
     const handleChange = (event: React.SyntheticEvent, newValue: string) => {
         setSelectedTab(newValue);
@@ -20,7 +20,7 @@ export const OpenSpaceImages = () => {
             <TabContext value={selectedTab}>
                 <TabList onChange={handleChange}>
                     <ButtonBase data-testid={"os-images-back-button"} aria-label={"back"} onClick={() => {
-                        navigate('..')
+                        navigate(`/os/${os_id}`)
                     }}>
                         <ArrowBackIcon/>
                     </ButtonBase>
@@ -28,7 +28,7 @@ export const OpenSpaceImages = () => {
                     <Tab label="Sessions" value={"2"}></Tab>
                 </TabList>
                 <TabPanel value={"1"}>
-                    <OsImageImpressionsList/>
+                    <OsImageImpressionsTab/>
                 </TabPanel>
                 <TabPanel value={"2"}>Sessions</TabPanel>
             </TabContext>

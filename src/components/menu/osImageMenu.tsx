@@ -3,7 +3,7 @@ import {Divider, ListItemIcon, ListItemText, Menu, MenuItem} from "@mui/material
 import DeleteIcon from "@mui/icons-material/Delete";
 import CollectionsIcon from '@mui/icons-material/Collections';
 import EditIcon from "@mui/icons-material/Edit";
-import {Outlet, useNavigate, useSubmit} from "react-router-dom";
+import {useNavigate, useSubmit} from "react-router-dom";
 
 
 type OsImageMenuProps = {
@@ -78,7 +78,6 @@ export const OsImageMenu = (props: OsImageMenuProps) => {
                     </ListItemText>
                 </MenuItem>
             </Menu>
-            <Outlet/>
         </>
     )
 }

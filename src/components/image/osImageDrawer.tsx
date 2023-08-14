@@ -1,7 +1,7 @@
 import {Toolbar} from "@mui/material";
 import {DesktopDrawer, MobileDrawer} from "../drawer";
-import {useNavigate} from "react-router-dom";
-import {OpenSpaceImages} from "./osImages";
+import {Outlet, useNavigate} from "react-router-dom";
+import {OsImageTabList} from "./osImageTabList";
 import React from "react";
 
 const OpenSpaceImageDrawer = () => {
@@ -10,11 +10,12 @@ const OpenSpaceImageDrawer = () => {
         <>
             <DesktopDrawer onCloseHandler={() => navigate(`/`)}>
                 <Toolbar/>
-                <OpenSpaceImages/>
+                <OsImageTabList/>
             </DesktopDrawer>
             <MobileDrawer onCloseHandler={() => navigate(`/`)}>
-                <OpenSpaceImages/>
+                <OsImageTabList/>
             </MobileDrawer>
+            <Outlet/>
         </>
     )
 }
