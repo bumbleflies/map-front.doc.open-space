@@ -88,7 +88,7 @@ export const OpenSpaceImages = () => {
                             actionIcon={
                                 <IconButton
                                     sx={{color: 'white'}}
-                                    aria-label={`star ${image.imageIdentifier}`}
+                                    aria-label={`Open Space impression ${image.description}`}
                                     onClick={(event: React.MouseEvent<HTMLButtonElement>) => openMenu(event, image.imageIdentifier)}
                                 >
                                     <KeyboardArrowUpIcon/>
@@ -100,8 +100,7 @@ export const OpenSpaceImages = () => {
                 {pendingImages.map((image) => (
                     <ImageListItem key={image}>
                         <Skeleton variant="rectangular" width={210} height={150}/>
-                        <ImageListItemBar
-                            title={image}
+                        <ImageListItemBar title={image}
                         />
                     </ImageListItem>
                 ))}
