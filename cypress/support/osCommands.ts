@@ -1,9 +1,9 @@
 export const registerInterceptRoutes = () => {
     cy.intercept('https://maps.googleapis.com/maps/api/mapsjs/gen_204?csp_test=true').as('googlemaps');
-    cy.intercept('http://localhost:5000/os/').as('os')
-    cy.intercept('http://localhost:5000/os/*/i/?only_header=True').as('header')
-    cy.intercept('http://localhost:5000/os/*/i/').as('images')
-    cy.intercept('patch', 'http://localhost:5000/os/*/i/*').as('imageHeader')
+    cy.intercept('http://localhost:5000/os/').as('osApi')
+    cy.intercept('http://localhost:5000/os/*/i/?only_header=True').as('headerApi')
+    cy.intercept('http://localhost:5000/os/*/i/').as('imagesApi')
+    cy.intercept('patch', 'http://localhost:5000/os/*/i/*').as('imageHeaderApi')
 }
 
 export const getByDataTestId = function (testid: string) {
@@ -13,7 +13,7 @@ export const getByDataTestId = function (testid: string) {
 export const clickAddOs = () => {
     cy.url().should('eq', 'http://localhost:3000/')
     cy.getByDataTestId('os-home-fab-add').click()
-    return cy.wait('@os').then((interception) => {
+    return cy.wait('@osApi').then((interception) => {
         return cy.wrap(interception.request.url.split('/').pop())
     })
 }
@@ -21,7 +21,7 @@ export const clickAddOs = () => {
 export const clickStatusMessage = () => {
     cy.url().should('eq', 'http://localhost:3000/')
     cy.getByDataTestId('status-message-button').click()
-    cy.wait('@header')
+    cy.wait('@headerApi')
 }
 
 export const clickDeleteOs = () => {
@@ -42,15 +42,23 @@ export const openEditAssertTitle = (osTitlePart: string) => {
 
 }
 
+export const clickImagesBack = () => {
+    cy.getByDataTestId('os-images-back-button').click()
+    cy.getByDataTestId("os-images-button").should('exist')
+}
+
+export const clickImagesView = () => {
+    cy.getByDataTestId("os-images-button").click()
+    cy.wait('@imagesApi')
+
+}
+
 export const assertNoImages = () => {
     cy.get('img[alt="no image yet available"]').should('exist')
-    // goto images page
-    cy.getByDataTestId("os-images-button").click()
-    cy.wait('@images')
+    cy.clickImagesView()
     cy.get('div.MuiImageListItemBar-title').contains('no images yet').should('exist')
     cy.getByDataTestId("os-image-add-button").click()
     cy.getByDataTestId("os-image-add-cancel").click()
     cy.get('div.MuiImageListItemBar-title').contains('no images yet').should('exist')
-    cy.getByDataTestId('os-images-back-button').click()
-    cy.getByDataTestId("os-images-button")
+    cy.clickImagesBack()
 }

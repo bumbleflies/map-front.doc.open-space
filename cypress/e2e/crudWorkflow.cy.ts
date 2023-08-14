@@ -30,12 +30,8 @@ const onTestOs = () => {
 describe('Performs a simple run', () => {
 
     beforeEach(async () => {
+        cy.registerInterceptRoutes()
         await createOs()
-        cy.intercept('https://maps.googleapis.com/maps/api/mapsjs/gen_204?csp_test=true').as('googlemaps');
-        cy.intercept('http://localhost:5000/os/').as('os')
-        cy.intercept('http://localhost:5000/os/*/i/?only_header=True').as('header')
-        cy.intercept('http://localhost:5000/os/*/i/').as('images')
-        cy.intercept('patch', 'http://localhost:5000/os/*/i/*').as('imageHeader')
         cy.visit('http://localhost:3000/')
         cy.wait('@googlemaps')
         cy.viewport('macbook-16')
@@ -62,7 +58,7 @@ describe('Performs a simple run', () => {
             cy.openEditAssertTitle('Open Space')
             cy.get('div.leaflet-tooltip').contains(testOsId as unknown as string).should('exist')
             cy.getByDataTestId("os-edit-button").click()
-            cy.wait('@header')
+            cy.wait('@headerApi')
             cy.getByDataTestId("os-edit-title").type('{selectall}Open Space Test')
             cy.getByDataTestId("os-edit-save").click()
             cy.getByDataTestId("os-title").should("have.text", "Open Space Test")
@@ -75,17 +71,18 @@ describe('Performs a simple run', () => {
             cy.assertNoImages()
 
             // upload image
+            cy.clickImagesView()
             cy.getByDataTestId("os-image-add-button").click()
             cy.getByDataTestId('os-image-upload').selectFile('cypress/fixtures/test-image.png', {force: true})
             cy.getByDataTestId('os-image-add-preview-test-image\\.png').should('exist')
             cy.getByDataTestId("os-image-add-save").click()
-            cy.wait('@images')
+            cy.wait('@imagesApi')
             cy.get('div.MuiImageListItemBar-title').contains('no images yet').should('not.exist')
 
             // make header
             cy.getByDataTestId('os-image-menu').click()
             cy.getByDataTestId('os-image-make-header-menu').click()
-            cy.wait('@imageHeader')
+            cy.wait('@imageHeaderApi')
             cy.getByDataTestId('os-images-back-button').click()
             cy.get('img[alt="no image yet available"]').should('not.exist')
             cy.getByDataTestId('os-images-button').find('img').should('have.attr', 'alt').should('contain', 'Image ')
@@ -97,7 +94,7 @@ describe('Performs a simple run', () => {
             cy.getByDataTestId('image-edit-description').clear().type('test description')
             cy.getByDataTestId('image-edit-save').click()
             cy.get('div.MuiImageListItemBar-title').contains('test description').should('exist')
-            cy.getByDataTestId('os-images-back-button').click()
+            cy.clickImagesBack()
 
             // delete image
             cy.getByDataTestId("os-images-button").click()

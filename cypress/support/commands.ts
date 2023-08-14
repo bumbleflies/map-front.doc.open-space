@@ -15,6 +15,8 @@ import {
     assertNoImages,
     clickAddOs,
     clickDeleteOs,
+    clickImagesBack,
+    clickImagesView,
     clickStatusMessage,
     getByDataTestId,
     openEditAssertTitle,
@@ -28,7 +30,9 @@ Cypress.Commands.addAll({
     clickStatusMessage,
     clickDeleteOs,
     openEditAssertTitle,
-    assertNoImages
+    assertNoImages,
+    clickImagesBack,
+    clickImagesView
 })
 
 declare global {
@@ -47,6 +51,10 @@ declare global {
             openEditAssertTitle(osTitlePart: string): Chainable<void>
 
             assertNoImages(): Chainable<void>
+
+            clickImagesBack(): Chainable<void>
+
+            clickImagesView(): Chainable<void>
 
 //       drag(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
 //       dismiss(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
