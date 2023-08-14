@@ -50,6 +50,11 @@ jobs:
           python app.py &
       - name: Cypress run
         uses: cypress-io/github-action@v5
+      - uses: actions/upload-artifact@v3
+        with:
+          name: cypress-videos
+          path: cypress/videos
+          if-no-files-found: ignore
   deploy:
     runs-on: ubuntu-latest
     needs:
