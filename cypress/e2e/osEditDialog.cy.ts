@@ -47,16 +47,15 @@ describe('when editing an open space', () => {
         })
     })
 
-    it.only('saves the dates when entered directly', () => {
+    it('saves the dates when entered directly', () => {
         cy.onTestOs().then((testOsId) => {
             cy.openOsEdit(testOsId)
-            cy.getByDataTestId('os-date-start').find('input').type('1408{rightArrow}11:00')
             cy.getByDataTestId('os-date-end').find('input').type('1408{rightArrow}1400')
+            cy.getByDataTestId('os-date-start').find('input').type('1408{rightArrow}11:00')
             cy.getByDataTestId("os-edit-save").click()
-            cy.getByDataTestId('grid-start\\ date-text').should('have.text', '14.08.2023 11:00')
-            cy.getByDataTestId('grid-end\\ date-text').should('have.text', '14.08.2023 14:00')
+            cy.getByDataTestId('grid-start\\ date-text').should('have.text', '14.08.2023 - 11:00')
+            cy.getByDataTestId('grid-end\\ date-text').should('have.text', '14.08.2023 - 14:00')
         })
-
     })
 
     it('saves the dates when selected in dialog', () => {
@@ -74,9 +73,7 @@ describe('when editing an open space', () => {
             cy.getByDataTestId('grid-start\\ date-text').should('have.text', '14.08.2023 - 19:00')
             cy.getByDataTestId('grid-end\\ date-text').should('have.text', '16.08.2023 - 21:00')
         })
-
     })
-
 })
 
 export {}

@@ -106,9 +106,6 @@ export const OpenSpaceHarvesterHome = (props: OpenSpaceHarvesterHomeType) => {
         map?.setView({lat: position.coords.latitude, lng: position.coords.longitude})
     }
 
-    console.log(location.pathname.split('/').length)
-    console.log(location.pathname.split('/').pop())
-
     function shouldDrawFab() {
         // dirty hack to hide FAB when image is displayed
         return location.pathname.split('/').length < 5 || location.pathname.split('/').pop() === '';

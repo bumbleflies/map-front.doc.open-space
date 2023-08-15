@@ -22,6 +22,8 @@ export const OpenSpaceInfoEditDialog = () => {
     const [title, setTitle] = useState<string | null>(null)
     const [startDate, setStartDate] = useState<Dayjs | null>(null)
     const [endDate, setEndDate] = useState<Dayjs | null>(null)
+    const [pendingStartDate, setPendingStartDate] = useState<Dayjs | null>(null)
+    const [pendingEndDate, setPendingEndDate] = useState<Dayjs | null>(null)
     const infoEditMarker = useLoaderData() as MarkerType
     const navigate = useNavigate()
     const editSubmit = useSubmit();
@@ -43,6 +45,7 @@ export const OpenSpaceInfoEditDialog = () => {
             } else {
                 setStartDate(newStartDate)
             }
+            setPendingStartDate(null)
         }
     }
 
@@ -55,6 +58,7 @@ export const OpenSpaceInfoEditDialog = () => {
             } else {
                 setEndDate(newEndDate)
             }
+            setPendingEndDate(null)
         }
     }
 
@@ -65,8 +69,8 @@ export const OpenSpaceInfoEditDialog = () => {
     const saveEdit = () => {
         const newMarkerApiType = markerToOs(update(infoEditMarker).with({
             title: title!,
-            startDate: startDate!,
-            endDate: endDate!
+            startDate: pendingStartDate ? pendingStartDate : startDate!,
+            endDate: pendingEndDate ? pendingEndDate : endDate!
         }))
 
         editSubmit(newMarkerApiType, {
@@ -110,13 +114,13 @@ export const OpenSpaceInfoEditDialog = () => {
                                 <DateTimePicker
                                     label={"Start Date"} value={startDate}
                                     format="DD.MM.YYYY HH:mm"
-                                    onAccept={acceptStartDate}/>
+                                    onAccept={acceptStartDate} onChange={setPendingStartDate}/>
                             </Grid>
                             <Grid item xs={6} data-testid={"os-date-end"}>
                                 <DateTimePicker
                                     label={"End Date"} value={endDate}
                                     format="DD.MM.YYYY HH:mm"
-                                    onAccept={acceptEndDate}/>
+                                    onAccept={acceptEndDate} onChange={setPendingEndDate}/>
                             </Grid>
                         </LocalizationProvider>
                     </Grid>
