@@ -96,7 +96,6 @@ export const OpenSpaceInfoEditDialog = () => {
                             margin="dense"
                             id="name"
                             label="Open Space Name"
-                            fullWidth
                             variant="standard"
                             defaultValue={title}
                             onChange={v => setTitle(v.target.value)}

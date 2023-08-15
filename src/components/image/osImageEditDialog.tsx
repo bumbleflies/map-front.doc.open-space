@@ -39,7 +39,6 @@ export const OsImageEditDialog = () => {
                     margin="dense"
                     id="name"
                     label="Image description"
-                    fullWidth
                     variant="standard"
                     value={description}
                     onChange={v => setDescription(v.target.value)}
