@@ -12,16 +12,14 @@
 //
 // -- This is a parent command --
 import {
-    assertNoImages,
     clickAddOs,
     clickDeleteOs,
-    clickImagesBack,
-    clickImagesView,
     clickStatusMessage,
     getByDataTestId,
     openEditAssertTitle,
     registerInterceptRoutes
 } from "./osCommands";
+import {assertNoImages, clickImagesBack, clickImagesView, uploadImage} from "./imageCommands";
 
 Cypress.Commands.addAll({
     registerInterceptRoutes,
@@ -32,7 +30,8 @@ Cypress.Commands.addAll({
     openEditAssertTitle,
     assertNoImages,
     clickImagesBack,
-    clickImagesView
+    clickImagesView,
+    uploadImage
 })
 
 declare global {
@@ -55,6 +54,8 @@ declare global {
             clickImagesBack(): Chainable<void>
 
             clickImagesView(): Chainable<void>
+
+            uploadImage(file: string): Chainable<void>
 
 //       drag(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
 //       dismiss(subject: string, options?: Partial<TypeOptions>): Chainable<Element>

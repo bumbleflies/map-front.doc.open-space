@@ -72,11 +72,7 @@ describe('Performs a simple run', () => {
 
             // upload image
             cy.clickImagesView()
-            cy.getByDataTestId("os-image-add-button").click()
-            cy.getByDataTestId('os-image-upload').selectFile('cypress/fixtures/test-image.png', {force: true})
-            cy.getByDataTestId('os-image-add-preview-test-image\\.png').should('exist')
-            cy.getByDataTestId("os-image-add-save").click()
-            cy.wait('@imagesApi')
+            cy.uploadImage('cypress/fixtures/test-image.png')
             cy.get('div.MuiImageListItemBar-title').contains('no images yet').should('not.exist')
 
             // make header
@@ -102,6 +98,18 @@ describe('Performs a simple run', () => {
             cy.getByDataTestId('os-image-delete-menu').click()
             cy.get('div.MuiImageListItemBar-title').contains('no images yet').should('exist')
         })
+    })
+
+    it('views the image in fullscreen', () => {
+        onTestOs().then((testOsId) => {
+            cy.clickImagesView()
+            cy.uploadImage('cypress/fixtures/test-image.png')
+            cy.get('div.MuiImageListItemBar-title').contains('no images yet').should('not.exist')
+            cy.getByDataTestId('os-image').click()
+            cy.getByDataTestId('os-image-fullscreen').should('exist')
+            cy.getByDataTestId('os-image-fullscreen-close-button').click()
+            cy.url().should('eq', `http://localhost:3000/os/${testOsId}/i`)
+        });
     })
 
 })

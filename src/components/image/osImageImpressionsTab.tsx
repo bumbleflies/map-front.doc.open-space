@@ -59,6 +59,7 @@ export const OsImageImpressionsTab = () => {
                              src={Endpoints.openSpaceImage(image)}
                              alt={image.imageIdentifier}
                              loading="lazy"
+                             data-testid={"os-image"}
                         />
                         <ImageListItemBar
                             title={image.description}

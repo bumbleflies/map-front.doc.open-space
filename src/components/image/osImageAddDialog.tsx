@@ -27,7 +27,7 @@ const ImageUpload = (props: ImageUploadProps) => {
 
     const thumbs = props.files.map(file => (
         <div style={thumb} key={file.name}>
-            <div data-testid={`os-image-add-preview-${file.name}`} style={thumbInner}>
+            <div data-testid={`os-image-add-preview-${file.name.replaceAll('.', '-')}`} style={thumbInner}>
                 <img
                     src={file.preview}
                     style={img}

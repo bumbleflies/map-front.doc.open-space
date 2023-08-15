@@ -30,7 +30,7 @@ export const OsImageFullView = () => {
                 <Toolbar/>
                 <Toolbar>
                     <Box flexGrow={1}/>
-                    <IconButton data-testid={"os-images-close-fullscreen-button"} aria-label={"cloe fullscreen image"}
+                    <IconButton data-testid={"os-image-fullscreen-close-button"} aria-label={"close fullscreen image"}
                                 onClick={() => {
                                     navigate('..')
                                 }} color="inherit">
@@ -41,7 +41,8 @@ export const OsImageFullView = () => {
                     <CardMedia
                         width="100%"
                         component={"img"}
-                        image={Endpoints.openSpaceImage({osIdentifier: os_id!, imageIdentifier: image_id!})}>
+                        image={Endpoints.openSpaceImage({osIdentifier: os_id!, imageIdentifier: image_id!})}
+                        data-testid={"os-image-fullscreen"}>
                     </CardMedia>
                 </Box>
             </Drawer>
