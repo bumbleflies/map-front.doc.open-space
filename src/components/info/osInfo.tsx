@@ -30,7 +30,7 @@ export const OpenSpaceInfo = () => {
 
     return (
         <Box sx={{}}>
-            <TabContext value={"1"}>
+            <TabContext value={"2"}>
                 <TabList>
                     <ButtonBase data-testid={"os-images-back-button"} aria-label={"back"} onClick={() => {
                         navigate(`..`)
