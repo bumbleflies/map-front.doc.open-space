@@ -7,11 +7,7 @@ const saveMockResult = {called: false}
 
 jest.mock('../components/osMap')
 jest.mock('react-router-dom', () => ({
-    useLoaderData: () => [],
     useNavigate: () => ({}),
-    useParams: () => ({
-        id: null
-    }),
     useFetcher: () => {
         return {
             data: null,
@@ -19,7 +15,12 @@ jest.mock('react-router-dom', () => ({
                 saveMockResult.called = true
             }
         }
-    }
+    },
+    useLocation: () => {
+        return {pathname: ''}
+    },
+    Outlet: () => null
+
 }));
 
 
