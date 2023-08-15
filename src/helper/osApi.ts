@@ -2,7 +2,7 @@ import {MarkerType, MarkerWithImage} from "../types/marker";
 import axios from "axios";
 import {Endpoints} from "../config/Endpoints";
 import {markerToOs, osLoaderToMarker} from "./apiMapper";
-import {LoaderFunctionArgs} from "react-router-dom";
+import {LoaderFunctionArgs, redirect} from "react-router-dom";
 import {OSApiType, TransientOSApiType} from "../types/api";
 import {ImageApiServices} from "./imageApi";
 
@@ -25,7 +25,7 @@ export const OsApiServices = {
             return []
         })
     },
-    load: (args: LoaderFunctionArgs): Promise<null | MarkerWithImage> => {
+    load: (args: LoaderFunctionArgs): Promise<null | MarkerWithImage | Response> => {
         return axios.get(Endpoints.openSpace(args.params.os_id!)).then(response => {
             console.log(`loaded open space: ${JSON.stringify(response.data)}`)
             return osLoaderToMarker(response.data)
@@ -38,7 +38,7 @@ export const OsApiServices = {
             })
         }).catch(error => {
             console.log(`Failed to load Open Space ${args.params.os_id}: ${error}`)
-            return null
+            return redirect('/')
         })
     },
     putApiMarker: (apiMarker: OSApiType) => {
