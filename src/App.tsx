@@ -17,6 +17,7 @@ import {
 } from "./action/osImage";
 import {OsImageEditDialog} from "./components/image/osImageEditDialog";
 import {ImageDetailsApiService} from "./helper/imageDetailsApi";
+import {OsImageFullView} from "./components/image/osImageFullView";
 
 const router = createBrowserRouter([
     {
@@ -40,30 +41,31 @@ const router = createBrowserRouter([
                         action: handleEditAction,
                         element: <OpenSpaceInfoEditDialog/>
                     },
+                ]
+            },
+            {
+                path: 'os/:os_id/i/',
+                element: <OpenSpaceImageDrawer/>,
+                loader: ImageApiServices.loadAll,
+                action: handleImageUploadAction,
+                children: [
                     {
-                        path: 'i/',
-                        element: <OpenSpaceImageDrawer/>,
-                        loader: ImageApiServices.loadAll,
-                        action: handleImageUploadAction,
+                        path: ':image_id',
+                        action: handleImageDeleteAction,
+                        element: <OsImageFullView/>,
                         children: [
                             {
-                                path: ':image_id',
-                                action: handleImageDeleteAction,
-                                children: [
-                                    {
-                                        path: 'make_header',
-                                        action: handleImageHeaderAction
-                                    },
-                                    {
-                                        path: 'edit',
-                                        loader: ImageDetailsApiService.load,
-                                        action: handleImageDetailsEditAction,
-                                        element: <OsImageEditDialog/>
-                                    }
-                                ]
+                                path: 'make_header',
+                                action: handleImageHeaderAction
+                            },
+                            {
+                                path: 'edit',
+                                loader: ImageDetailsApiService.load,
+                                action: handleImageDetailsEditAction,
+                                element: <OsImageEditDialog/>
                             }
                         ]
-                    },
+                    }
                 ]
             },
 

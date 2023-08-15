@@ -3,7 +3,7 @@ import {MarkerType, update} from "../types/marker";
 import React, {useContext} from "react";
 import {MapContainer, Marker, Tooltip} from "react-leaflet";
 import ReactLeafletGoogleLayer from "react-leaflet-google-layer";
-import {Outlet, useLoaderData, useNavigate, useSubmit} from "react-router-dom";
+import {useLoaderData, useNavigate, useSubmit} from "react-router-dom";
 import MapContext, {MapContextType} from "./context/mapContext";
 import {markerToOs} from "../helper/apiMapper";
 
@@ -49,7 +49,6 @@ export const OpenSpaceMap = () => {
                         </Tooltip>
                     </Marker>
             )}
-            <Outlet/>
         </MapContainer>
     )
 }

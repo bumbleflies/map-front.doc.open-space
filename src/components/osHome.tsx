@@ -18,7 +18,7 @@ import {Image} from "mui-image";
 import {OpenSpaceMap} from "./osMap";
 import AddIcon from "@mui/icons-material/Add";
 import MyLocationIcon from "@mui/icons-material/MyLocation";
-import {useFetcher, useNavigate} from "react-router-dom";
+import {Outlet, useFetcher, useLocation, useNavigate} from "react-router-dom";
 import {localDayjs} from "../helper/dayjsTimezone";
 import {StyledFab} from "./button/styledFab";
 import MapContext from "./context/mapContext";
@@ -45,6 +45,8 @@ export const OpenSpaceHarvesterHome = (props: OpenSpaceHarvesterHomeType) => {
 
     const navigate = useNavigate();
     const fetcher = useFetcher()
+
+    const location = useLocation()
 
     useEffect(() => {
         if (statusMessages.length > 0) {
@@ -104,6 +106,14 @@ export const OpenSpaceHarvesterHome = (props: OpenSpaceHarvesterHomeType) => {
         map?.setView({lat: position.coords.latitude, lng: position.coords.longitude})
     }
 
+    console.log(location.pathname.split('/').length)
+    console.log(location.pathname.split('/').pop())
+
+    function shouldDrawFab() {
+        // dirty hack to hide FAB when image is displayed
+        return location.pathname.split('/').length < 5 || location.pathname.split('/').pop() === '';
+    }
+
     return (
         <Paper sx={{height: '100vh'}}>
             <AppBar position={"fixed"} sx={{zIndex: (theme) => theme.zIndex.drawer + 1}}>
@@ -146,12 +156,16 @@ export const OpenSpaceHarvesterHome = (props: OpenSpaceHarvesterHomeType) => {
                 </Alert>
             </Snackbar>
 
+            <Outlet/>
+
             <AppBar position="sticky" color="primary" sx={{top: 'auto', bottom: 10}}>
                 <Toolbar>
                     <Box sx={{flexGrow: 1}}/>
-                    <StyledFab data-testid={"os-home-fab-add"} color="secondary" aria-label="add" onClick={addMarker}>
-                        <AddIcon/>
-                    </StyledFab>
+                    {shouldDrawFab() ?
+                        <StyledFab data-testid={"os-home-fab-add"} color="secondary" aria-label="add"
+                                   onClick={addMarker}>
+                            <AddIcon/>
+                        </StyledFab> : null}
                     <Box sx={{flexGrow: 1}}/>
                     <IconButton onClick={centerCurrentLocation} color="inherit"
                                 aria-label={"current location"}>

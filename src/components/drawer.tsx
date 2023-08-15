@@ -11,6 +11,7 @@ export const DesktopDrawer = (props: DrawerProps) => {
     const shouldDraw = useMediaQuery(theme.breakpoints.up('sm'))
     return shouldDraw ? (
         <Drawer
+            variant={"permanent"}
             anchor={"left"} open={true}
             onClose={props.onCloseHandler}
             sx={{
