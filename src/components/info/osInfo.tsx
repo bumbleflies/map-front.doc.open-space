@@ -1,6 +1,6 @@
 import React from "react";
 import {MarkerWithImage} from "../../types/marker";
-import {Box, ButtonBase, CardMedia, Divider, Grid, Typography} from "@mui/material";
+import {Box, ButtonBase, CardMedia, Divider, Grid, Tab, Typography} from "@mui/material";
 import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import NightlightIcon from "@mui/icons-material/Nightlight";
 import EditIcon from "@mui/icons-material/Edit";
@@ -12,6 +12,8 @@ import {Endpoints} from "../../config/Endpoints";
 import {MenuActionButton} from "../button/menuActionButton";
 import {Outlet, useLoaderData, useNavigate, useSubmit} from "react-router-dom";
 import {ImageType} from "../../types/image";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import {TabContext, TabList} from "@mui/lab";
 
 
 export const OpenSpaceInfo = () => {
@@ -28,6 +30,16 @@ export const OpenSpaceInfo = () => {
 
     return (
         <Box sx={{}}>
+            <TabContext value={"1"}>
+                <TabList>
+                    <ButtonBase data-testid={"os-images-back-button"} aria-label={"back"} onClick={() => {
+                        navigate(`..`)
+                    }}>
+                        <ArrowBackIcon/>
+                    </ButtonBase>
+                    <Tab label="Open Space Info" value={"2"}></Tab>
+                </TabList>
+            </TabContext>
             <Grid container spacing={0} alignItems={"center"}>
                 {/* Image */}
                 <Grid item xs={12} textAlign={"center"}>
