@@ -16,10 +16,12 @@ describe('clicks through on different viewports', () => {
             viewports.forEach((viewport) => {
                 describe(`runs in ${viewport} view`, () => {
                     cy.viewport(viewport)
-                    cy.clickAddOs().as('osId')
+                    cy.clickAddOs()
                     cy.clickStatusMessage()
                     cy.getByDataTestId("os-title").should("contain.text", "Open Space @")
-                    cy.openEditAssertTitle('Open Space')
+                    cy.getByDataTestId('grid-identifier-text').then((osIdElement) => {
+                        cy.openEditAssertTitle(osIdElement.text(), 'Open Space')
+                    })
                     cy.assertNoImages()
                     cy.clickDeleteOs()
                 })

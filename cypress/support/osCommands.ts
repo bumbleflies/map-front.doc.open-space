@@ -13,9 +13,7 @@ export const getByDataTestId = function (testid: string) {
 export const clickAddOs = () => {
     cy.url().should('eq', 'http://localhost:3000/')
     cy.getByDataTestId('os-home-fab-add').click()
-    return cy.wait('@osApi').then((interception) => {
-        return cy.wrap(interception.request.url.split('/').pop())
-    })
+    return cy.wait('@osApi')
 }
 
 export const clickStatusMessage = () => {

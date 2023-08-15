@@ -45,7 +45,7 @@ declare global {
 
             getByDataTestId(dataTestId: string): Chainable<JQuery<HTMLElement>>
 
-            clickAddOs(): Chainable<string>
+            clickAddOs(): Chainable<void>
 
             clickStatusMessage(): Chainable<void>
 
