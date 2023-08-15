@@ -75,9 +75,9 @@ export const OpenSpaceInfo = () => {
                 </Grid>
                 {/* Dates */}
                 <IconTextGrid name={'start date'} icon={<WbSunnyIcon/>}
-                              text={infoMarker.startDate.format("DD.MM.YYYY - HH:mm ")}/>
+                              text={infoMarker.startDate.format("DD.MM.YYYY - HH:mm")}/>
                 <IconTextGrid name={'end date'} icon={<NightlightIcon/>}
-                              text={infoMarker.endDate.format("DD.MM.YYYY - HH:mm ")}/>
+                              text={infoMarker.endDate.format("DD.MM.YYYY - HH:mm")}/>
                 <IconTextGrid name={'position'} icon={<LocationOnIcon/>}
                               text={`${infoMarker.position.lat}, ${infoMarker.position.lng}`}/>
                 <IconTextGrid name={'identifier'} icon={<TagIcon/>} text={infoMarker.identifier}/>

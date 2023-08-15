@@ -34,11 +34,22 @@ export const clickDeleteOs = () => {
     })
 }
 
-
-export const openEditAssertTitle = (osTitlePart: string) => {
+export const openOsEdit = (osId: string) => {
+    cy.url().should('eq', `http://localhost:3000/os/${osId}`)
     cy.getByDataTestId("os-edit-button").click()
+    cy.wait('@headerApi')
+}
+
+export const openEditAssertTitle = (osId: string, osTitlePart: string) => {
+    cy.openOsEdit(osId)
     cy.getByDataTestId("os-edit-title").should("contain.value", osTitlePart)
     cy.getByDataTestId("os-edit-cancel").click()
 
 }
 
+export const onTestOs = () => {
+    return cy.get('@testOsId').then((testOsId) => {
+        cy.visit(`http://localhost:3000/os/${testOsId}`)
+        return cy.wrap(testOsId)
+    })
+}

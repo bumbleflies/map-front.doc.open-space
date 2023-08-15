@@ -1,31 +1,5 @@
-import axios from "axios";
+import {createOs, deleteOs} from "../support/apiActions";
 
-const createOs = () => {
-    return axios.post('http://localhost:5000/os', {
-        "location": {
-            "lat": 1.01,
-            "lng": 2.02
-        },
-        "title": "[Test-123] Open Space",
-        "start_date": "2023-08-14T17:00:00.000Z",
-        "end_date": "2023-08-14T19:00:00.000Z"
-    }).then((result) => {
-        cy.wrap(result.data.identifier).as('testOsId')
-    })
-}
-
-const deleteOs = () => {
-    cy.get('@testOsId').then((testId) => {
-        return axios.delete(`http://localhost:5000/os/${testId}`)
-    })
-}
-
-const onTestOs = () => {
-    return cy.get('@testOsId').then((testOsId) => {
-        cy.visit(`http://localhost:3000/os/${testOsId}`)
-        return cy.wrap(testOsId)
-    })
-}
 
 describe('Performs a simple run', () => {
 
@@ -53,20 +27,8 @@ describe('Performs a simple run', () => {
         })
     })
 
-    it('edits the title', () => {
-        onTestOs().then((testOsId) => {
-            cy.openEditAssertTitle('Open Space')
-            cy.get('div.leaflet-tooltip').contains(testOsId as unknown as string).should('exist')
-            cy.getByDataTestId("os-edit-button").click()
-            cy.wait('@headerApi')
-            cy.getByDataTestId("os-edit-title").type('{selectall}Open Space Test')
-            cy.getByDataTestId("os-edit-save").click()
-            cy.getByDataTestId("os-title").should("have.text", "Open Space Test")
-        })
-    })
-
     it('adds, edits and deletes an image', () => {
-        onTestOs().then((testOsId) => {
+        cy.onTestOs().then((testOsId) => {
 
             cy.assertNoImages()
 
@@ -101,7 +63,7 @@ describe('Performs a simple run', () => {
     })
 
     it('views the image in fullscreen', () => {
-        onTestOs().then((testOsId) => {
+        cy.onTestOs().then((testOsId) => {
             cy.clickImagesView()
             cy.uploadImage('cypress/fixtures/test-image.png')
             cy.get('div.MuiImageListItemBar-title').contains('no images yet').should('not.exist')

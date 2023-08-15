@@ -106,13 +106,13 @@ export const OpenSpaceInfoEditDialog = () => {
                         </Grid>
                         <LocalizationProvider dateAdapter={AdapterDayjs}
                                               adapterLocale={"de"}>
-                            <Grid item xs={6}>
+                            <Grid item xs={6} data-testid={"os-date-start"}>
                                 <DateTimePicker
                                     label={"Start Date"} value={startDate}
                                     format="DD.MM.YYYY HH:mm"
                                     onAccept={acceptStartDate}/>
                             </Grid>
-                            <Grid item xs={6}>
+                            <Grid item xs={6} data-testid={"os-date-end"}>
                                 <DateTimePicker
                                     label={"End Date"} value={endDate}
                                     format="DD.MM.YYYY HH:mm"

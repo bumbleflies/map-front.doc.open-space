@@ -16,7 +16,9 @@ import {
     clickDeleteOs,
     clickStatusMessage,
     getByDataTestId,
+    onTestOs,
     openEditAssertTitle,
+    openOsEdit,
     registerInterceptRoutes
 } from "./osCommands";
 import {assertNoImages, clickImagesBack, clickImagesView, uploadImage} from "./imageCommands";
@@ -31,7 +33,9 @@ Cypress.Commands.addAll({
     assertNoImages,
     clickImagesBack,
     clickImagesView,
-    uploadImage
+    uploadImage,
+    onTestOs,
+    openOsEdit
 })
 
 declare global {
@@ -47,7 +51,7 @@ declare global {
 
             clickDeleteOs(): Chainable<void>
 
-            openEditAssertTitle(osTitlePart: string): Chainable<void>
+            openEditAssertTitle(osId: string, osTitlePart: string): Chainable<void>
 
             assertNoImages(): Chainable<void>
 
@@ -56,6 +60,10 @@ declare global {
             clickImagesView(): Chainable<void>
 
             uploadImage(file: string): Chainable<void>
+
+            onTestOs(): Chainable<string>
+
+            openOsEdit(osId: string): Chainable<void>
 
 //       drag(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
 //       dismiss(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
