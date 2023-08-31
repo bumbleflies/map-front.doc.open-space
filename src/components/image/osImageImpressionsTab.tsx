@@ -5,7 +5,7 @@ import {useFetcher, useLoaderData, useNavigate, useParams} from "react-router-do
 import {Endpoints} from "../../config/Endpoints";
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import {ImageWithDetailsType} from "../../types/image";
-import {OpenSpaceImageAddDialog} from "./osImageAddDialog";
+import {OsImageImpressionsAddDialog} from "./osImageImpressionsAddDialog";
 import {OsImageMenu} from "../menu/osImageMenu";
 import {ImageApiServices as imageApi} from "../../helper/imageApi";
 
@@ -56,8 +56,8 @@ export const OsImageImpressionsTab = () => {
                     }}>
                         <AddPhotoAlternateIcon fontSize={"large"}/>
                     </ListItemButton>
-                    <OpenSpaceImageAddDialog isOpen={editOpen} closeHandler={() => setEditOpen(false)}
-                                             submit={imageUploadFetcher.submit} upload={uploadFile}/>
+                    <OsImageImpressionsAddDialog isOpen={editOpen} closeHandler={() => setEditOpen(false)}
+                                                 submit={imageUploadFetcher.submit} upload={uploadFile}/>
                     <ImageListItemBar {...images.length === 0 ? {title: "no images yet"} : null}
                                       subtitle={"click to add impressions"}/>
 
@@ -88,9 +88,8 @@ export const OsImageImpressionsTab = () => {
                 ))}
                 {pendingImages.map((image) => (
                     <ImageListItem key={image}>
-                        <Skeleton variant="rectangular" width={210} height={150}/>
-                        <ImageListItemBar title={image}
-                        />
+                        <Skeleton variant="rectangular" width={170} height={150}/>
+                        <ImageListItemBar title={image}/>
                     </ImageListItem>
                 ))}
             </ImageList>

@@ -1,66 +1,18 @@
-import {Box, Button, Dialog, DialogActions, DialogContent, DialogTitle} from "@mui/material";
+import {Button, Dialog, DialogActions, DialogContent, DialogTitle} from "@mui/material";
 import React, {useEffect, useState} from "react";
-import {FetcherSubmitFunction, useParams} from "react-router-dom";
-import {useDropzone} from 'react-dropzone'
-import {Container, FilePreview, img, thumb, thumbInner, thumbsContainer} from "./filePreview";
+import {FetcherSubmitFunction} from "react-router-dom";
+import {FilePreview} from "./filePreview";
 import {ImageNotAvailable, ImageType} from "../../types/image";
+import {ImageUpload} from "./imageUpload";
 
-type ImageUploadProps = {
-    files: FilePreview[],
-    onSelectHandler: (acceptedFiles: File[]) => void
-}
-const ImageUpload = (props: ImageUploadProps) => {
-    const {
-        getRootProps,
-        getInputProps,
-    } = useDropzone({
-            accept: {'image/*': []},
-            onDrop: props.onSelectHandler,
-        }
-    );
-
-
-    useEffect(() => {
-        // Make sure to revoke the data uris to avoid memory leaks, will run on unmount
-        return () => props.files.forEach(file => URL.revokeObjectURL(file.preview));
-    }, [props.files]);
-
-    const thumbs = props.files.map(file => (
-        <div style={thumb} key={file.name}>
-            <div data-testid={`os-image-add-preview-${file.name.replaceAll('.', '-')}`} style={thumbInner}>
-                <img
-                    src={file.preview}
-                    style={img}
-                    // Revoke data uri after image is loaded
-                    onLoad={() => {
-                        URL.revokeObjectURL(file.preview)
-                    }}
-                    alt={"preview"}
-                />
-            </div>
-        </div>
-    ));
-    return (
-        <Box>
-            <Container {...getRootProps()}>
-                <input data-testid={"os-image-upload"} {...getInputProps()} />
-                <p>Drag 'n' drop some files here, or click to select files</p>
-            </Container>
-            <aside style={thumbsContainer}>
-                {thumbs}
-            </aside>
-        </Box>
-    )
-}
-
-type OpenSpaceImageAddDialogProps = {
+type OsImageAddDialogProps = {
     isOpen: boolean,
     closeHandler: () => void,
     submit: FetcherSubmitFunction,
     upload: (file: File) => Promise<ImageType | ImageNotAvailable>
 }
 
-export const OpenSpaceImageAddDialog = (props: OpenSpaceImageAddDialogProps) => {
+export const OsImageImpressionsAddDialog = (props: OsImageAddDialogProps) => {
     const [files, setFiles] = useState<FilePreview[]>([]);
 
     useEffect(() => {
@@ -99,7 +51,7 @@ export const OpenSpaceImageAddDialog = (props: OpenSpaceImageAddDialogProps) => 
 
     return (
         <Dialog open={props.isOpen}>
-            <DialogTitle>Add Session Picture</DialogTitle>
+            <DialogTitle>Add Impression</DialogTitle>
             <DialogContent>
                 <ImageUpload files={files} onSelectHandler={onFilesDropped}/>
             </DialogContent>

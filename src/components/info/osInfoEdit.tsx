@@ -107,8 +107,7 @@ export const OpenSpaceInfoEditDialog = () => {
                                 Was is the runtime of the Open Space?
                             </DialogContentText>
                         </Grid>
-                        <LocalizationProvider dateAdapter={AdapterDayjs}
-                                              adapterLocale={"de"}>
+                        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={"de"}>
                             <Grid item xs={6} data-testid={"os-date-start"}>
                                 <DateTimePicker
                                     label={"Start Date"} value={startDate}
