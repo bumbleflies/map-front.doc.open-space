@@ -4,6 +4,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {TabContext, TabList, TabPanel} from "@mui/lab";
 import {OsImageImpressionsTab} from "./osImageImpressionsTab";
+import {OsImageSessionsTab} from "./osImageSessionsTab";
 
 export const OsImageTabList = () => {
     const navigate = useNavigate()
@@ -30,7 +31,9 @@ export const OsImageTabList = () => {
                 <TabPanel value={"1"}>
                     <OsImageImpressionsTab/>
                 </TabPanel>
-                <TabPanel value={"2"}>Sessions</TabPanel>
+                <TabPanel value={"2"}>
+                    <OsImageSessionsTab/>
+                </TabPanel>
             </TabContext>
 
         </>

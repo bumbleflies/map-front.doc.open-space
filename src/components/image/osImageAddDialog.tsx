@@ -2,8 +2,8 @@ import {Box, Button, Dialog, DialogActions, DialogContent, DialogTitle} from "@m
 import React, {useEffect, useState} from "react";
 import {FetcherSubmitFunction, useParams} from "react-router-dom";
 import {useDropzone} from 'react-dropzone'
-import {ImageApiServices as imageApi} from "../../helper/imageApi";
 import {Container, FilePreview, img, thumb, thumbInner, thumbsContainer} from "./filePreview";
+import {ImageNotAvailable, ImageType} from "../../types/image";
 
 type ImageUploadProps = {
     files: FilePreview[],
@@ -56,11 +56,11 @@ const ImageUpload = (props: ImageUploadProps) => {
 type OpenSpaceImageAddDialogProps = {
     isOpen: boolean,
     closeHandler: () => void,
-    submit: FetcherSubmitFunction
+    submit: FetcherSubmitFunction,
+    upload: (file: File) => Promise<ImageType | ImageNotAvailable>
 }
 
 export const OpenSpaceImageAddDialog = (props: OpenSpaceImageAddDialogProps) => {
-    const {os_id} = useParams<"os_id">();
     const [files, setFiles] = useState<FilePreview[]>([]);
 
     useEffect(() => {
@@ -86,16 +86,12 @@ export const OpenSpaceImageAddDialog = (props: OpenSpaceImageAddDialogProps) => 
         props.closeHandler()
         let remainingFiles = Array.from(files)
         submitFiles(remainingFiles)
-        Promise.all(files.map((file) => {
-                return imageApi.upload({
-                    osIdentifier: os_id!,
-                    imageFile: file
-                }).then(() => {
-                    console.log(`Finished uploading ${file.name} to ${os_id}`)
-                    remainingFiles = remainingFiles.filter((f) => f.name !== file.name)
-                    submitFiles(remainingFiles)
-                })
-            }
+        Promise.all(files.map((file) =>
+            props.upload(file).then(() => {
+                console.log(`Finished uploading ${file.name}`)
+                remainingFiles = remainingFiles.filter((f) => f.name !== file.name)
+                submitFiles(remainingFiles)
+            })
         )).then(() => {
             console.log('Finished uploading all images')
         })

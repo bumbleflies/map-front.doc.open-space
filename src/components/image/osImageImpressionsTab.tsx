@@ -1,12 +1,13 @@
 import {IconButton, ImageList, ImageListItem, ImageListItemBar, ListItemButton, Skeleton} from "@mui/material";
 import React, {useEffect, useState} from "react";
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
-import {useFetcher, useLoaderData, useNavigate} from "react-router-dom";
+import {useFetcher, useLoaderData, useNavigate, useParams} from "react-router-dom";
 import {Endpoints} from "../../config/Endpoints";
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import {ImageWithDetailsType} from "../../types/image";
 import {OpenSpaceImageAddDialog} from "./osImageAddDialog";
 import {OsImageMenu} from "../menu/osImageMenu";
+import {ImageApiServices as imageApi} from "../../helper/imageApi";
 
 export const OsImageImpressionsTab = () => {
     const images = useLoaderData() as ImageWithDetailsType[]
@@ -17,6 +18,7 @@ export const OsImageImpressionsTab = () => {
 
     const imageUploadFetcher = useFetcher()
     const navigate = useNavigate()
+    const {os_id} = useParams<"os_id">();
 
     useEffect(() => {
         if (Boolean(imageUploadFetcher.data)) {
@@ -35,6 +37,13 @@ export const OsImageImpressionsTab = () => {
         setSelectedImage(null)
     }
 
+    const uploadFile = (file: File) => {
+        return imageApi.upload({
+            osIdentifier: os_id!,
+            imageFile: file
+        })
+    }
+
     return (
         <>
             <ImageList>
@@ -48,7 +57,7 @@ export const OsImageImpressionsTab = () => {
                         <AddPhotoAlternateIcon fontSize={"large"}/>
                     </ListItemButton>
                     <OpenSpaceImageAddDialog isOpen={editOpen} closeHandler={() => setEditOpen(false)}
-                                             submit={imageUploadFetcher.submit}/>
+                                             submit={imageUploadFetcher.submit} upload={uploadFile}/>
                     <ImageListItemBar {...images.length === 0 ? {title: "no images yet"} : null}
                                       subtitle={"click to add impressions"}/>
 
