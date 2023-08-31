@@ -1,10 +1,9 @@
 import {IconButton, ImageList, ImageListItem, ImageListItemBar, ListItemButton, Skeleton} from "@mui/material"
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import {useState} from "react";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import AddCircleIcon from '@mui/icons-material/AddCircle';
 import NoteAddIcon from '@mui/icons-material/NoteAdd';
 import EditIcon from "@mui/icons-material/Edit";
+
 type Session = {
     id: string,
     title: string
