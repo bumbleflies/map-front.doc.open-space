@@ -18,6 +18,7 @@ import {OsImageEditDialog} from "./components/image/osImageEditDialog";
 import {ImageDetailsApiService} from "./helper/imageDetailsApi";
 import {OsImageFullView} from "./components/image/osImageFullView";
 import OsTabListDrawer from "./components/image/osTabListDrawer";
+import { handleSessionAddAction } from './action/osSession';
 
 const router = createBrowserRouter([
     {
@@ -70,6 +71,7 @@ const router = createBrowserRouter([
             },{
                 path: 'os/:os_id/s/',
                 element: <OsTabListDrawer active={"s"}/>,
+                action: handleSessionAddAction,
                 children: [
                 ]
             },
