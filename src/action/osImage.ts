@@ -1,6 +1,6 @@
 import {ActionFunctionArgs, redirect} from "react-router-dom";
-import {ImageApiServices} from "../helper/imageApi";
-import {ImageDetailsApiService} from "../helper/imageDetailsApi";
+import {ImageApiServices} from "../api/imageApi";
+import {ImageDetailsApiService} from "../api/imageDetailsApi";
 
 export const handleImageUploadAction = async (args: ActionFunctionArgs) => {
     // return the ids of uploading images until they are finally uploaded

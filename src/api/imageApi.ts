@@ -1,7 +1,7 @@
 import {OsImageApiType} from "../types/api";
 import axios from "axios";
 import {Endpoints} from "../config/Endpoints";
-import {uploadResponseToImageType} from "./apiMapper";
+import {uploadResponseToImageType} from "../helper/apiMapper";
 import {LoaderFunctionArgs} from "react-router-dom";
 import {ImageNotAvailable, ImageUpload, TransientImageType} from "../types/image";
 import {ImageDetailsApiService} from "./imageDetailsApi";

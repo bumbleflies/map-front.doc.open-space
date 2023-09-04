@@ -1,5 +1,5 @@
 import {ActionFunctionArgs, redirect} from "react-router-dom";
-import {OsApiServices} from "../helper/osApi";
+import {OsApiServices} from "../api/osApi";
 
 export const handleDeleteAction = async (args: ActionFunctionArgs) => {
     const osId = args.params.os_id!;

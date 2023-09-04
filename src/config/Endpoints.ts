@@ -28,4 +28,5 @@ export const Endpoints = {
     headerImage: (osId: string) => new URL('?only_header=True', Endpoints.openSpaceImages(osId)).href,
     openSpaceImage: (image: TransientImageType) => new URL(image.imageIdentifier, Endpoints.openSpaceImages(image.osIdentifier)).href,
     openSpaceImageDetails: (image: TransientImageType) => new URL('details', Endpoints.openSpaceImage(image) + '/').href,
+    openSpaceSessions: (id: string) => new URL('s/', Endpoints.openSpace(id) + '/').href,
 }

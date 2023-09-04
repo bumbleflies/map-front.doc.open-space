@@ -7,7 +7,7 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import {ImageWithDetailsType} from "../../types/image";
 import {OsImpressionsAddDialog} from "./osImpressionsAddDialog";
 import {OsImageMenu} from "../menu/osImageMenu";
-import {ImageApiServices as imageApi} from "../../helper/imageApi";
+import {ImageApiServices as imageApi} from "../../api/imageApi";
 
 export const OsImpressionsTab = () => {
     const images = useLoaderData() as ImageWithDetailsType[]

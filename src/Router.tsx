@@ -3,8 +3,8 @@ import './Router.css';
 import {OpenSpaceHarvesterHome} from "./components/osHome";
 import {createBrowserRouter, RouterProvider} from 'react-router-dom';
 
-import {OsApiServices} from "./helper/osApi";
-import {ImageApiServices} from "./helper/imageApi";
+import {OsApiServices} from "./api/osApi";
+import {ImageApiServices} from "./api/imageApi";
 import OpenSpaceInfoDrawer from "./components/info/osInfoDrawer";
 import {handleAddAction, handleDeleteAction, handleEditAction} from "./action/osInfo";
 import {OpenSpaceInfoEditDialog} from './components/info/osInfoEdit';
@@ -15,10 +15,11 @@ import {
     handleImageUploadAction
 } from "./action/osImage";
 import {OsImageEditDialog} from "./components/image/osImageEditDialog";
-import {ImageDetailsApiService} from "./helper/imageDetailsApi";
+import {ImageDetailsApiService} from "./api/imageDetailsApi";
 import {OsImageFullView} from "./components/image/osImageFullView";
 import OsTabListDrawer from "./components/image/osTabListDrawer";
 import { handleSessionAddAction } from './action/osSession';
+import {SessionApiServices} from "./api/sessionApi";
 
 const router = createBrowserRouter([
     {
@@ -72,6 +73,7 @@ const router = createBrowserRouter([
                 path: 'os/:os_id/s/',
                 element: <OsTabListDrawer active={"s"}/>,
                 action: handleSessionAddAction,
+                loader: SessionApiServices.loadAll,
                 children: [
                 ]
             },
