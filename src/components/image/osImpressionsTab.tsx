@@ -5,11 +5,11 @@ import {useFetcher, useLoaderData, useNavigate, useParams} from "react-router-do
 import {Endpoints} from "../../config/Endpoints";
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import {ImageWithDetailsType} from "../../types/image";
-import {OsImageImpressionsAddDialog} from "./osImageImpressionsAddDialog";
+import {OsImpressionsAddDialog} from "./osImpressionsAddDialog";
 import {OsImageMenu} from "../menu/osImageMenu";
 import {ImageApiServices as imageApi} from "../../helper/imageApi";
 
-export const OsImageImpressionsTab = () => {
+export const OsImpressionsTab = () => {
     const images = useLoaderData() as ImageWithDetailsType[]
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
     const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
@@ -56,8 +56,8 @@ export const OsImageImpressionsTab = () => {
                     }}>
                         <AddPhotoAlternateIcon fontSize={"large"}/>
                     </ListItemButton>
-                    <OsImageImpressionsAddDialog isOpen={editOpen} closeHandler={() => setEditOpen(false)}
-                                                 submit={imageUploadFetcher.submit} upload={uploadFile}/>
+                    <OsImpressionsAddDialog isOpen={editOpen} closeHandler={() => setEditOpen(false)}
+                                            submit={imageUploadFetcher.submit} upload={uploadFile}/>
                     <ImageListItemBar {...images.length === 0 ? {title: "no images yet"} : null}
                                       subtitle={"click to add impressions"}/>
 

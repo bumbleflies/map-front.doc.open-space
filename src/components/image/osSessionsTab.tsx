@@ -10,7 +10,7 @@ type Session = {
 }
 
 
-export const OsImageSessionsTab = () => {
+export const OsSessionsTab = () => {
     const [sessions, setSessions] = useState<Session[]>([])
 
     return (

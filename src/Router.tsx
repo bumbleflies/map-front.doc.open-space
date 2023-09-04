@@ -8,7 +8,6 @@ import {ImageApiServices} from "./helper/imageApi";
 import OpenSpaceInfoDrawer from "./components/info/osInfoDrawer";
 import {handleAddAction, handleDeleteAction, handleEditAction} from "./action/osInfo";
 import {OpenSpaceInfoEditDialog} from './components/info/osInfoEdit';
-import OpenSpaceImageDrawer from "./components/image/osImageDrawer";
 import {
     handleImageDeleteAction,
     handleImageDetailsEditAction,
@@ -18,6 +17,7 @@ import {
 import {OsImageEditDialog} from "./components/image/osImageEditDialog";
 import {ImageDetailsApiService} from "./helper/imageDetailsApi";
 import {OsImageFullView} from "./components/image/osImageFullView";
+import OsTabListDrawer from "./components/image/osTabListDrawer";
 
 const router = createBrowserRouter([
     {
@@ -45,7 +45,7 @@ const router = createBrowserRouter([
             },
             {
                 path: 'os/:os_id/i/',
-                element: <OpenSpaceImageDrawer/>,
+                element: <OsTabListDrawer active={"i"}/>,
                 loader: ImageApiServices.loadAll,
                 action: handleImageUploadAction,
                 children: [
@@ -66,6 +66,11 @@ const router = createBrowserRouter([
                             }
                         ]
                     }
+                ]
+            },{
+                path: 'os/:os_id/s/',
+                element: <OsTabListDrawer active={"s"}/>,
+                children: [
                 ]
             },
 

@@ -5,14 +5,14 @@ import {FilePreview} from "./filePreview";
 import {ImageNotAvailable, ImageType} from "../../types/image";
 import {ImageUpload} from "./imageUpload";
 
-type OsImageAddDialogProps = {
+type OsImpressionsAddDialogProps = {
     isOpen: boolean,
     closeHandler: () => void,
     submit: FetcherSubmitFunction,
     upload: (file: File) => Promise<ImageType | ImageNotAvailable>
 }
 
-export const OsImageImpressionsAddDialog = (props: OsImageAddDialogProps) => {
+export const OsImpressionsAddDialog = (props: OsImpressionsAddDialogProps) => {
     const [files, setFiles] = useState<FilePreview[]>([]);
 
     useEffect(() => {

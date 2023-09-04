@@ -1,38 +1,38 @@
 import {ButtonBase, Tab} from "@mui/material";
-import React, {useState} from "react";
+import React from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {TabContext, TabList, TabPanel} from "@mui/lab";
-import {OsImageImpressionsTab} from "./osImageImpressionsTab";
-import {OsImageSessionsTab} from "./osImageSessionsTab";
+import {OsImpressionsTab} from "./osImpressionsTab";
+import {OsSessionsTab} from "./osSessionsTab";
+import {OsTabListDrawerProps} from "./osTabListDrawer";
 
-export const OsImageTabList = () => {
+
+export const OsTabList = (props:OsTabListDrawerProps) => {
     const navigate = useNavigate()
-    const [selectedTab, setSelectedTab] = useState<string>("1")
     const {os_id} = useParams<"os_id">()
 
     const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-        setSelectedTab(newValue);
+        navigate(`/os/${os_id}/${newValue}`);
     };
-
 
     return (
         <>
-            <TabContext value={selectedTab}>
+            <TabContext value={props.active}>
                 <TabList onChange={handleChange}>
                     <ButtonBase data-testid={"os-images-back-button"} aria-label={"back"} onClick={() => {
                         navigate(`/os/${os_id}`)
                     }}>
                         <ArrowBackIcon/>
                     </ButtonBase>
-                    <Tab label="Impressions" value={"1"}></Tab>
-                    <Tab label="Sessions" value={"2"}></Tab>
+                    <Tab label="Impressions" value={"i"}></Tab>
+                    <Tab label="Sessions" value={"s"}></Tab>
                 </TabList>
-                <TabPanel value={"1"}>
-                    <OsImageImpressionsTab/>
+                <TabPanel value={"i"}>
+                    <OsImpressionsTab/>
                 </TabPanel>
-                <TabPanel value={"2"}>
-                    <OsImageSessionsTab/>
+                <TabPanel value={"s"}>
+                    <OsSessionsTab/>
                 </TabPanel>
             </TabContext>
 
