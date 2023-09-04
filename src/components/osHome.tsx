@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {Map} from "leaflet";
-import {MarkerType} from "../types/marker";
+import {MarkerType, transientMarkerToOs} from "../types/marker";
 import {
     Alert,
     AlertColor,
@@ -22,7 +22,6 @@ import {Outlet, useFetcher, useLocation, useNavigate} from "react-router-dom";
 import {localDayjs} from "../helper/dayjsTimezone";
 import {StyledFab} from "./button/styledFab";
 import MapContext from "./context/mapContext";
-import {transientMarkerToOs} from "../helper/apiMapper";
 
 type StatusMessage = {
     id: string

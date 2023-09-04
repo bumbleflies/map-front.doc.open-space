@@ -1,13 +1,11 @@
 import React from 'react';
 import {act, fireEvent, getByRole, render, screen} from '@testing-library/react';
-import {MarkerType} from "../types/marker";
+import {markerToOs, MarkerType, OSApiType} from "../types/marker";
 import {localDayjs} from "../helper/dayjsTimezone";
 import {LatLng} from "leaflet";
 import {OpenSpaceInfoEditDialog} from "../components/info/osInfoEdit";
 // https://github.com/testing-library/react-testing-library/issues/379
 import '@testing-library/jest-dom/extend-expect'
-import {OSApiType} from "../types/api";
-import {markerToOs} from "../helper/apiMapper";
 
 const mockOpenSpaceMarker: MarkerType = {
     identifier: 'test-123',

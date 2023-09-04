@@ -22,3 +22,15 @@ export type ImageDetailsType = {
 }
 
 export type ImageWithDetailsType = ImageType & ImageDetailsType
+
+export type OsImageApiType = {
+    identifier: string,
+    os_identifier: string
+}
+export const uploadResponseToImageType = (uploadedImage: OsImageApiType): ImageType => {
+    return {
+        imageIdentifier: uploadedImage.identifier,
+        osIdentifier: uploadedImage.os_identifier,
+        isAvailable: true
+    }
+}

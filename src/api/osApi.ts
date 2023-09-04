@@ -1,9 +1,14 @@
-import {MarkerType, MarkerWithImage} from "../types/marker";
+import {
+    markerToOs,
+    MarkerType,
+    MarkerWithImage,
+    OSApiType,
+    osLoaderToMarker,
+    TransientOSApiType
+} from "../types/marker";
 import axios from "axios";
 import {Endpoints} from "../config/Endpoints";
-import {markerToOs, osLoaderToMarker} from "../helper/apiMapper";
 import {LoaderFunctionArgs, redirect} from "react-router-dom";
-import {OSApiType, TransientOSApiType} from "../types/api";
 import {ImageApiServices} from "./imageApi";
 
 export const OsApiServices = {
