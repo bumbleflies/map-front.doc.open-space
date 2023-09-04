@@ -1,5 +1,5 @@
 import React from 'react';
-import './App.css';
+import './Router.css';
 import {OpenSpaceHarvesterHome} from "./components/osHome";
 import {createBrowserRouter, RouterProvider} from 'react-router-dom';
 
@@ -73,9 +73,9 @@ const router = createBrowserRouter([
     }
 ])
 
-const App = () => {
+const Router = () => {
     return (
         <RouterProvider router={router}/>
     )
 }
-export default React.memo(App)
+export default React.memo(Router)
