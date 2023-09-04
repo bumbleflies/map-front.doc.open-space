@@ -34,7 +34,8 @@ describe('when adding os sessions', () => {
             cy.wait('@sessionsApi')
 
             // edit session
-            cy.getByDataTestId('os-session-edit').click()
+            cy.getByDataTestId('os-session-menu').click()
+            cy.getByDataTestId('os-session-menu-edit').click()
             cy.getByDataTestId('session-edit-title').type('{selectall}My Test Session')
 
             // start time
@@ -54,6 +55,23 @@ describe('when adding os sessions', () => {
                 .should('contain.text', '16.08 19:00 - 21:00')
         })
     })
+
+
+    it('deletes the session', () => {
+        cy.onTestOs().then((testOsId) => {
+            cy.clickImagesView()
+            cy.getByDataTestId('os-sessions-tab').click()
+            cy.get('div.MuiImageListItemBar-title').contains('no sessions yet').should('exist')
+            cy.getByDataTestId('os-session-add-button').click()
+            cy.get('div.MuiImageListItemBar-title').contains('no sessions yet').should('not.exist')
+
+            cy.getByDataTestId('os-session-menu').click()
+            cy.getByDataTestId('os-session-menu-delete').click()
+
+            cy.get('div.MuiImageListItemBar-title').contains('no sessions yet').should('exist')
+        })
+    })
+
 
 })
 

@@ -64,7 +64,7 @@ export const OsSessionsTab = () => {
                             subtitle={`${session.startDate.format('DD.MM')} ${session.startDate.format('HH:mm')} - ${session.endDate.format('HH:mm')}`}
                             actionIcon={
                                 <IconButton
-                                    data-testid={"os-session-edit"}
+                                    data-testid={"os-session-menu"}
                                     sx={{color: 'white'}}
                                     aria-label={`Session ${session.title}`}
                                     onClick={(event: React.MouseEvent<HTMLButtonElement>) => openMenu(event, session.sessionIdentifier)}

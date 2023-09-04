@@ -44,7 +44,7 @@ export const OsSessionsMenu = (props: OsImageMenuProps) => {
                     horizontal: 'center',
                 }}
             >
-                <MenuItem data-testid={"os-session-edit-menu"} onClick={editSession}>
+                <MenuItem data-testid={"os-session-menu-edit"} onClick={editSession}>
                     <ListItemIcon>
                         <EditIcon/>
                     </ListItemIcon>
@@ -53,7 +53,7 @@ export const OsSessionsMenu = (props: OsImageMenuProps) => {
                     </ListItemText>
                 </MenuItem>
                 <Divider></Divider>
-                <MenuItem data-testid={"os-session-delete-menu"} onClick={deleteSession}>
+                <MenuItem data-testid={"os-session-menu-delete"} onClick={deleteSession}>
                     <ListItemIcon>
                         <DeleteIcon/>
                     </ListItemIcon>
