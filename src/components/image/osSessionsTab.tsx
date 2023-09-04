@@ -17,9 +17,9 @@ export const OsSessionsTab = () => {
 
     const addSession = () => {
         const formData = new FormData()
-        formData.append('title',`Session #${osWithSessions.sessions.length + 1} of OS [${osWithSessions.os.title}]`)
-        formData.append('startDate',osWithSessions.os.startDate.toISOString())
-        formData.append('endDate',osWithSessions.os.startDate.clone().add(1,'hour').toISOString())
+        formData.append('title', `Session #${osWithSessions.sessions.length + 1} of OS [${osWithSessions.os.title}]`)
+        formData.append('startDate', osWithSessions.os.startDate.toISOString())
+        formData.append('endDate', osWithSessions.os.startDate.clone().add(1, 'hour').toISOString())
         addSessionFetcher.submit(formData, {
             method: 'post',
         })
@@ -44,24 +44,32 @@ export const OsSessionsTab = () => {
                 {osWithSessions.sessions.map((session) => (
                     <ImageListItem key={session.sessionIdentifier}>
                         <Skeleton variant="rectangular" width={170} height={150}/>
-                        <ImageListItemBar actionIcon={
-                            <IconButton
-                                data-testid={"os-session-edit"}
-                                sx={{color: 'white'}}
-                                aria-label={`Session ${session.title}`}
-                            >
-                                <EditIcon/>
-                            </IconButton>
-                        }/>
-                        <ImageListItemBar position={"top"} actionPosition={"left"} actionIcon={
-                            <IconButton
-                                data-testid={"os-session-add"}
-                                sx={{color: 'white'}}
-                                aria-label={`Session ${session.title}`}
-                            >
-                                <AddPhotoAlternateIcon/>
-                            </IconButton>
-                        }/>
+                        <ImageListItemBar
+                            subtitle={`${session.startDate.format('DD.MM')} ${session.startDate.format('HH:mm')} - ${session.endDate.format('HH:mm')}`}
+
+                            actionIcon={
+                                <IconButton
+                                    data-testid={"os-session-edit"}
+                                    sx={{color: 'white'}}
+                                    aria-label={`Session ${session.title}`}
+                                >
+                                    <EditIcon/>
+                                </IconButton>
+                            }/>
+                        <ImageListItemBar
+                            position={"top"}
+                            actionPosition={"left"}
+                            subtitle={session.title}
+
+                            actionIcon={
+                                <IconButton
+                                    data-testid={"os-session-add"}
+                                    sx={{color: 'white'}}
+                                    aria-label={`Session ${session.title}`}
+                                >
+                                    <AddPhotoAlternateIcon/>
+                                </IconButton>
+                            }/>
 
                     </ImageListItem>
                 ))}
