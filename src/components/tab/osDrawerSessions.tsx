@@ -1,7 +1,6 @@
 import {Toolbar} from "@mui/material";
 import {DesktopDrawer, MobileDrawer} from "../drawer";
 import {Outlet, useNavigate} from "react-router-dom";
-import {OsTabList} from "./osTabList";
 import React from "react";
 
 const OsDrawerSessions = () => {
