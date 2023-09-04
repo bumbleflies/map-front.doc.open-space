@@ -26,7 +26,7 @@ export const OsTabList = (props: OsTabListDrawerProps) => {
                         <ArrowBackIcon/>
                     </ButtonBase>
                     <Tab label="Impressions" value={"i"}></Tab>
-                    <Tab label="Sessions" value={"s"}></Tab>
+                    <Tab label="Sessions" value={"s"} data-testid={"os-sessions-tab"}></Tab>
                 </TabList>
                 <TabPanel value={"i"}>
                     <OsImpressionsTab/>

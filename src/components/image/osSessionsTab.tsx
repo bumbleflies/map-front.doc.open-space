@@ -38,7 +38,8 @@ export const OsSessionsTab = () => {
                                     }}>
                         <NoteAddIcon fontSize={"large"}/>
                     </ListItemButton>
-                    <ImageListItemBar title={"no sessions yet"}/>
+                    <ImageListItemBar title={osWithSessions.sessions.length > 0 ? null : "no sessions yet"}
+                                      subtitle={"click to add impressions"}/>
                 </ImageListItem>
                 {osWithSessions.sessions.map((session) => (
                     <ImageListItem key={session.sessionIdentifier}>

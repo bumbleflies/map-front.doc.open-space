@@ -99,8 +99,8 @@ export const OsSessionEditDialog = () => {
                 />
             </DialogContent>
             <DialogActions>
-                <Button data-testid='image-edit-cancel' onClick={closeSessionEdit}>Cancel</Button>
-                <Button data-testid='image-edit-save' onClick={saveSessionEdit}>Update</Button>
+                <Button data-testid='session-edit-cancel' onClick={closeSessionEdit}>Cancel</Button>
+                <Button data-testid='session-edit-save' onClick={saveSessionEdit}>Update</Button>
             </DialogActions>
         </Dialog>
     )
