@@ -6,11 +6,6 @@ import {useFetcher, useLoaderData, useNavigate} from "react-router-dom";
 import {OsWithSessions} from "../../api/sessionApi";
 import {OsSessionDetailsApiType} from "../../types/session";
 
-type Session = {
-    id: string,
-    title: string
-}
-
 
 export const OsSessionsTab = () => {
     const addSessionFetcher = useFetcher()
