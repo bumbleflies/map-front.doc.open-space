@@ -1,6 +1,6 @@
 import {IconButton, ImageList, ImageListItem, ImageListItemBar, ListItemButton, Skeleton} from "@mui/material"
 import NoteAddIcon from '@mui/icons-material/NoteAdd';
-import {useFetcher, useLoaderData} from "react-router-dom";
+import {useFetcher, useLoaderData, useNavigate} from "react-router-dom";
 import {OsWithSessions} from "../../api/sessionApi";
 import {OsSessionDetailsApiType} from "../../types/session";
 import {useState} from "react";
@@ -11,6 +11,7 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 export const OsSessionsTab = () => {
     const addSessionFetcher = useFetcher()
     const osWithSessions = useLoaderData() as OsWithSessions
+    const navigate = useNavigate()
 
     const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
     const [selectedSession, setSelectedSession] = useState<null | string>(null)
@@ -56,7 +57,8 @@ export const OsSessionsTab = () => {
                 </ImageListItem>
                 {osWithSessions.sessions.map((session) => (
                     <ImageListItem key={session.sessionIdentifier}>
-                        <Skeleton variant="rectangular" width={170} height={150}/>
+                        <Skeleton variant="rectangular" width={170} height={150}
+                                  onClick={() => navigate(`${session.sessionIdentifier}`)}/>
                         <ImageListItemBar
                             data-testid={'os-session-time-bar'}
                             subtitle={`${session.startDate.format('DD.MM')} ${session.startDate.format('HH:mm')} - ${session.endDate.format('HH:mm')}`}

@@ -21,6 +21,7 @@ import OsDrawerTabList from "./components/tab/osDrawerTabList";
 import {handleSessionAddAction, handleSessionDeleteAction, handleSessionEditAction} from './action/osSession';
 import {SessionApiServices} from "./api/sessionApi";
 import {OsSessionEditDialog} from "./components/session/osSessionEditDialog";
+import OsDrawerSessions from "./components/tab/osDrawerSessions";
 
 const router = createBrowserRouter([
     {
@@ -80,6 +81,7 @@ const router = createBrowserRouter([
             {
                 path: 'os/:os_id/s/:session_id',
                 action: handleSessionDeleteAction,
+                element: <OsDrawerSessions />,
                 children: [
                     {
                         path: 'edit',
