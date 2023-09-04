@@ -5,7 +5,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {TabContext, TabList, TabPanel} from "@mui/lab";
 import {OsImpressionsTab} from "../impression/osImpressionsTab";
 import {OsSessionsTab} from "../session/osSessionsTab";
-import {OsTabListDrawerProps} from "./osTabListDrawer";
+import {OsTabListDrawerProps} from "./osDrawerTabList";
 
 
 export const OsTabList = (props: OsTabListDrawerProps) => {

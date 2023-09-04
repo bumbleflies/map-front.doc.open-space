@@ -7,7 +7,7 @@ import React from "react";
 export type OsTabListDrawerProps = {
     active: "s" | "i"
 }
-const OsTabListDrawer = (props: OsTabListDrawerProps) => {
+const OsDrawerTabList = (props: OsTabListDrawerProps) => {
     const navigate = useNavigate()
     return (
         <>
@@ -23,4 +23,4 @@ const OsTabListDrawer = (props: OsTabListDrawerProps) => {
     )
 }
 
-export default OsTabListDrawer
+export default OsDrawerTabList

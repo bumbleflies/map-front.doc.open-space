@@ -17,7 +17,7 @@ import {
 import {OsImpressionEditDialog} from "./components/impression/osImpressionEditDialog";
 import {ImageDetailsApiService} from "./api/imageDetailsApi";
 import {OsImageFullView} from "./components/image/osImageFullView";
-import OsTabListDrawer from "./components/tab/osTabListDrawer";
+import OsDrawerTabList from "./components/tab/osDrawerTabList";
 import {handleSessionAddAction, handleSessionDeleteAction, handleSessionEditAction} from './action/osSession';
 import {SessionApiServices} from "./api/sessionApi";
 import {OsSessionEditDialog} from "./components/session/osSessionEditDialog";
@@ -48,7 +48,7 @@ const router = createBrowserRouter([
             },
             {
                 path: 'os/:os_id/i/',
-                element: <OsTabListDrawer active={"i"}/>,
+                element: <OsDrawerTabList active={"i"}/>,
                 loader: ImageApiServices.loadAll,
                 action: handleImageUploadAction,
                 children: [
@@ -73,7 +73,7 @@ const router = createBrowserRouter([
             },
             {
                 path: 'os/:os_id/s/',
-                element: <OsTabListDrawer active={"s"}/>,
+                element: <OsDrawerTabList active={"s"}/>,
                 action: handleSessionAddAction,
                 loader: SessionApiServices.loadAll,
             },
