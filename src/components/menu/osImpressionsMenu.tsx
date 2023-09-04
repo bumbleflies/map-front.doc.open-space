@@ -12,7 +12,7 @@ type OsImageMenuProps = {
     closeMenuHandler: () => void
 }
 
-export const OsImageMenu = (props: OsImageMenuProps) => {
+export const OsImpressionsMenu = (props: OsImageMenuProps) => {
     const actionSubmit = useSubmit()
     const navigate = useNavigate()
 
@@ -39,7 +39,7 @@ export const OsImageMenu = (props: OsImageMenuProps) => {
     return (
         <>
             <Menu
-                id="image-action-meu"
+                id="image-action-menu"
                 anchorEl={props.anchorElement}
                 open={Boolean(props.anchorElement)}
                 onClose={props.closeMenuHandler}

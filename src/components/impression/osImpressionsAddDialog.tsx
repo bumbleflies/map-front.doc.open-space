@@ -1,9 +1,9 @@
 import {Button, Dialog, DialogActions, DialogContent, DialogTitle} from "@mui/material";
 import React, {useEffect, useState} from "react";
 import {FetcherSubmitFunction} from "react-router-dom";
-import {FilePreview} from "./filePreview";
+import {FilePreview} from "../image/filePreview";
 import {ImageNotAvailable, ImageType} from "../../types/image";
-import {ImageUpload} from "./imageUpload";
+import {ImageUpload} from "../image/imageUpload";
 
 type OsImpressionsAddDialogProps = {
     isOpen: boolean,

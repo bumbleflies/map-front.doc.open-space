@@ -3,8 +3,8 @@ import React from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {TabContext, TabList, TabPanel} from "@mui/lab";
-import {OsImpressionsTab} from "./osImpressionsTab";
-import {OsSessionsTab} from "./osSessionsTab";
+import {OsImpressionsTab} from "../impression/osImpressionsTab";
+import {OsSessionsTab} from "../session/osSessionsTab";
 import {OsTabListDrawerProps} from "./osTabListDrawer";
 
 

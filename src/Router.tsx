@@ -14,13 +14,13 @@ import {
     handleImageHeaderAction,
     handleImageUploadAction
 } from "./action/osImage";
-import {OsImageEditDialog} from "./components/image/osImageEditDialog";
+import {OsImpressionEditDialog} from "./components/impression/osImpressionEditDialog";
 import {ImageDetailsApiService} from "./api/imageDetailsApi";
 import {OsImageFullView} from "./components/image/osImageFullView";
-import OsTabListDrawer from "./components/image/osTabListDrawer";
+import OsTabListDrawer from "./components/tab/osTabListDrawer";
 import {handleSessionAddAction, handleSessionEditAction} from './action/osSession';
 import {SessionApiServices} from "./api/sessionApi";
-import {OsSessionEditDialog} from "./components/image/osSessionEditDialog";
+import {OsSessionEditDialog} from "./components/session/osSessionEditDialog";
 
 const router = createBrowserRouter([
     {
@@ -65,7 +65,7 @@ const router = createBrowserRouter([
                                 path: 'edit',
                                 loader: ImageDetailsApiService.load,
                                 action: handleImageDetailsEditAction,
-                                element: <OsImageEditDialog/>
+                                element: <OsImpressionEditDialog/>
                             }
                         ]
                     }

@@ -3,7 +3,7 @@ import React, {useEffect, useState} from "react";
 import {useLoaderData, useNavigate, useSubmit} from "react-router-dom";
 import {ImageWithDetailsType} from "../../types/image";
 
-export const OsImageEditDialog = () => {
+export const OsImpressionEditDialog = () => {
     const imageDetails = useLoaderData() as ImageWithDetailsType;
     const navigate = useNavigate()
 

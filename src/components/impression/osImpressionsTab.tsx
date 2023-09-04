@@ -6,7 +6,7 @@ import {Endpoints} from "../../config/Endpoints";
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import {ImageWithDetailsType} from "../../types/image";
 import {OsImpressionsAddDialog} from "./osImpressionsAddDialog";
-import {OsImageMenu} from "../menu/osImageMenu";
+import {OsImpressionsMenu} from "../menu/osImpressionsMenu";
 import {ImageApiServices as imageApi} from "../../api/imageApi";
 
 export const OsImpressionsTab = () => {
@@ -93,7 +93,7 @@ export const OsImpressionsTab = () => {
                     </ImageListItem>
                 ))}
             </ImageList>
-            <OsImageMenu anchorElement={menuAnchorEl} imageId={selectedImage} closeMenuHandler={closeMenu}/>
+            <OsImpressionsMenu anchorElement={menuAnchorEl} imageId={selectedImage} closeMenuHandler={closeMenu}/>
         </>
     )
 }
