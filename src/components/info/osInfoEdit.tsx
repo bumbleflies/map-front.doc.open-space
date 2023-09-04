@@ -92,6 +92,7 @@ export const OpenSpaceInfoEditDialog = () => {
                     <Grid item xs={12}>
                         <TextField
                             inputProps={{"data-testid": "os-edit-title"}}
+                            fullWidth={true}
                             autoFocus
                             margin="dense"
                             id="name"

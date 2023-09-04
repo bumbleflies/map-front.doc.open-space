@@ -18,8 +18,9 @@ import {OsImageEditDialog} from "./components/image/osImageEditDialog";
 import {ImageDetailsApiService} from "./api/imageDetailsApi";
 import {OsImageFullView} from "./components/image/osImageFullView";
 import OsTabListDrawer from "./components/image/osTabListDrawer";
-import { handleSessionAddAction } from './action/osSession';
+import {handleSessionAddAction, handleSessionEditAction} from './action/osSession';
 import {SessionApiServices} from "./api/sessionApi";
+import {OsSessionEditDialog} from "./components/image/osSessionEditDialog";
 
 const router = createBrowserRouter([
     {
@@ -75,6 +76,17 @@ const router = createBrowserRouter([
                 action: handleSessionAddAction,
                 loader: SessionApiServices.loadAll,
                 children: [
+                    {
+                        path: ':session_id',
+                        children:[
+                            {
+                                path: 'edit',
+                                loader:SessionApiServices.load,
+                                action: handleSessionEditAction,
+                                element: <OsSessionEditDialog/>
+                            }
+                        ]
+                    }
                 ]
             },
 

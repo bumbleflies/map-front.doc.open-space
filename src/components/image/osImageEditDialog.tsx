@@ -11,7 +11,6 @@ export const OsImageEditDialog = () => {
     const imageEditSubmit = useSubmit()
 
     useEffect(() => {
-        console.log('effect: ' + JSON.stringify(imageDetails))
         setDescription(imageDetails.description)
     }, [imageDetails, setDescription])
 
@@ -35,6 +34,7 @@ export const OsImageEditDialog = () => {
                 </DialogContentText>
                 <TextField
                     inputProps={{"data-testid": "image-edit-description"}}
+                    fullWidth={true}
                     autoFocus
                     margin="dense"
                     id="name"
