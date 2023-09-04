@@ -48,6 +48,10 @@ describe('when adding os sessions', () => {
             // save
             cy.getByDataTestId('session-edit-save').click()
 
+            cy.get('ul.MuiImageList-root li').eq(1).find('[data-testid=os-session-title-bar]')
+                .should('contain.text', 'My Test Session')
+            cy.get('ul.MuiImageList-root li').eq(1).find('[data-testid=os-session-time-bar]')
+                .should('contain.text', '16.08 19:00 - 21:00')
         })
     })
 

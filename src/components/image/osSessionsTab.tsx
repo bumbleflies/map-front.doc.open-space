@@ -45,6 +45,7 @@ export const OsSessionsTab = () => {
                     <ImageListItem key={session.sessionIdentifier}>
                         <Skeleton variant="rectangular" width={170} height={150}/>
                         <ImageListItemBar
+                            data-testid={'os-session-time-bar'}
                             subtitle={`${session.startDate.format('DD.MM')} ${session.startDate.format('HH:mm')} - ${session.endDate.format('HH:mm')}`}
                             actionIcon={
                                 <IconButton
@@ -60,6 +61,7 @@ export const OsSessionsTab = () => {
                             position={"top"}
                             actionPosition={"left"}
                             subtitle={session.title}
+                            data-testid={'os-session-title-bar'}
 
                             actionIcon={
                                 <IconButton
