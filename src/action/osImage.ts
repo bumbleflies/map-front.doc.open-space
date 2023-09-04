@@ -14,25 +14,22 @@ export const handleImageUploadAction = async (args: ActionFunctionArgs) => {
 }
 
 export const handleImageDeleteAction = async (args: ActionFunctionArgs) => {
-    await ImageApiServices.delete({
+    return ImageApiServices.delete({
         osIdentifier: args.params.os_id!,
         imageIdentifier: args.params.image_id!,
-    });
-    return redirect(`/os/${args.params.os_id!}/i`);
+    }).then(() => redirect(`/os/${args.params.os_id!}/i`))
 }
 
 export const handleImageHeaderAction = async (args: ActionFunctionArgs) => {
-    await ImageApiServices.makeHeader({
+    return ImageApiServices.makeHeader({
         osIdentifier: args.params.os_id!,
         imageIdentifier: args.params.image_id!,
-    });
-    return redirect(`/os/${args.params.os_id!}/i`);
+    }).then(() => redirect(`/os/${args.params.os_id!}/i`))
 }
 
 export const handleImageDetailsEditAction = async (args: ActionFunctionArgs) => {
-    const details = await args.request.json();
-    return ImageDetailsApiService.editDetails({
+    return args.request.json().then((details) => ImageDetailsApiService.editDetails({
         osIdentifier: args.params.os_id!,
         imageIdentifier: args.params.image_id!,
-    }, details)
+    }, details))
 }

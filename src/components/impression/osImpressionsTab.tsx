@@ -6,7 +6,7 @@ import {Endpoints} from "../../config/Endpoints";
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import {ImageWithDetailsType} from "../../types/image";
 import {OsImpressionsAddDialog} from "./osImpressionsAddDialog";
-import {OsImpressionsMenu} from "../menu/osImpressionsMenu";
+import {OsImpressionsMenu} from "./osImpressionsMenu";
 import {ImageApiServices as imageApi} from "../../api/imageApi";
 
 export const OsImpressionsTab = () => {

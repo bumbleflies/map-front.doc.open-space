@@ -16,8 +16,13 @@ export const handleSessionEditAction = async (args: ActionFunctionArgs) => {
             ...newSessionData,
             identifier: args.params.session_id!,
             os_identifier: args.params.os_id!
-        }).then((newSession) => {
-            return redirect(`/os/${args.params.os_id!}/s`);
-        })
+        }).then(() => redirect(`/os/${args.params.os_id!}/s`))
     })
+}
+
+export const handleSessionDeleteAction = async (args: ActionFunctionArgs) => {
+    return SessionApiServices.delete({
+        identifier: args.params.session_id!,
+        os_identifier: args.params.os_id!
+    }).then(() => redirect(`/os/${args.params.os_id!}/s`))
 }

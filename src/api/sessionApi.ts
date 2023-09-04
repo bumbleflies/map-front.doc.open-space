@@ -1,7 +1,13 @@
 import axios from "axios";
 import {LoaderFunctionArgs} from "react-router-dom";
 import {Endpoints} from "../config/Endpoints";
-import {mapOsSessionApi, OsSession, OsSessionApiType, OsSessionDetailsApiType} from "../types/session";
+import {
+    mapOsSessionApi,
+    OsSession,
+    OsSessionApiType,
+    OsSessionDetailsApiType,
+    OsSessionMetaType
+} from "../types/session";
 import {MarkerType} from "../types/marker";
 import {OsApiServices} from "./osApi";
 
@@ -48,4 +54,7 @@ export const SessionApiServices = {
             console.log(`Added new session ${JSON.stringify(session)} to ${osId}...`)
             return mapOsSessionApi(response.data)
         }),
+
+    delete: async (sessionMeta: OsSessionMetaType): Promise<void> =>
+        axios.delete(Endpoints.openSpaceSession(sessionMeta))
 }

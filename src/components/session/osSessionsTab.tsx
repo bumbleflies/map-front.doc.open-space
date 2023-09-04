@@ -5,12 +5,17 @@ import EditIcon from "@mui/icons-material/Edit";
 import {useFetcher, useLoaderData, useNavigate} from "react-router-dom";
 import {OsWithSessions} from "../../api/sessionApi";
 import {OsSessionDetailsApiType} from "../../types/session";
+import {useState} from "react";
+import {OsSessionsMenu} from "./osSessionsMenu";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 
 
 export const OsSessionsTab = () => {
     const addSessionFetcher = useFetcher()
     const osWithSessions = useLoaderData() as OsWithSessions
-    const navigate = useNavigate()
+
+    const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
+    const [selectedSession,setSelectedSession] = useState<null|string>(null)
 
     const addSession = () => {
         const newSessionData: OsSessionDetailsApiType = {
@@ -22,6 +27,16 @@ export const OsSessionsTab = () => {
             method: 'post',
             encType: "application/json"
         })
+    }
+
+    function openMenu(event: React.MouseEvent<HTMLButtonElement>, sessionIdentifier: string) {
+        setMenuAnchorEl(event.currentTarget);
+        setSelectedSession(sessionIdentifier)
+    }
+
+    const closeMenu = () => {
+        setMenuAnchorEl(null);
+        setSelectedSession(null)
     }
 
     return (
@@ -52,9 +67,9 @@ export const OsSessionsTab = () => {
                                     data-testid={"os-session-edit"}
                                     sx={{color: 'white'}}
                                     aria-label={`Session ${session.title}`}
-                                    onClick={() => navigate(`${session.sessionIdentifier}/edit`)}
+                                    onClick={(event: React.MouseEvent<HTMLButtonElement>) => openMenu(event, session.sessionIdentifier)}
                                 >
-                                    <EditIcon/>
+                                    <KeyboardArrowUpIcon/>
                                 </IconButton>
                             }/>
                         <ImageListItemBar
@@ -76,6 +91,7 @@ export const OsSessionsTab = () => {
                     </ImageListItem>
                 ))}
             </ImageList>
+            <OsSessionsMenu anchorElement={menuAnchorEl} sessionId={selectedSession} closeMenuHandler={closeMenu}/>
         </>
     )
 }

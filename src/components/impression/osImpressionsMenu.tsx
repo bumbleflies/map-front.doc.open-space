@@ -6,13 +6,13 @@ import EditIcon from "@mui/icons-material/Edit";
 import {useNavigate, useSubmit} from "react-router-dom";
 
 
-type OsImageMenuProps = {
+type OsImpressionsMenuProps = {
     anchorElement: HTMLElement | null,
     imageId: string | null,
     closeMenuHandler: () => void
 }
 
-export const OsImpressionsMenu = (props: OsImageMenuProps) => {
+export const OsImpressionsMenu = (props: OsImpressionsMenuProps) => {
     const actionSubmit = useSubmit()
     const navigate = useNavigate()
 
