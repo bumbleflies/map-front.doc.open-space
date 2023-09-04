@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import React, {useEffect, useState} from "react";
 import {useLoaderData, useNavigate, useSubmit} from "react-router-dom";
-import {OsSession, TransientOsSessionApiType} from "../../types/session";
+import {OsSession, OsSessionDetailsApiType} from "../../types/session";
 import {DateTimePicker, LocalizationProvider} from "@mui/x-date-pickers";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {Dayjs} from "dayjs";
@@ -37,7 +37,7 @@ export const OsSessionEditDialog = () => {
     }
 
     const saveSessionEdit = () => {
-        const editSessionData: TransientOsSessionApiType = {
+        const editSessionData: OsSessionDetailsApiType = {
             title: title,
             start_date: startDate!.toISOString(),
             end_date: startDate!.add(duration, 'minutes').toISOString()

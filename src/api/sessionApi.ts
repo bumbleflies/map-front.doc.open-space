@@ -1,7 +1,7 @@
 import axios from "axios";
 import {LoaderFunctionArgs} from "react-router-dom";
 import {Endpoints} from "../config/Endpoints";
-import {mapOsSessionApi, OsSession, OsSessionApiType, TransientOsSessionApiType} from "../types/session";
+import {mapOsSessionApi, OsSession, OsSessionApiType, OsSessionDetailsApiType} from "../types/session";
 import {MarkerType} from "../types/marker";
 import {OsApiServices} from "./osApi";
 import {localDayjs} from "../helper/dayjsTimezone";
@@ -17,13 +17,13 @@ export const SessionApiServices = {
         })
     },
     load: async (args: LoaderFunctionArgs): Promise<OsSession> => {
-        return {
-            title: 'test',
-            sessionIdentifier: args.params.session_id!,
-            osIdentifier: args.params.os_id!,
-            startDate: localDayjs(),
-            endDate: localDayjs()
-        }
+        return axios.get(Endpoints.openSpaceSession({
+            identifier: args.params.session_id!,
+            os_identifier:args.params.os_id!
+        })).then((response) => {
+            console.log(`loaded session for os ${args.params.os_id}: ${JSON.stringify(response.data)}`)
+            return mapOsSessionApi(response.data)
+        })
     },
 
     loadAll: async (args: LoaderFunctionArgs): Promise<OsWithSessions> => {
@@ -44,7 +44,7 @@ export const SessionApiServices = {
         )
     },
 
-    add: async (osId: string, session: TransientOsSessionApiType): Promise<OsSession> =>
+    add: async (osId: string, session: OsSessionDetailsApiType): Promise<OsSession> =>
         axios.post(Endpoints.openSpaceSessions(osId), session).then((response) => {
             console.log(`Added new session ${JSON.stringify(session)} to ${osId}...`)
             return mapOsSessionApi(response.data)

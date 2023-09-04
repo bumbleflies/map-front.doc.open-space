@@ -1,17 +1,17 @@
 import {ActionFunctionArgs, redirect} from "react-router-dom";
 import {SessionApiServices} from "../api/sessionApi";
-import {TransientOsSessionApiType} from "../types/session";
+import {OsSessionDetailsApiType} from "../types/session";
 
 export const handleSessionAddAction = async (args: ActionFunctionArgs) => {
-    return args.request.json().then((newSessionData: TransientOsSessionApiType) => {
+    return args.request.json().then((newSessionData: OsSessionDetailsApiType) => {
         console.log(`About to create session ${JSON.stringify(newSessionData)}`)
         return SessionApiServices.add(args.params.os_id!, newSessionData)
     })
 }
 
 export const handleSessionEditAction = async (args: ActionFunctionArgs) => {
-    return args.request.json().then((newSessionData: TransientOsSessionApiType) => {
-        console.log(`About to create session ${JSON.stringify(newSessionData)}`)
+    return args.request.json().then((newSessionData: OsSessionDetailsApiType) => {
+        console.log(`About to edit session ${JSON.stringify(newSessionData)}`)
         return SessionApiServices.edit({
             ...newSessionData,
             identifier: args.params.session_id!,

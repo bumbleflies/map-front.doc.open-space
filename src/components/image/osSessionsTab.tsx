@@ -4,7 +4,7 @@ import NoteAddIcon from '@mui/icons-material/NoteAdd';
 import EditIcon from "@mui/icons-material/Edit";
 import {useFetcher, useLoaderData, useNavigate} from "react-router-dom";
 import {OsWithSessions} from "../../api/sessionApi";
-import {TransientOsSessionApiType} from "../../types/session";
+import {OsSessionDetailsApiType} from "../../types/session";
 
 type Session = {
     id: string,
@@ -18,7 +18,7 @@ export const OsSessionsTab = () => {
     const navigate=useNavigate()
 
     const addSession = () => {
-        const newSessionData: TransientOsSessionApiType = {
+        const newSessionData: OsSessionDetailsApiType = {
             title: `Session #${osWithSessions.sessions.length + 1} of OS [${osWithSessions.os.title}]`,
             start_date: osWithSessions.os.startDate.toISOString(),
             end_date: osWithSessions.os.startDate.clone().add(1, 'hour').toISOString()

@@ -9,15 +9,17 @@ export type OsSession = {
     sessionIdentifier: string
 }
 
-export type TransientOsSessionApiType =  {
+export type OsSessionDetailsApiType = {
     title: string,
     start_date: string,
     end_date: string
 }
-export type OsSessionApiType = TransientOsSessionApiType  & {
+
+export type OsSessionMetaType = {
     identifier: string,
     os_identifier: string
 }
+export type OsSessionApiType = OsSessionDetailsApiType & OsSessionMetaType
 
 export const mapOsSessionApi = (apiType: OsSessionApiType): OsSession => {
     return {
