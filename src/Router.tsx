@@ -70,26 +70,26 @@ const router = createBrowserRouter([
                         ]
                     }
                 ]
-            }, {
+            },
+            {
                 path: 'os/:os_id/s/',
                 element: <OsTabListDrawer active={"s"}/>,
                 action: handleSessionAddAction,
                 loader: SessionApiServices.loadAll,
+            },
+            {
+                path: 'os/:os_id/s/:session_id',
+                action: handleSessionDeleteAction,
                 children: [
                     {
-                        path: ':session_id',
-                        action: handleSessionDeleteAction,
-                        children: [
-                            {
-                                path: 'edit',
-                                loader: SessionApiServices.load,
-                                action: handleSessionEditAction,
-                                element: <OsSessionEditDialog/>
-                            }
-                        ]
+                        path: 'edit',
+                        loader: SessionApiServices.load,
+                        action: handleSessionEditAction,
+                        element: <OsSessionEditDialog/>
                     }
                 ]
-            },
+
+            }
 
         ]
     }

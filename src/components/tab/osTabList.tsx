@@ -20,9 +20,8 @@ export const OsTabList = (props: OsTabListDrawerProps) => {
         <>
             <TabContext value={props.active}>
                 <TabList onChange={handleChange}>
-                    <ButtonBase data-testid={"os-images-back-button"} aria-label={"back"} onClick={() => {
-                        navigate(`/os/${os_id}`)
-                    }}>
+                    <ButtonBase data-testid={"os-images-back-button"} aria-label={"back"}
+                                onClick={() => navigate(`/os/${os_id}`)}>
                         <ArrowBackIcon/>
                     </ButtonBase>
                     <Tab label="Impressions" value={"i"}></Tab>

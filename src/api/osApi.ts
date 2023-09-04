@@ -12,54 +12,53 @@ import {LoaderFunctionArgs, redirect} from "react-router-dom";
 import {ImageApiServices} from "./imageApi";
 
 export const OsApiServices = {
-    save: (marker: TransientOSApiType) => {
-        return axios.post(Endpoints.openSpaces, marker).then(response => {
+    save: (marker: TransientOSApiType) =>
+        axios.post(Endpoints.openSpaces, marker).then(response => {
             console.log(`saved marker: ${JSON.stringify(marker)}`)
             return osLoaderToMarker(response.data);
         }).catch(error => {
             console.log(`error saving marker: ${JSON.stringify(marker)}: ${error}`)
             return null
-        })
-    },
-    loadAll: () => {
-        return axios.get(Endpoints.openSpaces).then(response => {
+        }),
+
+    loadAll: () =>
+        axios.get(Endpoints.openSpaces).then(response => {
             console.log(`loaded open spaces: ${JSON.stringify(response.data)}`)
             return response.data.map(osLoaderToMarker)
         }).catch(error => {
             console.log(`Failed to load Open Spaces: ${error}`)
             return []
-        })
-    },
-    load: (args: LoaderFunctionArgs): Promise<null | MarkerWithImage | Response> => {
-        return axios.get(Endpoints.openSpace(args.params.os_id!)).then(response => {
+        }),
+
+    load: (args: LoaderFunctionArgs): Promise<null | MarkerWithImage | Response> =>
+        axios.get(Endpoints.openSpace(args.params.os_id!)).then(response => {
             console.log(`loaded open space: ${JSON.stringify(response.data)}`)
             return osLoaderToMarker(response.data)
-        }).then(marker => {
-            return ImageApiServices.getHeaderImage(args.params.os_id!).then(headerImage => {
+        }).then(marker =>
+            ImageApiServices.getHeaderImage(args.params.os_id!).then(headerImage => {
                 return {
                     ...marker,
                     ...headerImage
                 }
             })
-        }).catch(error => {
+        ).catch(error => {
             console.log(`Failed to load Open Space ${args.params.os_id}: ${error}`)
             return redirect('/')
-        })
-    },
-    putApiMarker: (apiMarker: OSApiType) => {
-        return axios.put(Endpoints.openSpace(apiMarker.identifier), apiMarker).then(response => {
+        }),
+
+    putApiMarker: (apiMarker: OSApiType) =>
+        axios.put(Endpoints.openSpace(apiMarker.identifier), apiMarker).then(response => {
             console.log(`updated open space: ${JSON.stringify(response.data)}`)
             return osLoaderToMarker(response.data);
         }).catch(() => {
             return osLoaderToMarker(apiMarker)
-        })
-    },
-    put: (marker: MarkerType) => {
-        return OsApiServices.putApiMarker(markerToOs(marker))
-    },
-    delete: (identifier: string) => {
-        console.log(`deleting open space: ${identifier}`)
-        return axios.delete(new URL(identifier, Endpoints.openSpaces).toString())
+        }),
+
+    put: (marker: MarkerType) => OsApiServices.putApiMarker(markerToOs(marker)),
+
+    delete: (identifier: string) =>
+        axios.delete(new URL(identifier, Endpoints.openSpaces).toString())
+            .then(() => console.log(`deleted open space: ${identifier}`))
             .catch(error => console.error(`failed to delete marker: ${error}`))
-    }
+
 }

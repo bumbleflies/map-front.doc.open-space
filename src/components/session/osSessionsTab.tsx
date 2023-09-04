@@ -1,8 +1,6 @@
 import {IconButton, ImageList, ImageListItem, ImageListItemBar, ListItemButton, Skeleton} from "@mui/material"
-import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import NoteAddIcon from '@mui/icons-material/NoteAdd';
-import EditIcon from "@mui/icons-material/Edit";
-import {useFetcher, useLoaderData, useNavigate} from "react-router-dom";
+import {useFetcher, useLoaderData} from "react-router-dom";
 import {OsWithSessions} from "../../api/sessionApi";
 import {OsSessionDetailsApiType} from "../../types/session";
 import {useState} from "react";
@@ -15,7 +13,7 @@ export const OsSessionsTab = () => {
     const osWithSessions = useLoaderData() as OsWithSessions
 
     const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
-    const [selectedSession,setSelectedSession] = useState<null|string>(null)
+    const [selectedSession, setSelectedSession] = useState<null | string>(null)
 
     const addSession = () => {
         const newSessionData: OsSessionDetailsApiType = {
@@ -76,17 +74,7 @@ export const OsSessionsTab = () => {
                             position={"top"}
                             actionPosition={"left"}
                             subtitle={session.title}
-                            data-testid={'os-session-title-bar'}
-
-                            actionIcon={
-                                <IconButton
-                                    data-testid={"os-session-add-image"}
-                                    sx={{color: 'white'}}
-                                    aria-label={`Session ${session.title}`}
-                                >
-                                    <AddPhotoAlternateIcon/>
-                                </IconButton>
-                            }/>
+                            data-testid={'os-session-title-bar'}/>
 
                     </ImageListItem>
                 ))}

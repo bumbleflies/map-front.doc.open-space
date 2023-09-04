@@ -11,7 +11,7 @@ import {
 import {ImageDetailsApiService} from "./imageDetailsApi";
 
 export const ImageApiServices = {
-    upload: (image: ImageUpload) => {
+    upload: async (image: ImageUpload) => {
         const uploadData = new FormData()
         uploadData.append('image', image.imageFile)
         return axios.post(Endpoints.openSpaceImages(image.osIdentifier), uploadData).then(response => {
@@ -22,8 +22,9 @@ export const ImageApiServices = {
             return new ImageNotAvailable()
         })
     },
-    loadAll: (args: LoaderFunctionArgs) => {
-        return axios.get(Endpoints.openSpaceImages(args.params.os_id!)).then(response => {
+
+    loadAll: (args: LoaderFunctionArgs) =>
+        axios.get(Endpoints.openSpaceImages(args.params.os_id!)).then(response => {
             console.log(`loaded images for os ${args.params.os_id}: ${JSON.stringify(response.data)}`)
             return (response.data as OsImageApiType[]).map(image => uploadResponseToImageType(image))
         }).then((images) => {
@@ -40,22 +41,22 @@ export const ImageApiServices = {
         }).catch(error => {
             console.log(`error fetching images for os ${args.params.os_id}: ${error}`)
             return []
-        })
-    },
-    delete: (image: TransientImageType) => {
-        return axios.delete(Endpoints.openSpaceImage(image)).catch((error) => {
+        }),
+
+    delete: (image: TransientImageType) =>
+        axios.delete(Endpoints.openSpaceImage(image)).catch((error) => {
             console.log(`error deleting image: ${image}: ${error}`)
         })
-    },
+    ,
 
-    makeHeader: (image: TransientImageType) => {
-        return axios.patch(Endpoints.openSpaceImage(image), {is_header: true}).then((response) => {
+    makeHeader: (image: TransientImageType) =>
+        axios.patch(Endpoints.openSpaceImage(image), {is_header: true}).then((response) => {
             console.log(`made: ${image} to header image`)
             return uploadResponseToImageType(response.data)
-        })
-    },
-    getHeaderImage: (osId: string) => {
-        return axios.get(Endpoints.headerImage(osId)).then((response) => {
+        }),
+
+    getHeaderImage: (osId: string) =>
+        axios.get(Endpoints.headerImage(osId)).then((response) => {
             if (response.data.length === 1) {
                 console.log(`getting header image for ${osId}: ${JSON.stringify(response.data[0])}`)
                 return uploadResponseToImageType(response.data[0])
@@ -63,5 +64,4 @@ export const ImageApiServices = {
                 return new ImageNotAvailable()
             }
         })
-    },
 }
