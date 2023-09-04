@@ -45,9 +45,9 @@ export const OpenSpaceMap = () => {
                             }
                         }}>
                     <Tooltip permanent>
-                            {marker.identifier}
-                        </Tooltip>
-                    </Marker>
+                        {marker.identifier}
+                    </Tooltip>
+                </Marker>
             )}
         </MapContainer>
     )

@@ -8,7 +8,7 @@ import {OsSessionsTab} from "./osSessionsTab";
 import {OsTabListDrawerProps} from "./osTabListDrawer";
 
 
-export const OsTabList = (props:OsTabListDrawerProps) => {
+export const OsTabList = (props: OsTabListDrawerProps) => {
     const navigate = useNavigate()
     const {os_id} = useParams<"os_id">()
 

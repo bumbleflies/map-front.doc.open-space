@@ -15,7 +15,7 @@ type Session = {
 export const OsSessionsTab = () => {
     const addSessionFetcher = useFetcher()
     const osWithSessions = useLoaderData() as OsWithSessions
-    const navigate=useNavigate()
+    const navigate = useNavigate()
 
     const addSession = () => {
         const newSessionData: OsSessionDetailsApiType = {
@@ -55,7 +55,7 @@ export const OsSessionsTab = () => {
                                     data-testid={"os-session-edit"}
                                     sx={{color: 'white'}}
                                     aria-label={`Session ${session.title}`}
-                                    onClick={()=>navigate(`${session.sessionIdentifier}/edit`)}
+                                    onClick={() => navigate(`${session.sessionIdentifier}/edit`)}
                                 >
                                     <EditIcon/>
                                 </IconButton>

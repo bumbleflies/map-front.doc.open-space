@@ -4,7 +4,6 @@ import {Endpoints} from "../config/Endpoints";
 import {mapOsSessionApi, OsSession, OsSessionApiType, OsSessionDetailsApiType} from "../types/session";
 import {MarkerType} from "../types/marker";
 import {OsApiServices} from "./osApi";
-import {localDayjs} from "../helper/dayjsTimezone";
 
 export type OsWithSessions = {
     os: MarkerType,
@@ -19,7 +18,7 @@ export const SessionApiServices = {
     load: async (args: LoaderFunctionArgs): Promise<OsSession> => {
         return axios.get(Endpoints.openSpaceSession({
             identifier: args.params.session_id!,
-            os_identifier:args.params.os_id!
+            os_identifier: args.params.os_id!
         })).then((response) => {
             console.log(`loaded session for os ${args.params.os_id}: ${JSON.stringify(response.data)}`)
             return mapOsSessionApi(response.data)

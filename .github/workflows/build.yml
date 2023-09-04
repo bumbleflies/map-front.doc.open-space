@@ -1,6 +1,6 @@
 name: Build, Test and Deploy OS Maps App
 
-on: [push]
+on: [ push ]
 
 jobs:
   build_and_test:
