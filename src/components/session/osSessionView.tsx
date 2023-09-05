@@ -16,8 +16,8 @@ import React, {useEffect, useState} from "react";
 import TimelapseIcon from '@mui/icons-material/Timelapse';
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import {OsImageAddDialog} from "../impression/osImageAddDialog";
-import {ImageNotAvailable} from "../../types/image";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import {SessionImageApiServices} from "../../api/sessionImageApi";
 
 export const OsSessionView = () => {
     const session = useLoaderData() as OsSession
@@ -30,13 +30,16 @@ export const OsSessionView = () => {
     const [timeInfo, setTimeInfo] = useState<string>('')
 
     useEffect(() => {
-        console.log(`${JSON.stringify(session)}`)
         setTitle(session.title)
         setTimeInfo(`${session.startDate.format("DD.MM.YYYY - HH:mm")} - ${session.endDate.format('HH:mm')}`)
     }, [session, setTitle, setTimeInfo])
 
-    const uploadFile = async (file: File) => {
-        return new ImageNotAvailable()
+    const uploadFile =  (file: File) => {
+        console.log('uploading file')
+        return SessionImageApiServices.upload({
+            ...session,
+            imageFile: file
+        })
     }
 
     return (

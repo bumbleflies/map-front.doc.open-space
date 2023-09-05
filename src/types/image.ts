@@ -12,7 +12,7 @@ export class ImageNotAvailable implements HasAvailable {
     isAvailable: boolean = false
 }
 
-export type ImageUpload = {
+export type ImpressionImageUpload = {
     osIdentifier: string,
     imageFile: File
 }

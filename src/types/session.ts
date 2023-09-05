@@ -1,12 +1,14 @@
 import {Dayjs} from "dayjs";
 import {localDayjs} from "../helper/dayjsTimezone";
+export type OsSessionMeta = {
+    osIdentifier: string,
+    sessionIdentifier: string
 
-export type OsSession = {
+}
+export type OsSession =OsSessionMeta& {
     title: string,
     startDate: Dayjs,
     endDate: Dayjs
-    osIdentifier: string,
-    sessionIdentifier: string
 }
 
 export type OsSessionDetailsApiType = {
@@ -15,11 +17,15 @@ export type OsSessionDetailsApiType = {
     end_date: string
 }
 
-export type OsSessionMetaType = {
+export type OsSessionMetaApiType = {
     identifier: string,
     os_identifier: string
 }
-export type OsSessionApiType = OsSessionDetailsApiType & OsSessionMetaType
+export type OsSessionApiType = OsSessionDetailsApiType & OsSessionMetaApiType
+
+export type SessionImageUpload = OsSessionMeta & {
+    imageFile:File
+}
 
 export const mapOsSessionApi = (apiType: OsSessionApiType): OsSession => {
     return {
