@@ -25,7 +25,8 @@ export const clickStatusMessage = () => {
 
 export const clickDeleteOs = () => {
     cy.url().then((url: string) => {
-        const parts = url.split('/');
+
+        const parts = url.endsWith('/') ? url.slice(0, -1).split('/') : url.split('/')
         expect(parts.length).to.be.eq(5)
         const osId = parts.pop()
         cy.getByDataTestId("os-delete-button").click()

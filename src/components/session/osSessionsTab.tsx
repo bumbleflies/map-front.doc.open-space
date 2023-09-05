@@ -1,6 +1,14 @@
-import {IconButton, ImageList, ImageListItem, ImageListItemBar, ListItemButton, Skeleton} from "@mui/material"
+import {
+    IconButton,
+    ImageList,
+    ImageListItem,
+    ImageListItemBar,
+    ListItemButton,
+    Skeleton,
+    Typography
+} from "@mui/material"
 import NoteAddIcon from '@mui/icons-material/NoteAdd';
-import {useFetcher, useLoaderData, useNavigate} from "react-router-dom";
+import {useFetcher, useLoaderData, useNavigate, useParams} from "react-router-dom";
 import {OsWithSessions} from "../../api/sessionApi";
 import {OsSessionDetailsApiType} from "../../types/session";
 import {useState} from "react";
@@ -9,6 +17,7 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 
 
 export const OsSessionsTab = () => {
+    const {session_id} = useParams<"session_id">()
     const addSessionFetcher = useFetcher()
     const osWithSessions = useLoaderData() as OsWithSessions
     const navigate = useNavigate()
@@ -40,6 +49,7 @@ export const OsSessionsTab = () => {
 
     return (
         <>
+            <Typography>{session_id}</Typography>
             <ImageList>
                 <ImageListItem key={"session-add"} sx={{
                     alignItems: "center",

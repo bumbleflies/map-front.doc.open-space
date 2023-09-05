@@ -112,7 +112,7 @@ export const OpenSpaceHarvesterHome = (props: OpenSpaceHarvesterHomeType) => {
 
     return (
         <Paper sx={{height: '100vh'}}>
-            <AppBar position={"fixed"} sx={{zIndex: (theme) => theme.zIndex.drawer + 1}}>
+            <AppBar id={"appbar"} position={"fixed"} sx={{zIndex: (theme) => theme.zIndex.drawer + 1}}>
                 <Toolbar>
                     <Avatar>
                         <Image src={"/img/bumblefly-blue.png"}></Image>

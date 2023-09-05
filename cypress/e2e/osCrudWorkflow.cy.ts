@@ -41,7 +41,7 @@ describe('Performs a simple run', () => {
             cy.getByDataTestId('os-image-menu').click()
             cy.getByDataTestId('os-image-make-header-menu').click()
             cy.wait('@imageHeaderApi')
-            cy.getByDataTestId('os-images-back-button').click()
+            cy.getByDataTestId('os-info-tab').click()
             cy.get('img[alt="no image yet available"]').should('not.exist')
             cy.getByDataTestId('os-images-button').find('img').should('have.attr', 'alt').should('contain', 'Image ')
 

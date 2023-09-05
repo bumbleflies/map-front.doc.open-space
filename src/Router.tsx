@@ -5,7 +5,6 @@ import {createBrowserRouter, RouterProvider} from 'react-router-dom';
 
 import {OsApiServices} from "./api/osApi";
 import {ImageApiServices} from "./api/imageApi";
-import OpenSpaceInfoDrawer from "./components/info/osInfoDrawer";
 import {handleAddAction, handleDeleteAction, handleEditAction} from "./action/osInfo";
 import {OpenSpaceInfoEditDialog} from './components/info/osInfoEdit';
 import {
@@ -17,11 +16,10 @@ import {
 import {OsImpressionEditDialog} from "./components/impression/osImpressionEditDialog";
 import {ImageDetailsApiService} from "./api/imageDetailsApi";
 import {OsImageFullView} from "./components/image/osImageFullView";
-import OsDrawerTabList from "./components/tab/osDrawerTabList";
 import {handleSessionAddAction, handleSessionDeleteAction, handleSessionEditAction} from './action/osSession';
 import {SessionApiServices} from "./api/sessionApi";
 import {OsSessionEditDialog} from "./components/session/osSessionEditDialog";
-import OsDrawerSessions from "./components/tab/osDrawerSessions";
+import {OsTabList} from "./components/tab/osTabList";
 
 const router = createBrowserRouter([
     {
@@ -37,7 +35,7 @@ const router = createBrowserRouter([
                 path: 'os/:os_id',
                 loader: OsApiServices.load,
                 action: handleDeleteAction,
-                element: <OpenSpaceInfoDrawer/>,
+                element: <OsTabList active={""}/>,
                 children: [
                     {
                         path: 'edit',
@@ -49,7 +47,7 @@ const router = createBrowserRouter([
             },
             {
                 path: 'os/:os_id/i/',
-                element: <OsDrawerTabList active={"i"}/>,
+                element: <OsTabList active={"i"}/>,
                 loader: ImageApiServices.loadAll,
                 action: handleImageUploadAction,
                 children: [
@@ -74,24 +72,24 @@ const router = createBrowserRouter([
             },
             {
                 path: 'os/:os_id/s/',
-                element: <OsDrawerTabList active={"s"}/>,
+                element: <OsTabList active={"s"}/>,
                 action: handleSessionAddAction,
                 loader: SessionApiServices.loadAll,
-            },
-            {
-                path: 'os/:os_id/s/:session_id',
-                action: handleSessionDeleteAction,
-                element: <OsDrawerSessions />,
                 children: [
                     {
-                        path: 'edit',
-                        loader: SessionApiServices.load,
-                        action: handleSessionEditAction,
-                        element: <OsSessionEditDialog/>
+                        path: ':session_id',
+                        action: handleSessionDeleteAction,
+                        children: [
+                            {
+                                path: 'edit',
+                                loader: SessionApiServices.load,
+                                action: handleSessionEditAction,
+                                element: <OsSessionEditDialog/>
+                            }
+                        ]
                     }
                 ]
-
-            }
+            },
 
         ]
     }

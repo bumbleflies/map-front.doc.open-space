@@ -1,15 +1,13 @@
-import {Drawer, SwipeableDrawer, useMediaQuery} from "@mui/material"
-import React from "react";
+import {Drawer, SwipeableDrawer, Toolbar, useMediaQuery} from "@mui/material"
+import React, {useEffect, useState} from "react";
 import {useTheme} from '@mui/material/styles';
 
 type DrawerProps = {
     children: React.ReactNode,
     onCloseHandler: () => void
 }
-export const DesktopDrawer = (props: DrawerProps) => {
-    const theme = useTheme()
-    const shouldDraw = useMediaQuery(theme.breakpoints.up('sm'))
-    return shouldDraw ? (
+const DesktopDrawer = (props: DrawerProps) => {
+    return (
         <Drawer
             variant={"permanent"}
             anchor={"left"} open={true}
@@ -28,13 +26,17 @@ export const DesktopDrawer = (props: DrawerProps) => {
         >
             {props.children}
         </Drawer>
-    ) : null
+    )
 }
 
-export const MobileDrawer = (props: DrawerProps) => {
-    const theme = useTheme()
-    const shouldDraw = useMediaQuery(theme.breakpoints.down('sm'))
-    return shouldDraw ? (
+const MobileDrawer = (props: DrawerProps) => {
+    const [appbarHeight, setAppbarHeight] = useState<number>(56)
+    useEffect(() => {
+        console.log(document.getElementById("appbar")!.clientHeight)
+        setAppbarHeight(document.getElementById("appbar")!.clientHeight);
+    }, [document, setAppbarHeight]);
+
+    return (
         <SwipeableDrawer
             sx={{
                 display: {xs: 'block', sm: 'none'}
@@ -46,11 +48,22 @@ export const MobileDrawer = (props: DrawerProps) => {
             open={true}
             PaperProps={{
                 sx: {
-                    height: '80vh',
+                    height: `calc(100% - ${appbarHeight}px)`,
                 },
             }}
         >
             {props.children}
         </SwipeableDrawer>
-    ) : null
+    )
+}
+
+export const ResponsiveDrawer = (props: DrawerProps) => {
+    const theme = useTheme()
+    const onMobile = useMediaQuery(theme.breakpoints.down('sm'))
+    return onMobile ? <MobileDrawer {...props}>{props.children}</MobileDrawer>
+        :
+        <DesktopDrawer {...props}>
+            <Toolbar/>
+            {props.children}
+        </DesktopDrawer>
 }

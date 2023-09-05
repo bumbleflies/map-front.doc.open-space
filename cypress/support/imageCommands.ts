@@ -1,5 +1,5 @@
 export const clickImagesBack = () => {
-    cy.getByDataTestId('os-images-back-button').click()
+    cy.getByDataTestId('os-info-tab').click()
     cy.getByDataTestId("os-images-button").should('exist')
 }
 export const clickImagesView = () => {
