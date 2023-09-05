@@ -5,7 +5,7 @@ import {useFetcher, useLoaderData, useNavigate, useParams} from "react-router-do
 import {Endpoints} from "../../config/Endpoints";
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import {ImageWithDetailsType} from "../../types/image";
-import {OsImpressionsAddDialog} from "./osImpressionsAddDialog";
+import {OsImageAddDialog} from "./osImageAddDialog";
 import {OsImpressionsMenu} from "./osImpressionsMenu";
 import {ImageApiServices as imageApi} from "../../api/imageApi";
 
@@ -13,7 +13,7 @@ export const OsImpressionsTab = () => {
     const images = useLoaderData() as ImageWithDetailsType[]
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
     const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
-    const [editOpen, setEditOpen] = useState<boolean>(false)
+    const [uploadOpen, setUploadOpen] = useState<boolean>(false)
     const [pendingImages, setPendingImages] = useState<string[]>([])
 
     const imageUploadFetcher = useFetcher()
@@ -51,13 +51,14 @@ export const OsImpressionsTab = () => {
                     alignItems: "center",
                     verticalAlign: "middle",
                 }}>
-                    <ListItemButton data-testid={"os-image-add-button"} onClick={() => setEditOpen(true)} sx={{
+                    <ListItemButton data-testid={"os-image-add-button"} onClick={() => setUploadOpen(true)} sx={{
                         minHeight: 150
                     }}>
                         <AddPhotoAlternateIcon fontSize={"large"}/>
                     </ListItemButton>
-                    <OsImpressionsAddDialog isOpen={editOpen} closeHandler={() => setEditOpen(false)}
-                                            submit={imageUploadFetcher.submit} upload={uploadFile}/>
+                    <OsImageAddDialog title={"Add Impressions"} isOpen={uploadOpen}
+                                      closeHandler={() => setUploadOpen(false)}
+                                      submit={imageUploadFetcher.submit} upload={uploadFile}/>
                     <ImageListItemBar {...images.length === 0 ? {title: "no images yet"} : null}
                                       subtitle={"click to add impressions"}/>
 

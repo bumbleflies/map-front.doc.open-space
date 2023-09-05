@@ -75,21 +75,22 @@ const router = createBrowserRouter([
                 element: <OsTabList active={"s"}/>,
                 action: handleSessionAddAction,
                 loader: SessionApiServices.loadAll,
+                children: []
+            },
+            {
+                path: 'os/:os_id/s/:session_id',
+                action: handleSessionDeleteAction,
+                loader: SessionApiServices.load,
+                element: <OsTabList active={"s"}/>,
                 children: [
                     {
-                        path: ':session_id',
-                        action: handleSessionDeleteAction,
-                        children: [
-                            {
-                                path: 'edit',
-                                loader: SessionApiServices.load,
-                                action: handleSessionEditAction,
-                                element: <OsSessionEditDialog/>
-                            }
-                        ]
+                        path: 'edit',
+                        action: handleSessionEditAction,
+                        loader: SessionApiServices.load,
+                        element: <OsSessionEditDialog/>
                     }
                 ]
-            },
+            }
 
         ]
     }

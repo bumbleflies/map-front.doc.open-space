@@ -5,14 +5,15 @@ import {FilePreview} from "../image/filePreview";
 import {ImageNotAvailable, ImageType} from "../../types/image";
 import {ImageUpload} from "../image/imageUpload";
 
-type OsImpressionsAddDialogProps = {
+type OsImageAddDialogProps = {
+    title: string;
     isOpen: boolean,
     closeHandler: () => void,
     submit: FetcherSubmitFunction,
     upload: (file: File) => Promise<ImageType | ImageNotAvailable>
 }
 
-export const OsImpressionsAddDialog = (props: OsImpressionsAddDialogProps) => {
+export const OsImageAddDialog = (props: OsImageAddDialogProps) => {
     const [files, setFiles] = useState<FilePreview[]>([]);
 
     useEffect(() => {
@@ -51,7 +52,7 @@ export const OsImpressionsAddDialog = (props: OsImpressionsAddDialogProps) => {
 
     return (
         <Dialog open={props.isOpen}>
-            <DialogTitle>Add Impression</DialogTitle>
+            <DialogTitle>{props.title}</DialogTitle>
             <DialogContent>
                 <ImageUpload files={files} onSelectHandler={onFilesDropped}/>
             </DialogContent>
