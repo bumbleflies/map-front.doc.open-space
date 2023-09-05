@@ -20,6 +20,12 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: cypress
+    strategy:
+      # don't fail the entire matrix on failure
+      fail-fast: false
+      matrix:
+        # run copies of the current job in parallel
+        containers: [1, 2, 3, 4, 5]
     steps:
       # frontend
       - name: Checkout repository
