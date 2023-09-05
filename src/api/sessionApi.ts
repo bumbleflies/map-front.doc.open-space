@@ -1,13 +1,7 @@
 import axios from "axios";
 import {LoaderFunctionArgs} from "react-router-dom";
 import {Endpoints} from "../config/Endpoints";
-import {
-    mapOsSessionApi,
-    OsSession,
-    OsSessionApiType,
-    OsSessionDetailsApiType,
-    OsSessionMetaType
-} from "../types/session";
+import {mapOsSessionApi, OsSession, OsSessionApiType, OsSessionDetailsApiType, OsSessionMeta} from "../types/session";
 import {MarkerType} from "../types/marker";
 import {OsApiServices} from "./osApi";
 
@@ -16,15 +10,15 @@ export type OsWithSessions = {
     sessions: OsSession[]
 }
 export const SessionApiServices = {
-    edit: async (session: OsSessionApiType) => {
-        return axios.put(Endpoints.openSpaceSession(session), session).then((response) => {
+    edit: async (sessionMeta: OsSessionMeta, newSession:OsSessionDetailsApiType) => {
+        return axios.put(Endpoints.openSpaceSession(sessionMeta), newSession).then((response) => {
             return mapOsSessionApi(response.data)
         })
     },
     load: async (args: LoaderFunctionArgs): Promise<OsSession> => {
         return axios.get(Endpoints.openSpaceSession({
-            identifier: args.params.session_id!,
-            os_identifier: args.params.os_id!
+            sessionIdentifier: args.params.session_id!,
+            osIdentifier: args.params.os_id!
         })).then((response) => {
             console.log(`loaded session for os ${args.params.os_id}: ${JSON.stringify(response.data)}`)
             return mapOsSessionApi(response.data)
@@ -55,6 +49,6 @@ export const SessionApiServices = {
             return mapOsSessionApi(response.data)
         }),
 
-    delete: async (sessionMeta: OsSessionMetaType): Promise<void> =>
+    delete: async (sessionMeta: OsSessionMeta): Promise<void> =>
         axios.delete(Endpoints.openSpaceSession(sessionMeta))
 }

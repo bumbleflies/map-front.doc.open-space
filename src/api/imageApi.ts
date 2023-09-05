@@ -3,7 +3,7 @@ import {Endpoints} from "../config/Endpoints";
 import {LoaderFunctionArgs} from "react-router-dom";
 import {
     ImageNotAvailable,
-    ImageUpload,
+    ImpressionImageUpload,
     OsImageApiType,
     TransientImageType,
     uploadResponseToImageType
@@ -11,7 +11,7 @@ import {
 import {ImageDetailsApiService} from "./imageDetailsApi";
 
 export const ImageApiServices = {
-    upload: async (image: ImageUpload) => {
+    upload: async (image: ImpressionImageUpload) => {
         const uploadData = new FormData()
         uploadData.append('image', image.imageFile)
         return axios.post(Endpoints.openSpaceImages(image.osIdentifier), uploadData).then(response => {

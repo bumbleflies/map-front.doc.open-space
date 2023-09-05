@@ -7,7 +7,7 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import {ImageWithDetailsType} from "../../types/image";
 import {OsImageAddDialog} from "./osImageAddDialog";
 import {OsImpressionsMenu} from "./osImpressionsMenu";
-import {ImageApiServices as imageApi} from "../../api/imageApi";
+import {ImageApiServices} from "../../api/imageApi";
 
 export const OsImpressionsTab = () => {
     const images = useLoaderData() as ImageWithDetailsType[]
@@ -38,7 +38,7 @@ export const OsImpressionsTab = () => {
     }
 
     const uploadFile = (file: File) => {
-        return imageApi.upload({
+        return ImageApiServices.upload({
             osIdentifier: os_id!,
             imageFile: file
         })

@@ -13,15 +13,14 @@ export const handleSessionEditAction = async (args: ActionFunctionArgs) =>
     args.request.json().then(async (newSessionData: OsSessionDetailsApiType) => {
         console.log(`About to edit session ${JSON.stringify(newSessionData)}`)
         return SessionApiServices.edit({
-            ...newSessionData,
-            identifier: args.params.session_id!,
-            os_identifier: args.params.os_id!
-        }).then(() => redirect('..'))
+            sessionIdentifier: args.params.session_id!,
+            osIdentifier: args.params.os_id!
+        }, newSessionData).then(() => redirect('..'))
     })
 
 
 export const handleSessionDeleteAction = async (args: ActionFunctionArgs) =>
     SessionApiServices.delete({
-        identifier: args.params.session_id!,
-        os_identifier: args.params.os_id!
+        sessionIdentifier: args.params.session_id!,
+        osIdentifier: args.params.os_id!
     }).then(() => redirect(`/os/${args.params.os_id!}/s`))

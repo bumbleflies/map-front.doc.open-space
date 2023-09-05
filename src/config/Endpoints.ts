@@ -1,6 +1,6 @@
 // https://a-carreras-c.medium.com/development-and-production-variables-for-react-apps-c04af8b430a5
 import {TransientImageType} from "../types/image";
-import {OsSessionMetaType} from "../types/session";
+import {OsSessionMeta} from "../types/session";
 
 type ConfigType = {
     [hostname: string]: {
@@ -22,13 +22,32 @@ const determineEnvironment = () => {
 
 const ApiServer = determineEnvironment()
 
+const SessionEndpoints = {
+    openSpaceSessions: (id: string) => new URL('s/', Endpoints.openSpace(id) + '/').href,
+    openSpaceSession: (sessionMeta: OsSessionMeta) => new URL(
+        sessionMeta.sessionIdentifier,
+        SessionEndpoints.openSpaceSessions(sessionMeta.osIdentifier)).href,
+    openSpaceSessionImages: (sessionMeta: OsSessionMeta) => new URL(
+        'i/',
+        SessionEndpoints.openSpaceSession(sessionMeta)+'/').href
+}
+
+const ImagesEndpoints = {
+    openSpaceImages: (id: string) => new URL('i/', Endpoints.openSpace(id) + '/').href,
+    headerImage: (osId: string) => new URL(
+        '?only_header=True',
+        ImagesEndpoints.openSpaceImages(osId)).href,
+    openSpaceImage: (image: TransientImageType) => new URL(
+        image.imageIdentifier,
+        ImagesEndpoints.openSpaceImages(image.osIdentifier)).href,
+    openSpaceImageDetails: (image: TransientImageType) => new URL(
+        'details',
+        ImagesEndpoints.openSpaceImage(image) + '/').href,
+
+}
 export const Endpoints = {
     openSpaces: new URL('os/', ApiServer.url.href).href,
     openSpace: (id: string) => new URL(id, Endpoints.openSpaces).href,
-    openSpaceImages: (id: string) => new URL('i/', Endpoints.openSpace(id) + '/').href,
-    headerImage: (osId: string) => new URL('?only_header=True', Endpoints.openSpaceImages(osId)).href,
-    openSpaceImage: (image: TransientImageType) => new URL(image.imageIdentifier, Endpoints.openSpaceImages(image.osIdentifier)).href,
-    openSpaceImageDetails: (image: TransientImageType) => new URL('details', Endpoints.openSpaceImage(image) + '/').href,
-    openSpaceSessions: (id: string) => new URL('s/', Endpoints.openSpace(id) + '/').href,
-    openSpaceSession: (sessionMeta: OsSessionMetaType) => new URL(sessionMeta.identifier, Endpoints.openSpaceSessions(sessionMeta.os_identifier)).href,
+    ...ImagesEndpoints,
+    ...SessionEndpoints
 }

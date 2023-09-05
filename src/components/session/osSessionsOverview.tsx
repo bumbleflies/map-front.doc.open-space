@@ -58,7 +58,7 @@ export const OsSessionsOverview = () => {
                 {osWithSessions.sessions.map((session) => (
                     <ImageListItem key={session.sessionIdentifier}>
                         <Skeleton variant="rectangular" width={170} height={150}
-                                  onClick={() => navigate(`${session.sessionIdentifier}`)}/>
+                                  onClick={() => navigate(`${session.sessionIdentifier}/i`)}/>
                         <ImageListItemBar
                             data-testid={'os-session-time-bar'}
                             subtitle={`${session.startDate.format('DD.MM')} ${session.startDate.format('HH:mm')} - ${session.endDate.format('HH:mm')}`}
