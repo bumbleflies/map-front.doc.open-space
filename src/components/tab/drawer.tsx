@@ -34,7 +34,7 @@ const MobileDrawer = (props: DrawerProps) => {
     useEffect(() => {
         console.log(document.getElementById("appbar")!.clientHeight)
         setAppbarHeight(document.getElementById("appbar")!.clientHeight);
-    }, [document, setAppbarHeight]);
+    }, [setAppbarHeight]);
 
     return (
         <SwipeableDrawer
