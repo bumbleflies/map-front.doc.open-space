@@ -64,6 +64,8 @@ describe('when editing an open space', () => {
             cy.getByDataTestId('os-date-start').find('button').click()
             cy.get('button[data-timestamp="1691964000000"]').click()
             cy.get('div.MuiPickersLayout-root').find('button').contains('OK').click()
+            // wait for dialog to close
+            cy.get('div.MuiPickersLayout-root').should('not.exist')
 
             cy.getByDataTestId('os-date-end').find('button').click()
             cy.get('button[data-timestamp="1692136800000"]').click()
