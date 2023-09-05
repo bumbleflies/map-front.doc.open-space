@@ -50,6 +50,9 @@ jobs:
           python app.py &
       - name: Cypress run
         uses: cypress-io/github-action@v5
+        with:
+          record: true
+          parallel: true
       - uses: actions/upload-artifact@v3
         if: always()
         with:
