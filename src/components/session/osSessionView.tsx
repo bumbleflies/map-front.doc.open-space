@@ -43,7 +43,7 @@ export const OsSessionView = () => {
         <>
             <Grid container spacing={0} alignItems={"center"}>
                 <Grid item xs={1}>
-                    <ButtonBase data-testid={"os-close-button"} aria-label={"back"}
+                    <ButtonBase data-testid={"os-session-back-button"} aria-label={"back"}
                                 onClick={() => navigate(`/os/${session.osIdentifier}/s`)}>
                         <ArrowBackIcon/>
                     </ButtonBase>

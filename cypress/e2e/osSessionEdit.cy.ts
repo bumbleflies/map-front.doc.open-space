@@ -48,6 +48,8 @@ describe('when adding os sessions', () => {
 
             // save
             cy.getByDataTestId('session-edit-save').click()
+            // back to list
+            cy.getByDataTestId('os-session-back-button').click()
 
             cy.get('ul.MuiImageList-root li').eq(1).find('[data-testid=os-session-title-bar]')
                 .should('contain.text', 'My Test Session')
