@@ -80,7 +80,7 @@ const router = createBrowserRouter([
             {
                 path: 'os/:os_id/s/:session_id',
                 action: handleSessionDeleteAction,
-                loader: SessionApiServices.load,
+                loader: SessionApiServices.loadWithImages,
                 element: <OsTabList active={"s"}/>,
                 children: [
                     {

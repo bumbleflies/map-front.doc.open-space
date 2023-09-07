@@ -3,7 +3,8 @@ import {
     Box,
     ButtonBase,
     Divider,
-    Grid, IconButton,
+    Grid,
+    IconButton,
     ImageList,
     ImageListItem,
     ImageListItemBar,
@@ -12,7 +13,7 @@ import {
     Typography
 } from "@mui/material";
 import {IconTextGrid} from "../info/iconTextGrid";
-import {OsSession, OsSessionWithImages} from "../../types/session";
+import {OsSessionWithImages} from "../../types/session";
 import React, {useEffect, useState} from "react";
 import TimelapseIcon from '@mui/icons-material/Timelapse';
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
