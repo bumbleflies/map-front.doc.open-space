@@ -3,11 +3,8 @@ import ViewportPreset = Cypress.ViewportPreset;
 import screenSizes from '../fixtures/screens.json'
 
 describe('clicks through on different viewports', () => {
-    before(() => {
-        cy.registerInterceptRoutes()
-    })
-
     beforeEach(() => {
+        cy.registerInterceptRoutes()
         cy.visit('http://localhost:3000/')
         cy.wait('@googlemaps')
     })
