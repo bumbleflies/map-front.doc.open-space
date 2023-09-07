@@ -3,9 +3,9 @@ import {createOs, deleteOs} from "../support/apiActions";
 
 describe('Performs a simple run', () => {
 
-    beforeEach(async () => {
+    beforeEach(() => {
         cy.registerInterceptRoutes()
-        await createOs()
+        createOs()
         cy.visit('http://localhost:3000/')
         cy.wait('@googlemaps')
         cy.viewport('macbook-16')
