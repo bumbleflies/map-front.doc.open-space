@@ -51,7 +51,7 @@ export const OsImpressionsTab = () => {
                     alignItems: "center",
                     verticalAlign: "middle",
                 }}>
-                    <ListItemButton data-testid={"os-image-add-button"} onClick={() => setUploadOpen(true)} sx={{
+                    <ListItemButton data-testid={"os-impression-image-add-button"} onClick={() => setUploadOpen(true)} sx={{
                         minHeight: 150
                     }}>
                         <AddPhotoAlternateIcon fontSize={"large"}/>

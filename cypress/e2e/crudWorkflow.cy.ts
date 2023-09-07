@@ -34,7 +34,7 @@ describe('Performs a simple run', () => {
 
             // upload image
             cy.clickImagesView()
-            cy.uploadImage('cypress/fixtures/test-image.png')
+            cy.uploadImage('impression','cypress/fixtures/test-image.png')
             cy.get('div.MuiImageListItemBar-title').contains('no images yet').should('not.exist')
 
             // make header
@@ -65,7 +65,7 @@ describe('Performs a simple run', () => {
     it('views the image in fullscreen', () => {
         cy.onTestOs().then((testOsId) => {
             cy.clickImagesView()
-            cy.uploadImage('cypress/fixtures/test-image.png')
+            cy.uploadImage('impression','cypress/fixtures/test-image.png')
             cy.get('div.MuiImageListItemBar-title').contains('no images yet').should('not.exist')
             cy.getByDataTestId('os-image').click()
             cy.getByDataTestId('os-image-fullscreen').should('exist')

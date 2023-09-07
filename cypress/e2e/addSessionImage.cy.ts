@@ -1,9 +1,9 @@
 import {createOs, deleteOs} from "../support/apiActions";
 
 describe('when adding os sessions', () => {
-    beforeEach(async () => {
+    beforeEach(() => {
         cy.registerInterceptRoutes()
-        await createOs()
+        createOs()
         cy.visit('http://localhost:3000/')
         cy.wait('@googlemaps')
         cy.viewport('macbook-16')
@@ -18,7 +18,9 @@ describe('when adding os sessions', () => {
         cy.onTestOs().then((testOsId) => {
             cy.clickImagesView()
             cy.addSession()
-            cy.uploadImage('cypress/fixtures/test-image.png')
+            // goto session
+            cy.getByDataTestId('os-session').click()
+            cy.uploadImage('session','cypress/fixtures/test-image.png')
 
         })
     })

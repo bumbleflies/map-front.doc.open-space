@@ -11,15 +11,15 @@ export const assertNoImages = () => {
     cy.get('img[alt="no image yet available"]').should('exist')
     cy.clickImagesView()
     cy.get('div.MuiImageListItemBar-title').contains('no images yet').should('exist')
-    cy.getByDataTestId("os-image-add-button").click()
-    cy.getByDataTestId("os-image-add-cancel").click()
+    cy.getByDataTestId("os-impression-image-add-button").click()
+    cy.getByDataTestId("os-impression-image-add-cancel").click()
     cy.get('div.MuiImageListItemBar-title').contains('no images yet').should('exist')
     cy.clickImagesBack()
 }
-export const uploadImage = (file: string) => {
-    cy.getByDataTestId("os-image-add-button").click()
-    cy.getByDataTestId('os-image-upload').selectFile(file, {force: true})
+export const uploadImage = (component:"impression"|"session", file: string) => {
+    cy.getByDataTestId(`os-${component}-image-add-button`).click()
+    cy.getByDataTestId(`os-image-upload`).selectFile(file, {force: true})
     cy.getByDataTestId(`os-image-add-preview-${file.split('/').pop()?.replaceAll('.', '-')}`).should('exist')
-    cy.getByDataTestId("os-image-add-save").click()
+    cy.getByDataTestId(`os-image-add-save`).click()
     cy.wait('@imagesApi')
 }

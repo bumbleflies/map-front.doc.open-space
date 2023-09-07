@@ -10,23 +10,23 @@ export type OsWithSessions = {
     sessions: OsSession[]
 }
 export const SessionApiServices = {
-    edit: async (sessionMeta: OsSessionMeta, newSession:OsSessionDetailsApiType) => {
-        return axios.put(Endpoints.openSpaceSession(sessionMeta), newSession).then((response) => {
+    edit: async (sessionMeta: OsSessionMeta, newSession:OsSessionDetailsApiType) =>
+         axios.put(Endpoints.openSpaceSession(sessionMeta), newSession).then((response) => {
             return mapOsSessionApi(response.data)
         })
-    },
-    load: async (args: LoaderFunctionArgs): Promise<OsSession> => {
-        return axios.get(Endpoints.openSpaceSession({
+    ,
+    load: async (args: LoaderFunctionArgs): Promise<OsSession> =>
+         axios.get(Endpoints.openSpaceSession({
             sessionIdentifier: args.params.session_id!,
             osIdentifier: args.params.os_id!
         })).then((response) => {
             console.log(`loaded session for os ${args.params.os_id}: ${JSON.stringify(response.data)}`)
             return mapOsSessionApi(response.data)
         })
-    },
+    ,
 
-    loadAll: async (args: LoaderFunctionArgs): Promise<OsWithSessions> => {
-        return OsApiServices.load(args).then(os =>
+    loadAll: async (args: LoaderFunctionArgs): Promise<OsWithSessions> =>
+         OsApiServices.load(args).then(os =>
             axios.get(Endpoints.openSpaceSessions((os as MarkerType).identifier)).then((response) => {
                 console.log(`loaded sessions for os ${args.params.os_id}: ${JSON.stringify(response.data)}`)
                 return {
@@ -41,7 +41,7 @@ export const SessionApiServices = {
                 }
             })
         )
-    },
+    ,
 
     add: async (osId: string, session: OsSessionDetailsApiType): Promise<OsSession> =>
         axios.post(Endpoints.openSpaceSessions(osId), session).then((response) => {
@@ -49,6 +49,8 @@ export const SessionApiServices = {
             return mapOsSessionApi(response.data)
         }),
 
-    delete: async (sessionMeta: OsSessionMeta): Promise<void> =>
-        axios.delete(Endpoints.openSpaceSession(sessionMeta))
+    delete: async (sessionMeta: OsSessionMeta): Promise<void> => {
+        console.log(`Deleting new session ${JSON.stringify(sessionMeta)}...`)
+        return axios.delete(Endpoints.openSpaceSession(sessionMeta))
+    }
 }

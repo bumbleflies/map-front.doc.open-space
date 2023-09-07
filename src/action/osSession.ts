@@ -20,7 +20,9 @@ export const handleSessionEditAction = async (args: ActionFunctionArgs) =>
 
 
 export const handleSessionDeleteAction = async (args: ActionFunctionArgs) =>
-    SessionApiServices.delete({
+    (args.request.method !== 'DELETE') || SessionApiServices.delete({
         sessionIdentifier: args.params.session_id!,
         osIdentifier: args.params.os_id!
     }).then(() => redirect(`/os/${args.params.os_id!}/s`))
+
+

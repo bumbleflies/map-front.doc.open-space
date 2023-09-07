@@ -21,7 +21,7 @@ describe('clicks through on different viewports', () => {
             cy.assertNoImages()
 
             cy.clickImagesView()
-            cy.uploadImage('cypress/fixtures/test-image.png')
+            cy.uploadImage('impression','cypress/fixtures/test-image.png')
 
             cy.getByDataTestId('os-image').click()
             cy.getByDataTestId('os-image-fullscreen').should('exist')

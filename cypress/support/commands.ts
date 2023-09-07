@@ -61,7 +61,7 @@ declare global {
 
             clickImagesView(): Chainable<void>
 
-            uploadImage(file: string): Chainable<void>
+            uploadImage(component:"impression"|"session", file: string): Chainable<void>
 
             onTestOs(): Chainable<string>
 
