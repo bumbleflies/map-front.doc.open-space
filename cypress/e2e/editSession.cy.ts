@@ -17,10 +17,7 @@ describe('when adding os sessions', () => {
     it('adds a new one', () => {
         cy.onTestOs().then((testOsId) => {
             cy.clickImagesView()
-            cy.getByDataTestId('os-sessions-tab').click()
-            cy.get('div.MuiImageListItemBar-title').contains('no sessions yet').should('exist')
-            cy.getByDataTestId('os-session-add-button').click()
-            cy.get('div.MuiImageListItemBar-title').contains('no sessions yet').should('not.exist')
+            cy.addSession()
         })
     })
 
@@ -28,10 +25,7 @@ describe('when adding os sessions', () => {
         cy.onTestOs().then((testOsId) => {
             // add session
             cy.clickImagesView()
-            cy.getByDataTestId('os-sessions-tab').click()
-            cy.get('div.MuiImageListItemBar-title').contains('no sessions yet').should('exist')
-            cy.getByDataTestId('os-session-add-button').click()
-            cy.wait('@sessionsApi')
+            cy.addSession()
 
             // edit session
             cy.getByDataTestId('os-session-menu').click()

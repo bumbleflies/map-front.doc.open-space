@@ -47,9 +47,9 @@ export const openEditAssertTitle = (osId: string, osTitlePart: string) => {
 
 }
 
-export const onTestOs = () => {
-    return cy.get('@testOsId').then((testOsId) => {
+export const onTestOs = () =>
+    cy.get('@testOsId').then((testOsId) => {
         cy.visit(`http://localhost:3000/os/${testOsId}`)
         return cy.wrap(testOsId)
     })
-}
+
