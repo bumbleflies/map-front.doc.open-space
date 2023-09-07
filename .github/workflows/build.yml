@@ -30,8 +30,6 @@ jobs:
           cache: 'yarn'
       - name: yarn install
         run: yarn install
-      - name: yarn start
-        run: yarn start &
       # backend
       - name: Checkout backend
         uses: actions/checkout@v3
@@ -43,18 +41,21 @@ jobs:
         with:
           python-version: "3.10"
           cache: 'pip'
-      - name: Install dependencies
+      - name: Install backend
         run: |
           cd backend
           python -m pip install --upgrade pip
-          pip install flake8 pytest
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-          python app.py &
       - name: Cypress run
         uses: cypress-io/github-action@v5
         with:
+          start: |
+            yarn start
+            cd backend
+            python app.py
           record: true
           parallel: true
+          wait-on: 'http://localhost:3000, http://localhost:5000'
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
       - uses: actions/upload-artifact@v3
