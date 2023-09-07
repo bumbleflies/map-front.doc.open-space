@@ -54,7 +54,7 @@ jobs:
             python backend/app.py
           record: true
           parallel: true
-          wait-on: 'http://localhost:3000, http://localhost:5000'
+          wait-on: 'http://localhost:3000, http://localhost:5000/health'
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
       - uses: actions/upload-artifact@v3
