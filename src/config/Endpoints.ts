@@ -1,6 +1,6 @@
 // https://a-carreras-c.medium.com/development-and-production-variables-for-react-apps-c04af8b430a5
 import {TransientImageType} from "../types/image";
-import {OsSessionMeta} from "../types/session";
+import {OsSessionImage, OsSessionMeta} from "../types/session";
 
 type ConfigType = {
     [hostname: string]: {
@@ -29,7 +29,10 @@ const SessionEndpoints = {
         SessionEndpoints.openSpaceSessions(sessionMeta.osIdentifier)).href,
     openSpaceSessionImages: (sessionMeta: OsSessionMeta) => new URL(
         'i/',
-        SessionEndpoints.openSpaceSession(sessionMeta)+'/').href
+        SessionEndpoints.openSpaceSession(sessionMeta)+'/').href,
+    openSpaceSessionImage: (image: OsSessionImage) => new URL(
+        image.imageIdentifier,
+        SessionEndpoints.openSpaceSessionImages(image)).href
 }
 
 const ImagesEndpoints = {

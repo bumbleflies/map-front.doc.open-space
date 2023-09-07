@@ -1,7 +1,14 @@
 import axios from "axios";
 import {LoaderFunctionArgs} from "react-router-dom";
 import {Endpoints} from "../config/Endpoints";
-import {mapOsSessionApi, OsSession, OsSessionApiType, OsSessionDetailsApiType, OsSessionMeta} from "../types/session";
+import {
+    mapOsSessionApi,
+    mapSessionImagesApi,
+    OsSession,
+    OsSessionApiType,
+    OsSessionDetailsApiType,
+    OsSessionMeta
+} from "../types/session";
 import {MarkerType} from "../types/marker";
 import {OsApiServices} from "./osApi";
 
@@ -10,13 +17,22 @@ export type OsWithSessions = {
     sessions: OsSession[]
 }
 export const SessionApiServices = {
-    edit: async (sessionMeta: OsSessionMeta, newSession:OsSessionDetailsApiType) =>
-         axios.put(Endpoints.openSpaceSession(sessionMeta), newSession).then((response) => {
+    edit: async (sessionMeta: OsSessionMeta, newSession: OsSessionDetailsApiType) =>
+        axios.put(Endpoints.openSpaceSession(sessionMeta), newSession).then((response) => {
             return mapOsSessionApi(response.data)
         })
     ,
+    loadWithImages: async (args: LoaderFunctionArgs) => SessionApiServices.load(args)
+        .then((session: OsSession) => axios.get(Endpoints.openSpaceSessionImages({
+            sessionIdentifier: args.params.session_id!,
+            osIdentifier: args.params.os_id!
+        })).then(response=>{
+            console.log(`loaded images for session ${args.params.session_id}: ${JSON.stringify(response.data)}`)
+            return mapSessionImagesApi(session, response.data)
+        })),
+
     load: async (args: LoaderFunctionArgs): Promise<OsSession> =>
-         axios.get(Endpoints.openSpaceSession({
+        axios.get(Endpoints.openSpaceSession({
             sessionIdentifier: args.params.session_id!,
             osIdentifier: args.params.os_id!
         })).then((response) => {
@@ -26,7 +42,7 @@ export const SessionApiServices = {
     ,
 
     loadAll: async (args: LoaderFunctionArgs): Promise<OsWithSessions> =>
-         OsApiServices.load(args).then(os =>
+        OsApiServices.load(args).then(os =>
             axios.get(Endpoints.openSpaceSessions((os as MarkerType).identifier)).then((response) => {
                 console.log(`loaded sessions for os ${args.params.os_id}: ${JSON.stringify(response.data)}`)
                 return {
