@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const createOs = () =>
+export const createOs = () => {
     axios.post('http://localhost:5000/os', {
         "location": {
             "lat": 1.01,
@@ -12,6 +12,7 @@ export const createOs = () =>
     }).then((result) => {
         cy.wrap(result.data.identifier).as('testOsId')
     })
+}
 
 export const deleteOs = () => {
     cy.get('@testOsId').then((testId) => {
