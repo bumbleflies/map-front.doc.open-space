@@ -20,8 +20,9 @@ describe('when adding os sessions', () => {
             cy.addSession()
             // goto session
             cy.getByDataTestId('os-session').click()
+            cy.getByDataTestId('os-session-image').should('not.exist')
             cy.uploadImage('session','cypress/fixtures/test-image.png')
-
+            cy.getByDataTestId('os-session-image').should('exist')
         })
     })
 })

@@ -3,6 +3,7 @@ export const registerInterceptRoutes = () => {
     cy.intercept('http://localhost:5000/os/').as('osApi')
     cy.intercept('http://localhost:5000/os/*/i/?only_header=True').as('headerApi')
     cy.intercept('http://localhost:5000/os/*/i/').as('imagesApi')
+    cy.intercept('http://localhost:5000/os/*/s/*/i').as('imagesApi')
     cy.intercept('patch', 'http://localhost:5000/os/*/i/*').as('imageHeaderApi')
     cy.intercept('http://localhost:5000/os/*/s/').as('sessionsApi')
 }
