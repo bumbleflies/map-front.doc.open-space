@@ -1,7 +1,7 @@
 import axios from "axios";
 
-export const createOs = () => {
-    axios.post('http://localhost:5000/os', {
+export const createOs = async () => {
+    await axios.post('http://localhost:5000/os', {
         "location": {
             "lat": 1.01,
             "lng": 2.02
