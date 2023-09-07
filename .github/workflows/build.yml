@@ -51,8 +51,7 @@ jobs:
         with:
           start: |
             yarn start
-            cd backend
-            python app.py
+            python backend/app.py
           record: true
           parallel: true
           wait-on: 'http://localhost:3000, http://localhost:5000'
