@@ -24,14 +24,6 @@ export const OsImpressionsMenu = (props: OsImpressionsMenuProps) => {
         })
     }
 
-    const makeImageHeader = () => {
-        props.closeMenuHandler()
-        actionSubmit({is_header: true}, {
-            method: 'patch',
-            action: `${props.imageId}/make_header`
-        })
-    }
-
     const editImage = () => {
         props.closeMenuHandler()
         navigate(`${props.imageId}/edit`)
@@ -52,14 +44,6 @@ export const OsImpressionsMenu = (props: OsImpressionsMenuProps) => {
                     horizontal: 'center',
                 }}
             >
-                <MenuItem data-testid={"os-image-make-header-menu"} onClick={makeImageHeader}>
-                    <ListItemIcon>
-                        <CollectionsIcon/>
-                    </ListItemIcon>
-                    <ListItemText>
-                        Make Header
-                    </ListItemText>
-                </MenuItem>
                 <MenuItem data-testid={"os-image-edit-menu"} onClick={editImage}>
                     <ListItemIcon>
                         <EditIcon/>

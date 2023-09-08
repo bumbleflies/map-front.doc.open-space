@@ -29,7 +29,7 @@ export const OsSessionView = () => {
 
     const [uploadOpen, setUploadOpen] = useState<boolean>(false)
     const {pendingImages, imageSubmit} = useImageUploadFetcher()
-    const deleteSubmit=useSubmit()
+    const deleteSubmit = useSubmit()
     const navigate = useNavigate()
 
     const [title, setTitle] = useState<string>('');

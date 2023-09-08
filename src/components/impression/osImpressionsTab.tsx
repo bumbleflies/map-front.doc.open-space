@@ -1,7 +1,7 @@
 import {IconButton, ImageList, ImageListItem, ImageListItemBar, ListItemButton, Skeleton} from "@mui/material";
 import React, {useState} from "react";
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
-import {useLoaderData, useNavigate, useParams} from "react-router-dom";
+import {useLoaderData, useNavigate, useParams, useSubmit} from "react-router-dom";
 import {Endpoints} from "../../config/Endpoints";
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import {ImageWithDetailsType} from "../../types/image";
@@ -9,6 +9,7 @@ import {OsImageAddDialog} from "./osImageAddDialog";
 import {OsImpressionsMenu} from "./osImpressionsMenu";
 import {ImageApiServices} from "../../api/imageApi";
 import {useImageUploadFetcher} from "../../helper/imageUploadFetcher";
+import StarBorderIcon from '@mui/icons-material/StarBorder';
 
 export const OsImpressionsTab = () => {
     const images = useLoaderData() as ImageWithDetailsType[]
@@ -19,6 +20,8 @@ export const OsImpressionsTab = () => {
 
     const navigate = useNavigate()
     const {os_id} = useParams<"os_id">();
+
+    const actionSubmit = useSubmit()
 
     const openMenu = (event: React.MouseEvent<HTMLButtonElement>, imageIdentifier: string) => {
         setMenuAnchorEl(event.currentTarget);
@@ -37,6 +40,15 @@ export const OsImpressionsTab = () => {
         })
     }
 
+    const makeImageHeader = (imageId: string) => {
+        closeMenu()
+        actionSubmit({is_header: true}, {
+            method: 'patch',
+            action: `${imageId}/make_header`
+        })
+    }
+
+
     return (
         <>
             <ImageList>
@@ -44,9 +56,10 @@ export const OsImpressionsTab = () => {
                     alignItems: "center",
                     verticalAlign: "middle",
                 }}>
-                    <ListItemButton data-testid={"os-impression-image-add-button"} onClick={() => setUploadOpen(true)} sx={{
-                        minHeight: 150
-                    }}>
+                    <ListItemButton data-testid={"os-impression-image-add-button"} onClick={() => setUploadOpen(true)}
+                                    sx={{
+                                        minHeight: 150
+                                    }}>
                         <AddPhotoAlternateIcon fontSize={"large"}/>
                     </ListItemButton>
                     <OsImageAddDialog title={"Add Impressions"} isOpen={uploadOpen}
@@ -64,6 +77,21 @@ export const OsImpressionsTab = () => {
                              loading="lazy"
                              data-testid={"os-image"}
                         />
+                        <ImageListItemBar
+                            position="top"
+                            actionPosition="left"
+                            actionIcon={
+                                <IconButton
+                                    data-testid={"os-image-make-header-menu"}
+                                    sx={{color: 'white'}}
+                                    aria-label={'Make header image'}
+                                    onClick={() => makeImageHeader(image.imageIdentifier)}
+                                >
+                                    <StarBorderIcon/>
+                                </IconButton>
+                            }>
+                        </ImageListItemBar>
+
                         <ImageListItemBar
                             title={image.description}
                             subtitle={image.imageIdentifier}
