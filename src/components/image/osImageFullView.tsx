@@ -16,7 +16,11 @@ import {Endpoints} from "../../config/Endpoints";
 import CloseIcon from '@mui/icons-material/Close';
 import {useTheme} from "@mui/material/styles";
 
-export const OsImageFullView = () => {
+type OsImageFullViewProps= {
+    resolve:()=>string
+}
+
+export const OsImageFullView = (props: OsImageFullViewProps) => {
     const {os_id} = useParams<"os_id">();
     const {image_id} = useParams<"image_id">();
     const navigate = useNavigate()
@@ -58,7 +62,7 @@ export const OsImageFullView = () => {
                         <CardMedia
                             width="100%"
                             component={"img"}
-                            image={Endpoints.openSpaceImage({osIdentifier: os_id!, imageIdentifier: image_id!})}
+                            image={props.resolve()}
                             data-testid={"os-image-fullscreen"}>
                         </CardMedia>
                     </Box>

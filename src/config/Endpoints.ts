@@ -1,6 +1,7 @@
 // https://a-carreras-c.medium.com/development-and-production-variables-for-react-apps-c04af8b430a5
 import {TransientImageType} from "../types/image";
 import {OsSessionImage, OsSessionMeta} from "../types/session";
+import {useParams} from "react-router-dom";
 
 type ConfigType = {
     [hostname: string]: {
@@ -29,7 +30,7 @@ const SessionEndpoints = {
         SessionEndpoints.openSpaceSessions(sessionMeta.osIdentifier)).href,
     openSpaceSessionImages: (sessionMeta: OsSessionMeta) => new URL(
         'i/',
-        SessionEndpoints.openSpaceSession(sessionMeta)+'/').href,
+        SessionEndpoints.openSpaceSession(sessionMeta) + '/').href,
     openSpaceSessionImage: (image: OsSessionImage) => new URL(
         image.imageIdentifier,
         SessionEndpoints.openSpaceSessionImages(image)).href
@@ -53,4 +54,23 @@ export const Endpoints = {
     openSpace: (id: string) => new URL(id, Endpoints.openSpaces).href,
     ...ImagesEndpoints,
     ...SessionEndpoints
+}
+
+export const useImpressionImageResolver = () => {
+    const {os_id} = useParams<"os_id">();
+    const {image_id} = useParams<"image_id">();
+
+    return Endpoints.openSpaceImage({osIdentifier: os_id!, imageIdentifier: image_id!})
+}
+
+export const useSessionImageResolver = () => {
+    const {os_id} = useParams<"os_id">();
+    const {image_id} = useParams<"image_id">();
+    const {session_id} = useParams<"session_id">();
+
+    return Endpoints.openSpaceSessionImage({
+        sessionIdentifier: session_id!,
+        osIdentifier: os_id!,
+        imageIdentifier: image_id!
+    })
 }
