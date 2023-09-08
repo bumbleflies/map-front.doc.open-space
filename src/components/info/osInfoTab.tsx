@@ -42,7 +42,7 @@ export const OsInfoTab = () => {
                         <CardMedia
                             component="img"
                             image={'/img/no-image-icon.png'}
-                            alt={'no image yet available'}
+                            alt={'no image available yet'}
                         />
 
                     }

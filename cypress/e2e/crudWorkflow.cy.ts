@@ -40,8 +40,9 @@ describe('Performs a simple run', () => {
             // make header
             cy.getByDataTestId('os-image-make-header').click()
             cy.wait('@imageHeaderApi')
+            cy.getByDataTestId('header-active').should('exist')
             cy.getByDataTestId('os-info-tab').click()
-            cy.get('img[alt="no image yet available"]').should('not.exist')
+            cy.get('img[alt="no image available yet"]').should('not.exist')
             cy.getByDataTestId('os-images-button').find('img').should('have.attr', 'alt').should('contain', 'Image ')
 
             // edit image

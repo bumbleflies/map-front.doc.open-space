@@ -22,12 +22,12 @@ describe('when adding os sessions', () => {
             cy.getByDataTestId('os-session').click()
             cy.getByDataTestId('os-session-image').should('not.exist')
             // upload image
-            cy.uploadImage('session','cypress/fixtures/test-image.png')
+            cy.uploadImage('session', 'cypress/fixtures/test-image.png')
             cy.getByDataTestId('os-session-image').should('exist')
         })
     })
 
-    it('deletes an image', ()=> {
+    it('deletes an image', () => {
         cy.onTestOs().then((testOsId) => {
             cy.clickImagesView()
             cy.addSession()
@@ -35,7 +35,7 @@ describe('when adding os sessions', () => {
             cy.getByDataTestId('os-session').click()
             cy.getByDataTestId('os-session-image').should('not.exist')
             // upload image
-            cy.uploadImage('session','cypress/fixtures/test-image.png')
+            cy.uploadImage('session', 'cypress/fixtures/test-image.png')
             cy.getByDataTestId('os-session-image').should('exist')
 
             // delete image
@@ -45,7 +45,7 @@ describe('when adding os sessions', () => {
         })
     })
 
-    it('shows image in full screen', ()=>{
+    it('shows image in full screen', () => {
         cy.onTestOs().then((testOsId) => {
             cy.clickImagesView()
             cy.addSession()
@@ -59,6 +59,25 @@ describe('when adding os sessions', () => {
             cy.getByDataTestId('os-image').click()
             cy.getByDataTestId('os-image-fullscreen').should('exist')
             cy.getByDataTestId('os-image-fullscreen-close-button').click()
+        })
+    })
+
+    it('makes image the header image', () => {
+        cy.onTestOs().then((testOsId) => {
+            cy.clickImagesView()
+            cy.addSession()
+            // goto session
+            cy.getByDataTestId('os-session').click()
+            cy.getByDataTestId('os-session-image').should('not.exist')
+            // upload image
+            cy.uploadImage('session', 'cypress/fixtures/test-image.png')
+            cy.getByDataTestId('os-session-image').should('exist')
+            // make header
+            cy.getByDataTestId('os-image-make-header').click()
+            cy.wait('@imageHeaderApi')
+            cy.getByDataTestId('header-active').should('exist')
+            cy.getByDataTestId('os-session-back-button').click()
+            cy.get('img[alt="no image available yet"]').should('not.exist')
         })
     })
 })

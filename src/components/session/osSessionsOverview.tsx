@@ -52,12 +52,13 @@ export const OsSessionsOverview = () => {
                                  src={Endpoints.openSpaceSessionImage((session.header as OsSessionImage))}
                                  alt={session.sessionIdentifier}
                                  loading="lazy"
-                                 data-testid={"os-session-image"}
+                                 data-testid={"os-session"}
                             /> :
                             <img
                                 src={'/img/no-image-icon.png'}
                                 onClick={() => navigate(`${session.sessionIdentifier}/i`)}
-                                alt={'no image yet available'}
+                                alt={'no image available yet'}
+                                 data-testid={"os-session"}
                             />
                         }
 

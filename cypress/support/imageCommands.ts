@@ -8,7 +8,7 @@ export const clickImagesView = () => {
 
 }
 export const assertNoImages = () => {
-    cy.get('img[alt="no image yet available"]').should('exist')
+    cy.get('img[alt="no image available yet"]').should('exist')
     cy.clickImagesView()
     cy.get('div.MuiImageListItemBar-title').contains('no images yet').should('exist')
     cy.getByDataTestId("os-impression-image-add-button").click()

@@ -37,9 +37,9 @@ export const ImageHeaderItemBar = (props: ImageHeaderItemBarProps) => {
                     onClick={() => makeImageHeader(props.image.imageIdentifier)}
                 >
                     {props.image.isHeader ?
-                        <StarIcon/>
+                        <StarIcon data-testid={"header-active"}/>
                         :
-                        <StarBorderIcon/>
+                        <StarBorderIcon data-testid={"header-inactive"}/>
                     }
                 </IconButton>
             }>
