@@ -9,21 +9,18 @@ import {OsImageAddDialog} from "./osImageAddDialog";
 import {OsImpressionsMenu} from "./osImpressionsMenu";
 import {ImageApiServices} from "../../api/imageApi";
 import {useImageUploadFetcher} from "../../helper/imageUploadFetcher";
-import StarBorderIcon from '@mui/icons-material/StarBorder';
-import StarIcon from '@mui/icons-material/Star';
 import {useSelectionMenu} from "../image/menu";
+import {ImageHeaderItemBar} from "../image/imageHeaderItemBar";
 
 export const OsImpressionsTab = () => {
     const images = useLoaderData() as ImageWithDetailsType[]
     const [uploadOpen, setUploadOpen] = useState<boolean>(false)
     const {pendingImages, imageSubmit} = useImageUploadFetcher()
 
-    const {menu,selected} = useSelectionMenu()
+    const {menu, selected} = useSelectionMenu()
 
     const navigate = useNavigate()
     const {os_id} = useParams<"os_id">();
-
-    const actionSubmit = useSubmit()
 
     const uploadFile = (file: File) => {
         return ImageApiServices.upload({
@@ -31,15 +28,6 @@ export const OsImpressionsTab = () => {
             imageFile: file
         })
     }
-
-    const makeImageHeader = (imageId: string) => {
-        menu.close()
-        actionSubmit({is_header: true}, {
-            method: 'patch',
-            action: `${imageId}/make_header`
-        })
-    }
-
 
     return (
         <>
@@ -69,22 +57,7 @@ export const OsImpressionsTab = () => {
                              loading="lazy"
                              data-testid={"os-image"}
                         />
-                        <ImageListItemBar
-                            position="top"
-                            actionPosition="left"
-                            actionIcon={
-                                <IconButton
-                                    data-testid={"os-image-make-header-menu"}
-                                    sx={{color: 'white'}}
-                                    aria-label={'Make header image'}
-                                    onClick={() => makeImageHeader(image.imageIdentifier)}
-                                >
-                                    {image.isHeader? <StarIcon />
-                                        :
-                                    <StarBorderIcon/>}
-                                </IconButton>
-                            }>
-                        </ImageListItemBar>
+                        <ImageHeaderItemBar menu={menu} submit={imageSubmit} image={image}/>
 
                         <ImageListItemBar
                             title={image.description}

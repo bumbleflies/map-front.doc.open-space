@@ -38,7 +38,7 @@ describe('Performs a simple run', () => {
             cy.get('div.MuiImageListItemBar-title').contains('no images yet').should('not.exist')
 
             // make header
-            cy.getByDataTestId('os-image-make-header-menu').click()
+            cy.getByDataTestId('os-image-make-header').click()
             cy.wait('@imageHeaderApi')
             cy.getByDataTestId('os-info-tab').click()
             cy.get('img[alt="no image yet available"]').should('not.exist')
