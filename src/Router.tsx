@@ -99,7 +99,7 @@ const router = createBrowserRouter([
                 ]
             },
             {
-                path: 'os/:os_id/s/:session_id/i',
+                path: 'os/:os_id/s/:session_id/i/',
                 action: handleImageUploadAction,
                 loader: SessionApiServices.loadWithImages,
                 element: <OsTabList active={"s"}/>,

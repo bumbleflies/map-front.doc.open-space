@@ -33,7 +33,10 @@ const SessionEndpoints = {
         SessionEndpoints.openSpaceSession(sessionMeta) + '/').href,
     openSpaceSessionImage: (image: OsSessionImage) => new URL(
         image.imageIdentifier,
-        SessionEndpoints.openSpaceSessionImages(image)).href
+        SessionEndpoints.openSpaceSessionImages(image)).href,
+    openSpaceSessionHeaderImage:(sessionMeta: OsSessionMeta) => new URL(
+        '?only_header=True',
+        SessionEndpoints.openSpaceSessionImages(sessionMeta)).href,
 }
 
 const ImagesEndpoints = {

@@ -3,18 +3,20 @@ import {LoaderFunctionArgs} from "react-router-dom";
 import {Endpoints} from "../config/Endpoints";
 import {
     mapOsSessionApi,
+    mapSessionImageApi,
     mapSessionImagesApi,
     OsSession,
     OsSessionApiType,
-    OsSessionDetailsApiType,
-    OsSessionMeta
+    OsSessionDetailsApiType, OsSessionImageApiType,
+    OsSessionMeta,
+    OsSessionWithHeaderImage
 } from "../types/session";
 import {MarkerType} from "../types/marker";
 import {OsApiServices} from "./osApi";
 
 export type OsWithSessions = {
     os: MarkerType,
-    sessions: OsSession[]
+    sessions: OsSessionWithHeaderImage[]
 }
 export const SessionApiServices = {
     edit: async (sessionMeta: OsSessionMeta, newSession: OsSessionDetailsApiType) =>
@@ -26,7 +28,7 @@ export const SessionApiServices = {
         .then((session: OsSession) => axios.get(Endpoints.openSpaceSessionImages({
             sessionIdentifier: args.params.session_id!,
             osIdentifier: args.params.os_id!
-        })).then(response=>{
+        })).then(response => {
             console.log(`loaded images for session ${args.params.session_id}: ${JSON.stringify(response.data)}`)
             return mapSessionImagesApi(session, response.data)
         })),
@@ -49,6 +51,31 @@ export const SessionApiServices = {
                     os: os as MarkerType,
                     sessions: (response.data as OsSessionApiType[]).map(session => mapOsSessionApi(session))
                 }
+            }).then((osSession) => {
+                return Promise.all(osSession.sessions.map((session) => {
+                    return axios.get(Endpoints.openSpaceSessionHeaderImage(session)).then((response) => {
+                        console.log(`loaded header for session ${JSON.stringify(session)}: ${JSON.stringify(response.data)}`)
+                        return mapSessionImageApi(session, response.data.pop())
+                    })
+                })).then((sessionImages) => {
+                    console.log(JSON.stringify(sessionImages))
+                    console.log(JSON.stringify(osSession))
+                    return {
+                        os: osSession.os,
+                        sessions: osSession.sessions.map((session) => {
+                            const headerImage = sessionImages.find((image) => image.sessionIdentifier === session.sessionIdentifier)
+                            return {
+                                ...session,
+                                header: {
+                                    isAvailable: true,
+                                    imageIdentifier: headerImage ? headerImage.imageIdentifier : null,
+                                    osIdentifier: session.osIdentifier,
+                                    sessionIdentifier: session.sessionIdentifier
+                                }
+                            }
+                        })
+                    }
+                })
             }).catch(error => {
                 console.log(`Failed to load Sessions: ${error}`)
                 return {

@@ -2,10 +2,11 @@ import {IconButton, ImageList, ImageListItem, ImageListItemBar, ListItemButton, 
 import NoteAddIcon from '@mui/icons-material/NoteAdd';
 import {useFetcher, useLoaderData, useNavigate} from "react-router-dom";
 import {OsWithSessions} from "../../api/sessionApi";
-import {OsSessionDetailsApiType} from "../../types/session";
+import {OsSessionDetailsApiType, OsSessionImage} from "../../types/session";
 import {OsSessionsMenu} from "./osSessionsMenu";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import {useSelectionMenu} from "../image/menu";
+import {Endpoints} from "../../config/Endpoints";
 
 
 export const OsSessionsOverview = () => {
@@ -13,7 +14,7 @@ export const OsSessionsOverview = () => {
     const osWithSessions = useLoaderData() as OsWithSessions
     const navigate = useNavigate()
 
-    const {menu,selected} = useSelectionMenu()
+    const {menu, selected} = useSelectionMenu()
 
     const addSession = () => {
         const newSessionData: OsSessionDetailsApiType = {
@@ -26,7 +27,6 @@ export const OsSessionsOverview = () => {
             encType: "application/json"
         })
     }
-
 
     return (
         <>
@@ -47,10 +47,19 @@ export const OsSessionsOverview = () => {
                 </ImageListItem>
                 {osWithSessions.sessions.map((session) => (
                     <ImageListItem key={session.sessionIdentifier}>
-                        <Skeleton variant="rectangular" width={170} height={150}
-                                  onClick={() => navigate(`${session.sessionIdentifier}/i`)}
-                                  data-testid={"os-session"}
-                        />
+                        {session.header.isAvailable ?
+                            <img onClick={() => navigate(`${session.sessionIdentifier}/i`)}
+                                 src={Endpoints.openSpaceSessionImage((session.header as OsSessionImage))}
+                                 alt={session.sessionIdentifier}
+                                 loading="lazy"
+                                 data-testid={"os-session-image"}
+                            /> :
+                            <Skeleton variant="rectangular" width={170} height={150}
+                                      onClick={() => navigate(`${session.sessionIdentifier}/i`)}
+                                      data-testid={"os-session"}
+                            />
+                        }
+
                         <ImageListItemBar
                             data-testid={'os-session-time-bar'}
                             subtitle={`${session.startDate.format('DD.MM')} ${session.startDate.format('HH:mm')} - ${session.endDate.format('HH:mm')}`}
