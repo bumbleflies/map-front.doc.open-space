@@ -1,6 +1,6 @@
 import {Dayjs} from "dayjs";
 import {localDayjs} from "../helper/dayjsTimezone";
-import {ImageNotAvailable, ImageType, OsImageApiType} from "./image";
+import {ImageType, OsImageApiType} from "./image";
 
 export type OsSessionMeta = {
     osIdentifier: string,
