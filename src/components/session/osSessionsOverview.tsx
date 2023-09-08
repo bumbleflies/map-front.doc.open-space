@@ -57,8 +57,8 @@ export const OsSessionsOverview = () => {
                             <img
                                 src={'/img/no-image-icon.png'}
                                 onClick={() => navigate(`${session.sessionIdentifier}/i`)}
-                                alt={'no image available yet'}
-                                 data-testid={"os-session"}
+                                alt={'not available yet'}
+                                data-testid={"os-session"}
                             />
                         }
 

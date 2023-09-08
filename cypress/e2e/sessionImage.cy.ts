@@ -77,7 +77,7 @@ describe('when adding os sessions', () => {
             cy.wait('@imageHeaderApi')
             cy.getByDataTestId('header-active').should('exist')
             cy.getByDataTestId('os-session-back-button').click()
-            cy.get('img[alt="no image available yet"]').should('not.exist')
+            cy.get('img[alt="not available yet"]').should('not.exist')
         })
     })
 })
