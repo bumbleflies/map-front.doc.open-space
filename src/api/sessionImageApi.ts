@@ -17,5 +17,11 @@ export const SessionImageApiServices = {
     },
 
     delete: async (image: OsSessionImage) =>
-        axios.delete(Endpoints.openSpaceSessionImage(image)).then(() => console.log(`deleted image: ${image.imageIdentifier}`))
+        axios.delete(Endpoints.openSpaceSessionImage(image)).then(() => console.log(`deleted image: ${image.imageIdentifier}`)),
+
+    makeHeader: async (image: OsSessionImage) =>
+        axios.patch(Endpoints.openSpaceSessionImage(image), {is_header: true}).then((response) => {
+            console.log(`made: ${image} to header image`)
+            return uploadResponseToImageType(response.data)
+        }),
 }

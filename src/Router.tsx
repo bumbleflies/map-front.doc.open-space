@@ -20,7 +20,8 @@ import {
     handleSessionAddAction,
     handleSessionDeleteAction,
     handleSessionEditAction,
-    handleSessionImageDeleteAction
+    handleSessionImageDeleteAction,
+    handleSessionImageHeaderAction
 } from './action/osSession';
 import {SessionApiServices} from "./api/sessionApi";
 import {OsSessionEditDialog} from "./components/session/osSessionEditDialog";
@@ -107,6 +108,12 @@ const router = createBrowserRouter([
                         path:':image_id',
                         action: handleSessionImageDeleteAction,
                         element: <OsImageFullView resolve={useSessionImageResolver}/>,
+                        children: [
+                            {
+                                path: 'make_header',
+                                action: handleSessionImageHeaderAction
+                            }
+                        ]
                     }
                 ]
             },

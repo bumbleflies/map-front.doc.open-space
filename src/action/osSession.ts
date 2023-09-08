@@ -31,7 +31,17 @@ export const handleSessionImageDeleteAction = async (args: ActionFunctionArgs) =
         osIdentifier: args.params.os_id!,
         sessionIdentifier: args.params.session_id!,
         imageIdentifier: args.params.image_id!,
-        isAvailable:true,
-        isHeader:false
+        isAvailable: true,
+        isHeader: false
     }).then(() => redirect(`/os/${args.params.os_id!}/s/${args.params.session_id!}/i`))
 }
+export const handleSessionImageHeaderAction = async (args: ActionFunctionArgs) => {
+    return SessionImageApiServices.makeHeader({
+        osIdentifier: args.params.os_id!,
+        sessionIdentifier: args.params.session_id!,
+        imageIdentifier: args.params.image_id!,
+        isAvailable: true,
+        isHeader: false
+    }).then(() => redirect(`/os/${args.params.os_id!}/s/${args.params.session_id!}/i`))
+}
+
