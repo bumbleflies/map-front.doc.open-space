@@ -11,28 +11,19 @@ import {ImageApiServices} from "../../api/imageApi";
 import {useImageUploadFetcher} from "../../helper/imageUploadFetcher";
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import StarIcon from '@mui/icons-material/Star';
+import {useSelectionMenu} from "../image/menu";
 
 export const OsImpressionsTab = () => {
     const images = useLoaderData() as ImageWithDetailsType[]
-    const [selectedImage, setSelectedImage] = useState<string | null>(null);
-    const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
     const [uploadOpen, setUploadOpen] = useState<boolean>(false)
     const {pendingImages, imageSubmit} = useImageUploadFetcher()
+
+    const {menu,selected} = useSelectionMenu()
 
     const navigate = useNavigate()
     const {os_id} = useParams<"os_id">();
 
     const actionSubmit = useSubmit()
-
-    const openMenu = (event: React.MouseEvent<HTMLButtonElement>, imageIdentifier: string) => {
-        setMenuAnchorEl(event.currentTarget);
-        setSelectedImage(imageIdentifier)
-    };
-
-    const closeMenu = () => {
-        setMenuAnchorEl(null);
-        setSelectedImage(null)
-    }
 
     const uploadFile = (file: File) => {
         return ImageApiServices.upload({
@@ -42,7 +33,7 @@ export const OsImpressionsTab = () => {
     }
 
     const makeImageHeader = (imageId: string) => {
-        closeMenu()
+        menu.close()
         actionSubmit({is_header: true}, {
             method: 'patch',
             action: `${imageId}/make_header`
@@ -103,7 +94,7 @@ export const OsImpressionsTab = () => {
                                     data-testid={"os-image-menu"}
                                     sx={{color: 'white'}}
                                     aria-label={`Open Space impression ${image.description}`}
-                                    onClick={(event: React.MouseEvent<HTMLButtonElement>) => openMenu(event, image.imageIdentifier)}
+                                    onClick={(event: React.MouseEvent<HTMLButtonElement>) => menu.open(event, image.imageIdentifier)}
                                 >
                                     <KeyboardArrowUpIcon/>
                                 </IconButton>
@@ -118,7 +109,7 @@ export const OsImpressionsTab = () => {
                     </ImageListItem>
                 ))}
             </ImageList>
-            <OsImpressionsMenu anchorElement={menuAnchorEl} imageId={selectedImage} closeMenuHandler={closeMenu}/>
+            <OsImpressionsMenu menu={menu} selected={selected}/>
         </>
     )
 }

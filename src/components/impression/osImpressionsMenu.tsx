@@ -6,9 +6,11 @@ import {useNavigate, useSubmit} from "react-router-dom";
 
 
 type OsImpressionsMenuProps = {
-    anchorElement: HTMLElement | null,
-    imageId: string | null,
-    closeMenuHandler: () => void
+    menu:{
+        close:()=>void
+        anchor:null | HTMLElement
+    }
+    selected:string|null
 }
 
 export const OsImpressionsMenu = (props: OsImpressionsMenuProps) => {
@@ -16,24 +18,24 @@ export const OsImpressionsMenu = (props: OsImpressionsMenuProps) => {
     const navigate = useNavigate()
 
     const deleteImage = () => {
-        props.closeMenuHandler()
+        props.menu.close()
         actionSubmit({}, {
             method: 'delete',
-            action: props.imageId!
+            action: props.selected!
         })
     }
 
     const editImage = () => {
-        props.closeMenuHandler()
-        navigate(`${props.imageId}/edit`)
+        props.menu.close()
+        navigate(`${props.selected}/edit`)
     }
     return (
         <>
             <Menu
                 id="image-action-menu"
-                anchorEl={props.anchorElement}
-                open={Boolean(props.anchorElement)}
-                onClose={props.closeMenuHandler}
+                anchorEl={props.menu.anchor}
+                open={Boolean(props.menu.anchor)}
+                onClose={props.menu.close}
                 anchorOrigin={{
                     vertical: 'top',
                     horizontal: 'center',
