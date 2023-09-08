@@ -1,4 +1,4 @@
-import {useFetcher, useLoaderData, useNavigate} from "react-router-dom";
+import {useLoaderData, useNavigate} from "react-router-dom";
 import {
     Box,
     ButtonBase,
@@ -22,14 +22,14 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {SessionImageApiServices} from "../../api/sessionImageApi";
 import {Endpoints} from "../../config/Endpoints";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import {useImageUploadFetcher} from "../../helper/imageUploadFetcher";
 
 export const OsSessionView = () => {
     const session = useLoaderData() as OsSessionWithImages
 
     const [uploadOpen, setUploadOpen] = useState<boolean>(false)
-    const imageUploadFetcher = useFetcher()
+    const {pendingImages, imageSubmit} = useImageUploadFetcher()
     const navigate = useNavigate()
-    const [pendingImages, setPendingImages] = useState<string[]>([])
 
     const [title, setTitle] = useState<string>('');
     const [timeInfo, setTimeInfo] = useState<string>('')
@@ -39,12 +39,6 @@ export const OsSessionView = () => {
         setTimeInfo(`${session.startDate.format("DD.MM.YYYY - HH:mm")} - ${session.endDate.format('HH:mm')}`)
     }, [session, setTitle, setTimeInfo])
 
-    useEffect(() => {
-        if (Boolean(imageUploadFetcher.data)) {
-            console.log('make skeletons for pending images: ' + JSON.stringify(imageUploadFetcher.data))
-            setPendingImages(imageUploadFetcher.data)
-        }
-    }, [imageUploadFetcher.data, setPendingImages])
 
     const uploadFile = (file: File) => {
         return SessionImageApiServices.upload({
@@ -90,7 +84,7 @@ export const OsSessionView = () => {
                     </ListItemButton>
                     <OsImageAddDialog title={"Add session images"} isOpen={uploadOpen}
                                       closeHandler={() => setUploadOpen(false)}
-                                      submit={imageUploadFetcher.submit} upload={uploadFile}/>
+                                      submit={imageSubmit} upload={uploadFile}/>
                     <ImageListItemBar subtitle={"add session images"}/>
                 </ImageListItem>
                 {session.images.map((image) => (

@@ -8,24 +8,17 @@ import {ImageWithDetailsType} from "../../types/image";
 import {OsImageAddDialog} from "./osImageAddDialog";
 import {OsImpressionsMenu} from "./osImpressionsMenu";
 import {ImageApiServices} from "../../api/imageApi";
+import {useImageUploadFetcher} from "../../helper/imageUploadFetcher";
 
 export const OsImpressionsTab = () => {
     const images = useLoaderData() as ImageWithDetailsType[]
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
     const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
     const [uploadOpen, setUploadOpen] = useState<boolean>(false)
-    const [pendingImages, setPendingImages] = useState<string[]>([])
+    const {pendingImages, imageSubmit} = useImageUploadFetcher()
 
-    const imageUploadFetcher = useFetcher()
     const navigate = useNavigate()
     const {os_id} = useParams<"os_id">();
-
-    useEffect(() => {
-        if (Boolean(imageUploadFetcher.data)) {
-            console.log('make skeletons for pending images: ' + JSON.stringify(imageUploadFetcher.data))
-            setPendingImages(imageUploadFetcher.data)
-        }
-    }, [imageUploadFetcher.data, setPendingImages])
 
     const openMenu = (event: React.MouseEvent<HTMLButtonElement>, imageIdentifier: string) => {
         setMenuAnchorEl(event.currentTarget);
@@ -58,7 +51,7 @@ export const OsImpressionsTab = () => {
                     </ListItemButton>
                     <OsImageAddDialog title={"Add Impressions"} isOpen={uploadOpen}
                                       closeHandler={() => setUploadOpen(false)}
-                                      submit={imageUploadFetcher.submit} upload={uploadFile}/>
+                                      submit={imageSubmit} upload={uploadFile}/>
                     <ImageListItemBar {...images.length === 0 ? {title: "no images yet"} : null}
                                       subtitle={"click to add impressions"}/>
 
