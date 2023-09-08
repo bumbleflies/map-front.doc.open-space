@@ -30,7 +30,8 @@ export type SessionImageUpload = OsSessionMeta & {
 }
 
 export type OsSessionImageApiType = OsImageApiType & {
-    session_identifier: string
+    session_identifier: string,
+    is_header: boolean
 }
 
 export type OsSessionImage = ImageType & OsSessionMeta
@@ -47,7 +48,7 @@ export const mapSessionImagesApi = (session: OsSession, apiImages: [OsSessionIma
                 imageIdentifier: image.identifier,
                 osIdentifier: session.osIdentifier,
                 sessionIdentifier: session.sessionIdentifier,
-                isHeader:false,
+                isHeader:image.is_header,
                 isAvailable:true
             }
         })

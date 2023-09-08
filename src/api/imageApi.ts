@@ -51,7 +51,7 @@ export const ImageApiServices = {
 
     makeHeader: (image: TransientImageType) =>
         axios.patch(Endpoints.openSpaceImage(image), {is_header: true}).then((response) => {
-            console.log(`made: ${image} to header image`)
+            console.log(`made: ${JSON.stringify(image)} to header image`)
             return uploadResponseToImageType(response.data)
         }),
 
