@@ -13,8 +13,12 @@ export type HasHeader = {
 
 export type ImageType = TransientImageType & HasAvailable & HasHeader
 
-export class ImageNotAvailable implements HasAvailable {
+export class ImageNotAvailable implements ImageType {
     isAvailable: boolean = false
+    imageIdentifier= '';
+    isHeader= false;
+    osIdentifier= '';
+
 }
 
 export type ImpressionImageUpload = {

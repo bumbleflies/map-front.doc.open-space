@@ -1,4 +1,4 @@
-import {IconButton, ImageList, ImageListItem, ImageListItemBar, ListItemButton, Skeleton} from "@mui/material"
+import {IconButton, ImageList, ImageListItem, ImageListItemBar, ListItemButton} from "@mui/material"
 import NoteAddIcon from '@mui/icons-material/NoteAdd';
 import {useFetcher, useLoaderData, useNavigate} from "react-router-dom";
 import {OsWithSessions} from "../../api/sessionApi";
@@ -54,9 +54,10 @@ export const OsSessionsOverview = () => {
                                  loading="lazy"
                                  data-testid={"os-session-image"}
                             /> :
-                            <Skeleton variant="rectangular" width={170} height={150}
-                                      onClick={() => navigate(`${session.sessionIdentifier}/i`)}
-                                      data-testid={"os-session"}
+                            <img
+                                src={'/img/no-image-icon.png'}
+                                onClick={() => navigate(`${session.sessionIdentifier}/i`)}
+                                alt={'no image yet available'}
                             />
                         }
 

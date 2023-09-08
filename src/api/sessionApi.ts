@@ -7,7 +7,8 @@ import {
     mapSessionImagesApi,
     OsSession,
     OsSessionApiType,
-    OsSessionDetailsApiType, OsSessionImageApiType,
+    OsSessionDetailsApiType,
+    OsSessionImage,
     OsSessionMeta,
     OsSessionWithHeaderImage
 } from "../types/session";
@@ -56,6 +57,14 @@ export const SessionApiServices = {
                     return axios.get(Endpoints.openSpaceSessionHeaderImage(session)).then((response) => {
                         console.log(`loaded header for session ${JSON.stringify(session)}: ${JSON.stringify(response.data)}`)
                         return mapSessionImageApi(session, response.data.pop())
+                    }).catch(() => {
+                        return {
+                            imageIdentifier: '',
+                            osIdentifier: session.osIdentifier,
+                            sessionIdentifier: session.sessionIdentifier,
+                            isHeader: false,
+                            isAvailable: false
+                        }
                     })
                 })).then((sessionImages) => {
                     console.log(JSON.stringify(sessionImages))
@@ -63,14 +72,15 @@ export const SessionApiServices = {
                     return {
                         os: osSession.os,
                         sessions: osSession.sessions.map((session) => {
-                            const headerImage = sessionImages.find((image) => image.sessionIdentifier === session.sessionIdentifier)
+                            const headerImage = sessionImages.find((image) => (image as OsSessionImage).sessionIdentifier === session.sessionIdentifier)
                             return {
                                 ...session,
                                 header: {
-                                    isAvailable: true,
-                                    imageIdentifier: headerImage ? headerImage.imageIdentifier : null,
+                                    isAvailable: headerImage!.isAvailable,
+                                    imageIdentifier: headerImage!.imageIdentifier,
                                     osIdentifier: session.osIdentifier,
-                                    sessionIdentifier: session.sessionIdentifier
+                                    sessionIdentifier: session.sessionIdentifier,
+                                    isHeader: true
                                 }
                             }
                         })

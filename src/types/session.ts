@@ -13,7 +13,7 @@ export type OsSession = OsSessionMeta & {
 }
 
 export type OsSessionWithHeaderImage = OsSession & {
-    header: (OsSessionImage | ImageNotAvailable)
+    header: (OsSessionImage)
 }
 
 export type OsSessionDetailsApiType = {
