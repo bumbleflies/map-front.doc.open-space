@@ -1,7 +1,7 @@
 import axios from "axios";
 import {Endpoints} from "../config/Endpoints";
 import {ImageNotAvailable, uploadResponseToImageType} from "../types/image";
-import {SessionImageUpload} from "../types/session";
+import {OsSessionImage, SessionImageUpload} from "../types/session";
 
 export const SessionImageApiServices = {
     upload: async (image: SessionImageUpload) => {
@@ -15,4 +15,7 @@ export const SessionImageApiServices = {
             return new ImageNotAvailable()
         })
     },
+
+    delete: async (image: OsSessionImage) =>
+        axios.delete(Endpoints.openSpaceSessionImage(image)).then(() => console.log(`deleted image: ${image.imageIdentifier}`))
 }

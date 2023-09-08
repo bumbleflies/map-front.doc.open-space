@@ -1,6 +1,7 @@
 import {ActionFunctionArgs, redirect} from "react-router-dom";
 import {SessionApiServices} from "../api/sessionApi";
 import {OsSessionDetailsApiType} from "../types/session";
+import {SessionImageApiServices} from "../api/sessionImageApi";
 
 export const handleSessionAddAction = async (args: ActionFunctionArgs) =>
     args.request.json().then((newSessionData: OsSessionDetailsApiType) => {
@@ -25,4 +26,10 @@ export const handleSessionDeleteAction = async (args: ActionFunctionArgs) =>
         osIdentifier: args.params.os_id!
     }).then(() => redirect(`/os/${args.params.os_id!}/s`))
 
-
+export const handleSessionImageDeleteAction = async (args: ActionFunctionArgs) => {
+    return SessionImageApiServices.delete({
+        osIdentifier: args.params.os_id!,
+        sessionIdentifier: args.params.session_id!,
+        imageIdentifier: args.params.image_id!,
+    }).then(() => redirect(`/os/${args.params.os_id!}/s/${args.params.session_id!}/i`))
+}

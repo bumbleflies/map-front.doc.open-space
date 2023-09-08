@@ -20,7 +20,7 @@ export const OsImpressionsMenu = (props: OsImpressionsMenuProps) => {
         props.closeMenuHandler()
         actionSubmit({}, {
             method: 'delete',
-            action: `${props.imageId}`
+            action: props.imageId!
         })
     }
 

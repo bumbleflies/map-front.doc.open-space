@@ -1,4 +1,4 @@
-import {useLoaderData, useNavigate} from "react-router-dom";
+import {useLoaderData, useNavigate, useSubmit} from "react-router-dom";
 import {
     Box,
     ButtonBase,
@@ -21,14 +21,15 @@ import {OsImageAddDialog} from "../impression/osImageAddDialog";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {SessionImageApiServices} from "../../api/sessionImageApi";
 import {Endpoints} from "../../config/Endpoints";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import {useImageUploadFetcher} from "../../helper/imageUploadFetcher";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 export const OsSessionView = () => {
     const session = useLoaderData() as OsSessionWithImages
 
     const [uploadOpen, setUploadOpen] = useState<boolean>(false)
     const {pendingImages, imageSubmit} = useImageUploadFetcher()
+    const deleteSubmit=useSubmit()
     const navigate = useNavigate()
 
     const [title, setTitle] = useState<string>('');
@@ -45,6 +46,11 @@ export const OsSessionView = () => {
             ...session,
             imageFile: file
         })
+    }
+
+    const deleteImage = (imageIdentifier: string) => {
+        console.log(`deleting ${imageIdentifier}`)
+        imageSubmit({}, {method: 'delete', action: imageIdentifier})
     }
 
     return (
@@ -96,15 +102,15 @@ export const OsSessionView = () => {
                              data-testid={"os-image"}
                         />
                         <ImageListItemBar
-                            title={image.imageIdentifier}
                             subtitle={image.imageIdentifier}
                             actionIcon={
                                 <IconButton
-                                    data-testid={"os-session-image-menu"}
+                                    data-testid={"os-session-image-delete"}
                                     sx={{color: 'white'}}
                                     aria-label={`Session image ${image.imageIdentifier}`}
+                                    onClick={() => deleteImage(image.imageIdentifier)}
                                 >
-                                    <KeyboardArrowUpIcon/>
+                                    <DeleteIcon/>
                                 </IconButton>
                             }
                         />

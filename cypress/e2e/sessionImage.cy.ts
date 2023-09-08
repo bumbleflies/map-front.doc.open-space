@@ -25,4 +25,21 @@ describe('when adding os sessions', () => {
             cy.getByDataTestId('os-session-image').should('exist')
         })
     })
+
+    it('deletes an image', ()=> {
+        cy.onTestOs().then((testOsId) => {
+            cy.clickImagesView()
+            cy.addSession()
+            // goto session
+            cy.getByDataTestId('os-session').click()
+            cy.getByDataTestId('os-session-image').should('not.exist')
+            cy.uploadImage('session','cypress/fixtures/test-image.png')
+            cy.getByDataTestId('os-session-image').should('exist')
+
+            // delete image
+            cy.getByDataTestId('os-session-image-delete').click()
+            cy.wait('@imagesApi')
+            cy.getByDataTestId('os-session-image').should('not.exist')
+        })
+    })
 })

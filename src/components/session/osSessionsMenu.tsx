@@ -19,7 +19,7 @@ export const OsSessionsMenu = (props: OsImageMenuProps) => {
         props.closeMenuHandler()
         actionSubmit({}, {
             method: 'delete',
-            action: `${props.sessionId}`
+            action: props.sessionId!
         })
     }
 
