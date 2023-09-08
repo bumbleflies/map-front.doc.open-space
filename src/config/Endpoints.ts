@@ -71,6 +71,8 @@ export const useSessionImageResolver = () => {
     return Endpoints.openSpaceSessionImage({
         sessionIdentifier: session_id!,
         osIdentifier: os_id!,
-        imageIdentifier: image_id!
+        imageIdentifier: image_id!,
+        isHeader:false,
+        isAvailable:true
     })
 }

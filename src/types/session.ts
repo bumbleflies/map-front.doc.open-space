@@ -1,6 +1,6 @@
 import {Dayjs} from "dayjs";
 import {localDayjs} from "../helper/dayjsTimezone";
-import {OsImageApiType, TransientImageType} from "./image";
+import {ImageType, OsImageApiType} from "./image";
 
 export type OsSessionMeta = {
     osIdentifier: string,
@@ -33,7 +33,7 @@ export type OsSessionImageApiType = OsImageApiType & {
     session_identifier: string
 }
 
-export type OsSessionImage = TransientImageType & OsSessionMeta
+export type OsSessionImage = ImageType & OsSessionMeta
 
 export type OsSessionWithImages = OsSession & {
     images: OsSessionImage[]
@@ -46,7 +46,9 @@ export const mapSessionImagesApi = (session: OsSession, apiImages: [OsSessionIma
             return {
                 imageIdentifier: image.identifier,
                 osIdentifier: session.osIdentifier,
-                sessionIdentifier: session.sessionIdentifier
+                sessionIdentifier: session.sessionIdentifier,
+                isHeader:false,
+                isAvailable:true
             }
         })
     }

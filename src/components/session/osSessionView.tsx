@@ -23,6 +23,7 @@ import {SessionImageApiServices} from "../../api/sessionImageApi";
 import {Endpoints} from "../../config/Endpoints";
 import {useImageUploadFetcher} from "../../helper/imageUploadFetcher";
 import DeleteIcon from "@mui/icons-material/Delete";
+import {ImageHeaderItemBar} from "../image/imageHeaderItemBar";
 
 export const OsSessionView = () => {
     const session = useLoaderData() as OsSessionWithImages
@@ -100,6 +101,7 @@ export const OsSessionView = () => {
                              loading="lazy"
                              data-testid={"os-image"}
                         />
+                        <ImageHeaderItemBar submit={imageSubmit} image={image} />
                         <ImageListItemBar
                             subtitle={image.imageIdentifier}
                             actionIcon={

@@ -6,7 +6,7 @@ import {ImageType} from "../../types/image";
 import {SubmitFunction} from "react-router-dom";
 
 type ImageHeaderItemBarProps = {
-    menu: {
+    menu?: {
         close: () => void
     }
     image: ImageType,
@@ -16,7 +16,9 @@ type ImageHeaderItemBarProps = {
 export const ImageHeaderItemBar = (props: ImageHeaderItemBarProps) => {
 
     const makeImageHeader = (imageId: string) => {
-        props.menu.close()
+        if (props.menu !== undefined) {
+            props.menu.close()
+        }
         props.submit({is_header: true}, {
             method: 'patch',
             action: `${imageId}/make_header`
