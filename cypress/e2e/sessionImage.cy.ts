@@ -21,6 +21,7 @@ describe('when adding os sessions', () => {
             // goto session
             cy.getByDataTestId('os-session').click()
             cy.getByDataTestId('os-session-image').should('not.exist')
+            // upload image
             cy.uploadImage('session','cypress/fixtures/test-image.png')
             cy.getByDataTestId('os-session-image').should('exist')
         })
@@ -33,6 +34,7 @@ describe('when adding os sessions', () => {
             // goto session
             cy.getByDataTestId('os-session').click()
             cy.getByDataTestId('os-session-image').should('not.exist')
+            // upload image
             cy.uploadImage('session','cypress/fixtures/test-image.png')
             cy.getByDataTestId('os-session-image').should('exist')
 
@@ -40,6 +42,23 @@ describe('when adding os sessions', () => {
             cy.getByDataTestId('os-session-image-delete').click()
             cy.wait('@imagesApi')
             cy.getByDataTestId('os-session-image').should('not.exist')
+        })
+    })
+
+    it('shows image in full screen', ()=>{
+        cy.onTestOs().then((testOsId) => {
+            cy.clickImagesView()
+            cy.addSession()
+            // goto session
+            cy.getByDataTestId('os-session').click()
+            cy.getByDataTestId('os-session-image').should('not.exist')
+            // upload image
+            cy.uploadImage('session', 'cypress/fixtures/test-image.png')
+            cy.getByDataTestId('os-session-image').should('exist')
+            // view in fullscreen
+            cy.getByDataTestId('os-image').click()
+            cy.getByDataTestId('os-image-fullscreen').should('exist')
+            cy.getByDataTestId('os-image-fullscreen-close-button').click()
         })
     })
 })
