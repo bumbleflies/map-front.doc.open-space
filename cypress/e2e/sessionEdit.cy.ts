@@ -52,6 +52,20 @@ describe('when adding os sessions', () => {
         })
     })
 
+    it('cancels edit',()=>{
+        cy.onTestOs().then((testOsId) => {
+            // add session
+            cy.clickImagesView()
+            cy.addSession()
+
+            // edit session
+            cy.getByDataTestId('os-session-menu').click()
+            cy.getByDataTestId('os-session-menu-edit').click()
+            cy.getByDataTestId('session-edit-cancel').click()
+            cy.url().should('contain', `http://localhost:3000/os/${testOsId}/s/`)
+        })
+    })
+
 
     it('deletes the session', () => {
         cy.onTestOs().then((testOsId) => {

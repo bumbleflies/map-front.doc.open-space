@@ -6,9 +6,11 @@ import {useNavigate, useSubmit} from "react-router-dom";
 
 
 type OsImageMenuProps = {
-    anchorElement: HTMLElement | null,
-    sessionId: string | null,
-    closeMenuHandler: () => void
+    menu:{
+        close:()=>void
+        anchor:null | HTMLElement
+    }
+    selected:string|null
 }
 
 export const OsSessionsMenu = (props: OsImageMenuProps) => {
@@ -16,24 +18,24 @@ export const OsSessionsMenu = (props: OsImageMenuProps) => {
     const navigate = useNavigate()
 
     const deleteSession = () => {
-        props.closeMenuHandler()
+        props.menu.close()
         actionSubmit({}, {
             method: 'delete',
-            action: props.sessionId!
+            action: props.selected!
         })
     }
 
     const editSession = () => {
-        props.closeMenuHandler()
-        navigate(`${props.sessionId}/edit`)
+        props.menu.close()
+        navigate(`${props.selected}/edit`)
     }
     return (
         <>
             <Menu
                 id="session-action-menu"
-                anchorEl={props.anchorElement}
-                open={Boolean(props.anchorElement)}
-                onClose={props.closeMenuHandler}
+                anchorEl={props.menu.anchor}
+                open={Boolean(props.menu.anchor)}
+                onClose={props.menu.close}
                 anchorOrigin={{
                     vertical: 'top',
                     horizontal: 'center',

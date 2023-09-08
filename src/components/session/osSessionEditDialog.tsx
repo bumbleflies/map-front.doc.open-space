@@ -33,7 +33,7 @@ export const OsSessionEditDialog = () => {
     }, [session, setTitle, setStartDate, setDuration])
 
     const closeSessionEdit = () => {
-        navigate('../..')
+        navigate('..')
     }
 
     const saveSessionEdit = () => {

@@ -3,9 +3,9 @@ import NoteAddIcon from '@mui/icons-material/NoteAdd';
 import {useFetcher, useLoaderData, useNavigate} from "react-router-dom";
 import {OsWithSessions} from "../../api/sessionApi";
 import {OsSessionDetailsApiType} from "../../types/session";
-import {useState} from "react";
 import {OsSessionsMenu} from "./osSessionsMenu";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import {useSelectionMenu} from "../image/menu";
 
 
 export const OsSessionsOverview = () => {
@@ -13,8 +13,7 @@ export const OsSessionsOverview = () => {
     const osWithSessions = useLoaderData() as OsWithSessions
     const navigate = useNavigate()
 
-    const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
-    const [selectedSession, setSelectedSession] = useState<null | string>(null)
+    const {menu,selected} = useSelectionMenu()
 
     const addSession = () => {
         const newSessionData: OsSessionDetailsApiType = {
@@ -28,15 +27,6 @@ export const OsSessionsOverview = () => {
         })
     }
 
-    function openMenu(event: React.MouseEvent<HTMLButtonElement>, sessionIdentifier: string) {
-        setMenuAnchorEl(event.currentTarget);
-        setSelectedSession(sessionIdentifier)
-    }
-
-    const closeMenu = () => {
-        setMenuAnchorEl(null);
-        setSelectedSession(null)
-    }
 
     return (
         <>
@@ -69,7 +59,7 @@ export const OsSessionsOverview = () => {
                                     data-testid={"os-session-menu"}
                                     sx={{color: 'white'}}
                                     aria-label={`Session ${session.title}`}
-                                    onClick={(event: React.MouseEvent<HTMLButtonElement>) => openMenu(event, session.sessionIdentifier)}
+                                    onClick={(event: React.MouseEvent<HTMLButtonElement>) => menu.open(event, session.sessionIdentifier)}
                                 >
                                     <KeyboardArrowUpIcon/>
                                 </IconButton>
@@ -83,7 +73,7 @@ export const OsSessionsOverview = () => {
                     </ImageListItem>
                 ))}
             </ImageList>
-            <OsSessionsMenu anchorElement={menuAnchorEl} sessionId={selectedSession} closeMenuHandler={closeMenu}/>
+            <OsSessionsMenu menu={menu} selected={selected}/>
         </>
     )
 }
