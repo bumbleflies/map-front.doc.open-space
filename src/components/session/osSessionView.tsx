@@ -1,4 +1,4 @@
-import {useLoaderData, useNavigate, useSubmit} from "react-router-dom";
+import {useLoaderData, useNavigate} from "react-router-dom";
 import {
     Box,
     ButtonBase,
@@ -29,7 +29,6 @@ export const OsSessionView = () => {
 
     const [uploadOpen, setUploadOpen] = useState<boolean>(false)
     const {pendingImages, imageSubmit} = useImageUploadFetcher()
-    const deleteSubmit = useSubmit()
     const navigate = useNavigate()
 
     const [title, setTitle] = useState<string>('');

@@ -1,7 +1,6 @@
 import React from "react";
 import {Divider, ListItemIcon, ListItemText, Menu, MenuItem} from "@mui/material"
 import DeleteIcon from "@mui/icons-material/Delete";
-import CollectionsIcon from '@mui/icons-material/Collections';
 import EditIcon from "@mui/icons-material/Edit";
 import {useNavigate, useSubmit} from "react-router-dom";
 

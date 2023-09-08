@@ -10,6 +10,7 @@ import {OsImpressionsMenu} from "./osImpressionsMenu";
 import {ImageApiServices} from "../../api/imageApi";
 import {useImageUploadFetcher} from "../../helper/imageUploadFetcher";
 import StarBorderIcon from '@mui/icons-material/StarBorder';
+import StarIcon from '@mui/icons-material/Star';
 
 export const OsImpressionsTab = () => {
     const images = useLoaderData() as ImageWithDetailsType[]
@@ -87,7 +88,9 @@ export const OsImpressionsTab = () => {
                                     aria-label={'Make header image'}
                                     onClick={() => makeImageHeader(image.imageIdentifier)}
                                 >
-                                    <StarBorderIcon/>
+                                    {image.isHeader? <StarIcon />
+                                        :
+                                    <StarBorderIcon/>}
                                 </IconButton>
                             }>
                         </ImageListItemBar>
