@@ -32,7 +32,6 @@ const DesktopDrawer = (props: DrawerProps) => {
 const MobileDrawer = (props: DrawerProps) => {
     const [appbarHeight, setAppbarHeight] = useState<number>(56)
     useEffect(() => {
-        console.log(document.getElementById("appbar")!.clientHeight)
         setAppbarHeight(document.getElementById("appbar")!.clientHeight);
     }, [setAppbarHeight]);
 

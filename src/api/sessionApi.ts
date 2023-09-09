@@ -67,8 +67,6 @@ export const SessionApiServices = {
                         }
                     })
                 })).then((sessionImages) => {
-                    console.log(JSON.stringify(sessionImages))
-                    console.log(JSON.stringify(osSession))
                     return {
                         os: osSession.os,
                         sessions: osSession.sessions.map((session) => {
