@@ -1,4 +1,4 @@
-import {ButtonBase, DialogTitle, Tab} from "@mui/material";
+import {Box, ButtonBase, DialogTitle, Tab} from "@mui/material";
 import React from "react";
 import {Outlet, useNavigate, useParams} from "react-router-dom";
 import {TabContext, TabList, TabPanel} from "@mui/lab";
@@ -28,6 +28,7 @@ export const OsTabList = (props: OsTabListProps) => {
                         <Tab label="Info" value={""} data-testid={"os-info-tab"}></Tab>
                         <Tab label="Impressions" value={"i"} data-testid={"os-impressions-tab"}></Tab>
                         <Tab label="Sessions" value={"s"} data-testid={"os-sessions-tab"}></Tab>
+                        <Box flexGrow={1}/>
                         <DialogTitle>
                             <ButtonBase data-testid={"os-close-button"} aria-label={"back"}
                                         onClick={() => navigate('/')}>
