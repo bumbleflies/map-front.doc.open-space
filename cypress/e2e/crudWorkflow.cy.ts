@@ -15,6 +15,13 @@ describe('Performs a simple run', () => {
         deleteOs()
     })
 
+    it('navigates home page', () => {
+        cy.clickAddOs()
+        cy.clickStatusMessage()
+        cy.getByDataTestId('navigate-home').click()
+        cy.url().should('eq', 'http://localhost:3000/')
+    })
+
     it('creates an open space marker and delete it', () => {
         let osId = 'test'
         cy.clickAddOs()
@@ -34,7 +41,7 @@ describe('Performs a simple run', () => {
 
             // upload image
             cy.clickImagesView()
-            cy.uploadImage('impression','cypress/fixtures/test-image.png')
+            cy.uploadImage('impression', 'cypress/fixtures/test-image.png')
             cy.get('div.MuiImageListItemBar-title').contains('no images yet').should('not.exist')
 
             // make header
@@ -65,7 +72,7 @@ describe('Performs a simple run', () => {
     it('views the image in fullscreen', () => {
         cy.onTestOs().then((testOsId) => {
             cy.clickImagesView()
-            cy.uploadImage('impression','cypress/fixtures/test-image.png')
+            cy.uploadImage('impression', 'cypress/fixtures/test-image.png')
             cy.get('div.MuiImageListItemBar-title').contains('no images yet').should('not.exist')
             cy.getByDataTestId('os-image').click()
             cy.getByDataTestId('os-image-fullscreen').should('exist')

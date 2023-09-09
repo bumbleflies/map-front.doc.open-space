@@ -8,7 +8,7 @@ import {
     Avatar,
     Box,
     Button,
-    IconButton,
+    IconButton, Link,
     Paper,
     Snackbar,
     Toolbar,
@@ -22,6 +22,7 @@ import {Outlet, useFetcher, useLocation, useNavigate} from "react-router-dom";
 import {localDayjs} from "../helper/dayjsTimezone";
 import {StyledFab} from "./button/styledFab";
 import MapContext from "./context/mapContext";
+import { yellow } from '@mui/material/colors'
 
 type StatusMessage = {
     id: string
@@ -114,7 +115,7 @@ export const OpenSpaceHarvesterHome = (props: OpenSpaceHarvesterHomeType) => {
         <Paper sx={{height: '100vh'}}>
             <AppBar id={"appbar"} position={"fixed"} sx={{zIndex: (theme) => theme.zIndex.drawer + 1}}>
                 <Toolbar>
-                    <Avatar>
+                    <Avatar onClick={()=>navigate('/')} data-testid={"navigate-home"}>
                         <Image src={"/img/bumblefly-blue.png"}></Image>
                     </Avatar>
 
@@ -156,6 +157,9 @@ export const OpenSpaceHarvesterHome = (props: OpenSpaceHarvesterHomeType) => {
 
             <AppBar position="sticky" color="primary" sx={{top: 'auto', bottom: 10}}>
                 <Toolbar>
+                    <Typography>made with 🥨 by &nbsp;
+                    </Typography>
+                    <Link href={'https://bumbleflies.de'} target={"_blank"} color={yellow[700]}>bumbleflies</Link>
                     <Box sx={{flexGrow: 1}}/>
                     {shouldDrawFab() ?
                         <StyledFab data-testid={"os-home-fab-add"} color="secondary" aria-label="add"
