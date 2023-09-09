@@ -17,7 +17,7 @@ describe('when editing an open space', () => {
     it('edits the title', () => {
         cy.onTestOs().then((testOsId) => {
             cy.openEditAssertTitle(testOsId, 'Open Space')
-            cy.get('div.leaflet-tooltip').contains(testOsId as unknown as string).should('exist')
+            cy.get('div.leaflet-tooltip').contains('Open Space').should('exist')
             cy.openOsEdit(testOsId)
             cy.getByDataTestId("os-edit-title").type('{selectall}Open Space Test')
             cy.getByDataTestId("os-edit-save").click()
