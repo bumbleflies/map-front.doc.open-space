@@ -157,7 +157,7 @@ export const OpenSpaceHarvesterHome = (props: OpenSpaceHarvesterHomeType) => {
 
             <AppBar position="sticky" color="primary" sx={{top: 'auto', bottom: 10}}>
                 <Toolbar>
-                    <Typography>made with 🥨 by &nbsp;
+                    <Typography>made with ❤️ by 🐝🦋 - &nbsp;
                     </Typography>
                     <Link href={'https://bumbleflies.de'} target={"_blank"} color={yellow[700]}>bumbleflies</Link>
                     <Box sx={{flexGrow: 1}}/>
