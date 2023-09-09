@@ -17,7 +17,6 @@ import 'dayjs/locale/de';
 import {useLoaderData, useNavigate, useSubmit} from "react-router-dom";
 
 
-
 export const OpenSpaceInfoEditDialog = () => {
     const [title, setTitle] = useState<string | null>(null)
     const [startDate, setStartDate] = useState<Dayjs | null>(null)

@@ -25,6 +25,7 @@ export const OsImpressionEditDialog = () => {
             }
         )
     }
+
     return (
         <Dialog open={true}>
             <DialogTitle>Describe your image</DialogTitle>
