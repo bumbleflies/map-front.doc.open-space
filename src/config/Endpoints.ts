@@ -71,6 +71,8 @@ export const useSessionImageResolver = () => {
     const {image_id} = useParams<"image_id">();
     const {session_id} = useParams<"session_id">();
 
+    console.log('image id' + image_id)
+
     return Endpoints.openSpaceSessionImage({
         sessionIdentifier: session_id!,
         osIdentifier: os_id!,

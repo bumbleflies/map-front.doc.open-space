@@ -9,7 +9,7 @@ describe('clicks through on different viewports', () => {
         cy.wait('@googlemaps')
     })
 
-    screenSizes.forEach(screenSize  => {
+    screenSizes.forEach(screenSize => {
         it(`runs on ${screenSize}`, () => {
             cy.viewport(screenSize as ViewportPreset)
             cy.clickAddOs()
@@ -21,20 +21,32 @@ describe('clicks through on different viewports', () => {
             cy.assertNoImages()
 
             cy.clickImagesView()
-            cy.uploadImage('impression','cypress/fixtures/test-image.png')
+            cy.uploadImage('impression', 'cypress/fixtures/test-image.png')
 
             cy.getByDataTestId('os-image').click()
             cy.getByDataTestId('os-image-fullscreen').should('exist')
             cy.getByDataTestId('os-image-fullscreen-close-button').click()
             cy.clickImagesBack()
 
-
             cy.getByDataTestId("os-images-button").click()
             cy.getByDataTestId('os-image-menu').click()
             cy.getByDataTestId('os-image-delete-menu').click()
             cy.get('div.MuiImageListItemBar-title').contains('no images yet').should('exist')
-            cy.clickImagesBack()
 
+            // session
+            cy.addSession()
+            // goto session
+            cy.getByDataTestId('os-session').click()
+            cy.getByDataTestId('os-session-image').should('not.exist')
+            // upload image
+            cy.uploadImage('session', 'cypress/fixtures/test-image.png')
+            cy.getByDataTestId('os-session-image').should('exist')
+            // view in fullscreen
+            cy.getByDataTestId('os-image').click()
+            cy.getByDataTestId('os-image-fullscreen').should('exist')
+            cy.getByDataTestId('os-image-fullscreen-close-button').click()
+
+            cy.clickImagesBack()
             cy.clickDeleteOs()
         })
     })

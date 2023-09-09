@@ -11,18 +11,15 @@ import {
     useMediaQuery
 } from "@mui/material";
 import React from "react";
-import {Outlet, useNavigate, useParams} from "react-router-dom";
-import {Endpoints} from "../../config/Endpoints";
+import {Outlet, useNavigate} from "react-router-dom";
 import CloseIcon from '@mui/icons-material/Close';
 import {useTheme} from "@mui/material/styles";
 
-type OsImageFullViewProps= {
-    resolve:()=>string
+type OsImageFullViewProps = {
+    resolve: () => string
 }
 
 export const OsImageFullView = (props: OsImageFullViewProps) => {
-    const {os_id} = useParams<"os_id">();
-    const {image_id} = useParams<"image_id">();
     const navigate = useNavigate()
     const theme = useTheme()
     const onDesktop = useMediaQuery(theme.breakpoints.up('sm'))
@@ -87,7 +84,7 @@ export const OsImageFullView = (props: OsImageFullViewProps) => {
                         <CardMedia
                             width="100%"
                             component={"img"}
-                            image={Endpoints.openSpaceImage({osIdentifier: os_id!, imageIdentifier: image_id!})}
+                            image={props.resolve()}
                             data-testid={"os-image-fullscreen"}>
                         </CardMedia>
                     </DialogContent>

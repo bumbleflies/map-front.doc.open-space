@@ -104,7 +104,7 @@ export const OpenSpaceInfoEditDialog = () => {
                     <Grid item container spacing={2}>
                         <Grid item xs={12}>
                             <DialogContentText>
-                                Was is the runtime of the Open Space?
+                                What is the runtime of the Open Space?
                             </DialogContentText>
                         </Grid>
                         <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={"de"}>
