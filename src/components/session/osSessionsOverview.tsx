@@ -1,4 +1,4 @@
-import {IconButton, ImageList, ImageListItem, ImageListItemBar, ListItemButton, Typography} from "@mui/material"
+import {IconButton, ImageList, ImageListItem, ImageListItemBar, ListItemButton} from "@mui/material"
 import NoteAddIcon from '@mui/icons-material/NoteAdd';
 import {Await, useFetcher, useLoaderData, useNavigate} from "react-router-dom";
 import {OsSessionDetailsApiType, OsSessionImage, OsWithSessions} from "../../types/session";
