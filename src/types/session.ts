@@ -1,6 +1,7 @@
 import {Dayjs} from "dayjs";
 import {localDayjs} from "../helper/dayjsTimezone";
 import {ImageType, OsImageApiType} from "./image";
+import {MarkerType} from "./marker";
 
 export type OsSessionMeta = {
     osIdentifier: string,
@@ -67,4 +68,8 @@ export const mapOsSessionApi = (apiType: OsSessionApiType): OsSession => {
         endDate: localDayjs(apiType.end_date),
         title: apiType.title
     }
+}
+export type OsWithSessions = {
+    os: MarkerType,
+    sessions: OsSessionWithHeaderImage[]
 }

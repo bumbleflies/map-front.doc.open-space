@@ -1,5 +1,5 @@
 import axios from "axios";
-import {LoaderFunctionArgs} from "react-router-dom";
+import {defer, LoaderFunctionArgs} from "react-router-dom";
 import {Endpoints} from "../config/Endpoints";
 import {
     mapOsSessionApi,
@@ -9,15 +9,14 @@ import {
     OsSessionApiType,
     OsSessionDetailsApiType,
     OsSessionImage,
-    OsSessionMeta,
-    OsSessionWithHeaderImage
+    OsSessionMeta, OsWithSessions
 } from "../types/session";
 import {MarkerType} from "../types/marker";
 import {OsApiServices} from "./osApi";
+import {DeferredData} from "@remix-run/router/dist/utils";
 
-export type OsWithSessions = {
-    os: MarkerType,
-    sessions: OsSessionWithHeaderImage[]
+export type DeferredSessionType = {
+    osWithSession:Promise<OsWithSessions>
 }
 export const SessionApiServices = {
     edit: async (sessionMeta: OsSessionMeta, newSession: OsSessionDetailsApiType) =>
@@ -44,8 +43,8 @@ export const SessionApiServices = {
         })
     ,
 
-    loadAll: async (args: LoaderFunctionArgs): Promise<OsWithSessions> =>
-        OsApiServices.load(args).then(os =>
+    loadAll: async (args: LoaderFunctionArgs): Promise<DeferredData> => {
+        const osWithSessionPromise = OsApiServices.load(args).then(os =>
             axios.get(Endpoints.openSpaceSessions((os as MarkerType).identifier)).then((response) => {
                 console.log(`loaded sessions for os ${args.params.os_id}: ${JSON.stringify(response.data)}`)
                 return {
@@ -92,6 +91,8 @@ export const SessionApiServices = {
                 }
             })
         )
+        return defer({osWithSession: osWithSessionPromise})
+    }
     ,
 
     add: async (osId: string, session: OsSessionDetailsApiType): Promise<OsSession> =>
