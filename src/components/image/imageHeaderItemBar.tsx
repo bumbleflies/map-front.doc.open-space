@@ -13,13 +13,13 @@ type ImageHeaderItemBarProps = {
     submit: SubmitFunction
 }
 
-export const ImageHeaderItemBar = (props: ImageHeaderItemBarProps) => {
+export const ImageHeaderItemBar = ({menu, image, submit}: ImageHeaderItemBarProps) => {
 
     const makeImageHeader = (imageId: string) => {
-        if (props.menu !== undefined) {
-            props.menu.close()
+        if (menu !== undefined) {
+            menu.close()
         }
-        props.submit({is_header: true}, {
+        submit({is_header: true}, {
             method: 'patch',
             action: `${imageId}/make_header`
         })
@@ -34,9 +34,9 @@ export const ImageHeaderItemBar = (props: ImageHeaderItemBarProps) => {
                     data-testid={"os-image-make-header"}
                     sx={{color: 'white'}}
                     aria-label={'Make header image'}
-                    onClick={() => makeImageHeader(props.image.imageIdentifier)}
+                    onClick={() => makeImageHeader(image.imageIdentifier)}
                 >
-                    {props.image.isHeader ?
+                    {image.isHeader ?
                         <StarIcon data-testid={"header-active"}/>
                         :
                         <StarBorderIcon data-testid={"header-inactive"}/>

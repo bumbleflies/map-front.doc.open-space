@@ -6,12 +6,12 @@ type DrawerProps = {
     children: React.ReactNode,
     onCloseHandler: () => void
 }
-const DesktopDrawer = (props: DrawerProps) => {
+const DesktopDrawer = ({children, onCloseHandler}: DrawerProps) => {
     return (
         <Drawer
             variant={"permanent"}
             anchor={"left"} open={true}
-            onClose={props.onCloseHandler}
+            onClose={onCloseHandler}
             sx={{
                 flexShrink: 0,
                 [`& .MuiDrawer-paper`]: {width: '400px', boxSizing: 'border-box'},
@@ -24,12 +24,12 @@ const DesktopDrawer = (props: DrawerProps) => {
                 },
             }}
         >
-            {props.children}
+            {children}
         </Drawer>
     )
 }
 
-const MobileDrawer = (props: DrawerProps) => {
+const MobileDrawer = ({children, onCloseHandler}: DrawerProps) => {
     const [appbarHeight, setAppbarHeight] = useState<number>(56)
     useEffect(() => {
         setAppbarHeight(document.getElementById("appbar")!.clientHeight);
@@ -43,7 +43,7 @@ const MobileDrawer = (props: DrawerProps) => {
             anchor={'bottom'}
             onOpen={() => {
             }}
-            onClose={props.onCloseHandler}
+            onClose={onCloseHandler}
             open={true}
             PaperProps={{
                 sx: {
@@ -51,18 +51,18 @@ const MobileDrawer = (props: DrawerProps) => {
                 },
             }}
         >
-            {props.children}
+            {children}
         </SwipeableDrawer>
     )
 }
 
-export const ResponsiveDrawer = (props: DrawerProps) => {
+export const ResponsiveDrawer = ({children, onCloseHandler}: DrawerProps) => {
     const theme = useTheme()
     const onMobile = useMediaQuery(theme.breakpoints.down('sm'))
-    return onMobile ? <MobileDrawer {...props}>{props.children}</MobileDrawer>
+    return onMobile ? <MobileDrawer onCloseHandler={onCloseHandler}>{children}</MobileDrawer>
         :
-        <DesktopDrawer {...props}>
+        <DesktopDrawer onCloseHandler={onCloseHandler}>
             <Toolbar/>
-            {props.children}
+            {children}
         </DesktopDrawer>
 }
