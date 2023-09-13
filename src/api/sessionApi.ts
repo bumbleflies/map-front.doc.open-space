@@ -42,8 +42,12 @@ export const SessionApiServices = {
             return mapOsSessionApi(response.data)
         })
     ,
-
-    loadAll: async (args: LoaderFunctionArgs): Promise<DeferredData> => {
+    loadAll:  async ({params}: LoaderFunctionArgs):Promise<OsSession[]> =>
+        axios.get(Endpoints.openSpaceSessions(params.os_id!)).then((response) => {
+                console.log(`loaded sessions for os ${params.os_id}: ${JSON.stringify(response.data)}`)
+                return  (response.data as OsSessionApiType[]).map(session => mapOsSessionApi(session))
+            }),
+    loadAllDeferred: async (args: LoaderFunctionArgs): Promise<DeferredData> => {
         const osWithSessionPromise = OsApiServices.load(args).then(os =>
             axios.get(Endpoints.openSpaceSessions((os as MarkerType).identifier)).then((response) => {
                 console.log(`loaded sessions for os ${args.params.os_id}: ${JSON.stringify(response.data)}`)

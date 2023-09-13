@@ -1,34 +1,34 @@
 import {IconButton, ImageList, ImageListItem, ImageListItemBar, ListItemButton} from "@mui/material"
 import NoteAddIcon from '@mui/icons-material/NoteAdd';
 import {Await, Outlet, useFetcher, useLoaderData, useNavigate} from "react-router-dom";
-import {OsSessionDetailsApiType, OsSessionImage, OsWithSessions} from "../../types/session";
+import {OsSession, OsSessionDetailsApiType, OsSessionImage, OsWithSessions} from "../../types/session";
 import {OsSessionsMenu} from "./osSessionsMenu";
 import {useSelectionMenu} from "../image/menu";
 import React, {useEffect, useState} from "react";
 import {DeferredSessionType} from "../../api/sessionApi";
 import {Endpoints} from "../../config/Endpoints";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import {MarkerType} from "../../types/marker";
+import {useDataFromMatcher} from "../../helper/dataFromMatcher";
 
 
 export const OsSessionsOverview = () => {
     const addSessionFetcher = useFetcher()
-    const deferredData = useLoaderData() as DeferredSessionType
+    const sessions = useLoaderData() as OsSession[]
     const navigate = useNavigate()
 
     const {menu, selected} = useSelectionMenu()
 
-    const [osWithSessions, setOsWithSessions] = useState<OsWithSessions | null>(null)
+    const [os, setOs] = useState<MarkerType | null>(null)
 
-    useEffect(() => {
-        deferredData.osWithSession.then((osWithSessionData) => setOsWithSessions(osWithSessionData))
-    }, [deferredData.osWithSession, setOsWithSessions])
+    useDataFromMatcher<MarkerType | null>({id: 'os', stateSetter: setOs})
 
     const addSession = () => {
-        if (osWithSessions !== null) {
+        if (os !== null) {
             const newSessionData: OsSessionDetailsApiType = {
-                title: `Session #${osWithSessions.sessions.length + 1} of OS [${osWithSessions.os.title}]`,
-                start_date: osWithSessions.os.startDate.toISOString(),
-                end_date: osWithSessions.os.startDate.clone().add(1, 'hour').toISOString()
+                title: `Session #${sessions.length + 1} of OS [${os.title}]`,
+                start_date: os.startDate.toISOString(),
+                end_date: os.startDate.clone().add(1, 'hour').toISOString()
             }
             addSessionFetcher.submit(newSessionData, {
                 method: 'post',
@@ -52,22 +52,13 @@ export const OsSessionsOverview = () => {
                                     }}>
                         <NoteAddIcon fontSize={"large"}/>
                     </ListItemButton>
-                    {osWithSessions !== null ?
-                        <ImageListItemBar title={osWithSessions.sessions.length > 0 ? null : "no sessions yet"}
-                                          subtitle={"click to add impressions"}/>
-                        : null}
+                        <ImageListItemBar title={sessions.length > 0 ? null : "no sessions yet"}
+                                          subtitle={"add session impressions"}/>
                 </ImageListItem>
-                <React.Suspense
-                    fallback={<p>Loading Sessions...</p>}
-                >
-                    <Await
-                        resolve={deferredData.osWithSession}>
-                        {(osWithSessionData: OsWithSessions) => (
-                            osWithSessionData.sessions.map((session) => (
+                {sessions.map((session) => (
                                 <ImageListItem key={session.sessionIdentifier}>
-                                    {session.header.isAvailable ?
+                                    {false ?
                                         <img onClick={() => navigate(`${session.sessionIdentifier}/i`)}
-                                             src={Endpoints.openSpaceSessionImage((session.header as OsSessionImage))}
                                              alt={session.sessionIdentifier}
                                              loading="lazy"
                                              data-testid={"os-session"}
@@ -100,9 +91,7 @@ export const OsSessionsOverview = () => {
                                         data-testid={'os-session-title-bar'}/>
 
                                 </ImageListItem>
-                            )))}
-                    </Await>
-                </React.Suspense>
+                            ))}
             </ImageList>
             <OsSessionsMenu menu={menu} selected={selected}/>
         </>

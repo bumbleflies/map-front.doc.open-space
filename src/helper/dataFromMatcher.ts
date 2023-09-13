@@ -11,7 +11,7 @@ export const useDataFromMatcher = <T>({id, stateSetter}: DataFromMatcherProps<T>
 
     useEffect(() => {
         const matchedData = matches.find(m => m.id === id)!.data as T;
-        console.log(`Loading data from matches: ${JSON.stringify(matches)}: ${JSON.stringify(matchedData)}`)
+        console.log(`Loading data from matches: ${JSON.stringify(matchedData)}`)
         stateSetter(matchedData)
     }, [matches, stateSetter, id])
 
