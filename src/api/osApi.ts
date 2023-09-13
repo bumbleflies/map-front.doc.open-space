@@ -10,6 +10,7 @@ import axios from "axios";
 import {Endpoints} from "../config/Endpoints";
 import {LoaderFunctionArgs, redirect} from "react-router-dom";
 import {ImageApiServices} from "./imageApi";
+import {ImageNotAvailable, ImageType, uploadResponseToImageType} from "../types/image";
 
 export const OsApiServices = {
     save: (marker: TransientOSApiType): Promise<MarkerType | null> =>
@@ -33,15 +34,16 @@ export const OsApiServices = {
     load: (args: LoaderFunctionArgs): Promise<null | MarkerWithImage | Response> =>
         axios.get(Endpoints.openSpace(args.params.os_id!)).then(response => {
             console.log(`loaded open space: ${JSON.stringify(response.data)}`)
-            return osLoaderToMarker(response.data)
-        }).then(marker =>
-            ImageApiServices.getHeaderImage(args.params.os_id!).then(headerImage => {
-                return {
-                    ...marker,
-                    ...headerImage
-                }
-            })
-        ).catch(error => {
+            const os = osLoaderToMarker(response.data)
+            const headerImages: ImageType[] = Boolean(response.data.header_images) ?
+                response.data.header_images.map(uploadResponseToImageType)
+                :
+                [new ImageNotAvailable()]
+            return {
+                ...os,
+                ...headerImages[0]
+            }
+        }).catch(error => {
             console.log(`Failed to load Open Space ${args.params.os_id}: ${error}`)
             return redirect('/')
         }),
