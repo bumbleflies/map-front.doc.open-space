@@ -6,7 +6,6 @@ import {ResponsiveDrawer} from "./drawer";
 import CloseIcon from '@mui/icons-material/Close';
 
 export type OsTabListProps = {
-    active: "s" | "i" | ""
 }
 
 export const OsTabList = (props: OsTabListProps) => {

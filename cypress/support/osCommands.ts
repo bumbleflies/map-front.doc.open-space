@@ -39,7 +39,6 @@ export const clickDeleteOs = () => {
 export const openOsEdit = (osId: string) => {
     cy.url().should('eq', `http://localhost:3000/os/${osId}/d`)
     cy.getByDataTestId("os-edit-button").click()
-    cy.wait('@headerApi')
 }
 
 export const openEditAssertTitle = (osId: string, osTitlePart: string) => {

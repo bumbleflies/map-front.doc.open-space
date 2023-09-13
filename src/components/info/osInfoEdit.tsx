@@ -14,7 +14,8 @@ import {
 import {DateTimePicker, LocalizationProvider} from "@mui/x-date-pickers";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import 'dayjs/locale/de';
-import {useLoaderData, useNavigate, useSubmit} from "react-router-dom";
+import {useMatches, useNavigate, useSubmit} from "react-router-dom";
+import {useDataFromMatcher} from "../../helper/dataFromMatcher";
 
 
 export const OpenSpaceInfoEditDialog = () => {
@@ -23,9 +24,12 @@ export const OpenSpaceInfoEditDialog = () => {
     const [endDate, setEndDate] = useState<Dayjs | null>(null)
     const [pendingStartDate, setPendingStartDate] = useState<Dayjs | null>(null)
     const [pendingEndDate, setPendingEndDate] = useState<Dayjs | null>(null)
-    const infoEditMarker = useLoaderData() as MarkerType
     const navigate = useNavigate()
     const editSubmit = useSubmit();
+
+    const [infoEditMarker, setInfoEditMarker] = useState<MarkerType | null>(null)
+
+    useDataFromMatcher<MarkerType|null>({id:'d', stateSetter:setInfoEditMarker})
 
     useEffect(() => {
         if (infoEditMarker) {
@@ -66,7 +70,7 @@ export const OpenSpaceInfoEditDialog = () => {
     }
 
     const saveEdit = () => {
-        const newMarkerApiType = markerToOs(update(infoEditMarker).with({
+        const newMarkerApiType = markerToOs(update(infoEditMarker!).with({
             title: title!,
             startDate: pendingStartDate ? pendingStartDate : startDate!,
             endDate: pendingEndDate ? pendingEndDate : endDate!

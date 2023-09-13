@@ -42,7 +42,7 @@ const router = createBrowserRouter([
             {
                 path: 'os/',
                 action: handleAddAction,
-                element: <OsTabList active={""}/>,
+                element: <OsTabList/>,
                 children: [
                     {
                         path: ':os_id',
@@ -56,7 +56,6 @@ const router = createBrowserRouter([
                                 children: [
                                     {
                                         path: 'edit',
-                                        loader: OsApiServices.load,
                                         action: handleEditAction,
                                         element: <OpenSpaceInfoEditDialog/>
                                     },
