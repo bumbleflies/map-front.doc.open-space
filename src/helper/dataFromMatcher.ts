@@ -9,11 +9,11 @@ export const useDataFromMatcher = <T>(props: DataFromMatcherProps<T>): T => {
     const matches = useMatches()
 
     useEffect(() => {
-        const matchedData = matches.find(m => m.id === 'd')!.data as T
+        const matchedData = matches.find(m => m.id === props.id)!.data as T
+        console.log(`Loading data from matches: ${JSON.stringify(matches)}: ${JSON.stringify(matchedData)}`)
         props.stateSetter(matchedData)
     }, [matches, props.stateSetter])
 
-        console.log(`Loading data from matches: ${matches}`)
     return (matches.find(m => m.id === props.id)?.data) as T
 
 }

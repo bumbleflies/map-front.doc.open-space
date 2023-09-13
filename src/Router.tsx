@@ -46,12 +46,13 @@ const router = createBrowserRouter([
                 children: [
                     {
                         path: ':os_id',
+                        id:'os',
                         action: handleDeleteAction,
+                        loader: OsApiServices.load,
                         children: [
                             {
                                 path: 'd',
                                 id: 'd',
-                                loader: OsApiServices.load,
                                 element: <OsInfoTab/>,
                                 children: [
                                     {
