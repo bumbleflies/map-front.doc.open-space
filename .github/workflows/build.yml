@@ -102,6 +102,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: build
+          path: build
       - name: Push to build branch
         uses: s0/git-publish-subdir-action@develop
         env:
