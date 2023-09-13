@@ -1,7 +1,7 @@
 import {IconButton, ImageList, ImageListItem, ImageListItemBar, ListItemButton, Skeleton} from "@mui/material";
 import React, {useState} from "react";
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
-import {useLoaderData, useNavigate, useParams} from "react-router-dom";
+import {Outlet, useLoaderData, useNavigate, useParams} from "react-router-dom";
 import {Endpoints} from "../../config/Endpoints";
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import {ImageWithDetailsType} from "../../types/image";
@@ -31,6 +31,7 @@ export const OsImpressionsTab = () => {
 
     return (
         <>
+            <Outlet/>
             <ImageList>
                 <ImageListItem key={"image-add"} sx={{
                     alignItems: "center",

@@ -8,7 +8,8 @@ import {
     Avatar,
     Box,
     Button,
-    IconButton, Link,
+    IconButton,
+    Link,
     Paper,
     Snackbar,
     Toolbar,
@@ -22,7 +23,7 @@ import {Outlet, useFetcher, useLocation, useNavigate} from "react-router-dom";
 import {localDayjs} from "../helper/dayjsTimezone";
 import {StyledFab} from "./button/styledFab";
 import MapContext from "./context/mapContext";
-import { yellow } from '@mui/material/colors'
+import {yellow} from '@mui/material/colors'
 
 type StatusMessage = {
     id: string
@@ -65,7 +66,7 @@ export const OpenSpaceHarvesterHome = (props: OpenSpaceHarvesterHomeType) => {
                 message: `New Open Space [${savedMarker.identifier}] added`,
                 type: 'success',
                 withLink: {
-                    to: `/os/${savedMarker.identifier}`,
+                    to: `/os/${savedMarker.identifier}/d`,
                     text: 'Open'
                 }
             })

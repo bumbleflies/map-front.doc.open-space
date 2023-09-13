@@ -11,7 +11,7 @@ export const handleDeleteAction = async (args: ActionFunctionArgs) => {
 export const handleEditAction = async (args: ActionFunctionArgs) => {
     const formData = await args.request.json();
     return OsApiServices.putApiMarker(formData).then((result) => {
-        return redirect(`/os/${result.identifier}`)
+        return redirect(`..`)
     })
 }
 

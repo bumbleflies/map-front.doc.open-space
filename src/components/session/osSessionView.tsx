@@ -1,4 +1,4 @@
-import {useLoaderData, useNavigate} from "react-router-dom";
+import {Outlet, useLoaderData, useNavigate} from "react-router-dom";
 import {
     Box,
     ButtonBase,
@@ -55,10 +55,11 @@ export const OsSessionView = () => {
 
     return (
         <>
+            <Outlet/>
             <Grid container spacing={0} alignItems={"center"}>
                 <Grid item xs={1}>
                     <ButtonBase data-testid={"os-session-back-button"} aria-label={"back"}
-                                onClick={() => navigate(`/os/${session.osIdentifier}/s`)}>
+                                onClick={() => navigate(`/os/${session.osIdentifier}/s/_`)}>
                         <ArrowBackIcon/>
                     </ButtonBase>
                 </Grid>

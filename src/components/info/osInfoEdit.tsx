@@ -62,7 +62,7 @@ export const OpenSpaceInfoEditDialog = () => {
     }
 
     const cancelEdit = () => {
-        navigate(`/os/${infoEditMarker.identifier}`)
+        navigate(`..`)
     }
 
     const saveEdit = () => {

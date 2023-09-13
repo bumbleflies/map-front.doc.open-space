@@ -1,6 +1,6 @@
 import {IconButton, ImageList, ImageListItem, ImageListItemBar, ListItemButton} from "@mui/material"
 import NoteAddIcon from '@mui/icons-material/NoteAdd';
-import {Await, useFetcher, useLoaderData, useNavigate} from "react-router-dom";
+import {Await, Outlet, useFetcher, useLoaderData, useNavigate} from "react-router-dom";
 import {OsSessionDetailsApiType, OsSessionImage, OsWithSessions} from "../../types/session";
 import {OsSessionsMenu} from "./osSessionsMenu";
 import {useSelectionMenu} from "../image/menu";
@@ -39,6 +39,7 @@ export const OsSessionsOverview = () => {
 
     return (
         <>
+            <Outlet/>
             <ImageList>
                 <ImageListItem key={"session-add"} sx={{
                     alignItems: "center",

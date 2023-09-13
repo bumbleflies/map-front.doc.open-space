@@ -39,7 +39,7 @@ export const OpenSpaceMap = () => {
                         draggable
                         key={marker.identifier}
                         eventHandlers={{
-                            click: () => navigate(`/os/${marker.identifier}`),
+                            click: () => navigate(`/os/${marker.identifier}/d`),
                             dragend: (e) => {
                                 updateMarker(update(marker).with({position: e.target.getLatLng()}))
                             }

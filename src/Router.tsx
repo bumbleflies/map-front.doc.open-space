@@ -27,6 +27,11 @@ import {SessionApiServices} from "./api/sessionApi";
 import {OsSessionEditDialog} from "./components/session/osSessionEditDialog";
 import {OsTabList} from "./components/tab/osTabList";
 import {useImpressionImageResolver, useSessionImageResolver} from "./config/Endpoints";
+import {OsInfoTab} from "./components/info/osInfoTab";
+import {OsImpressionsTab} from "./components/impression/osImpressionsTab";
+import {OsSessionsOverview} from "./components/session/osSessionsOverview";
+import {OsSessionView} from "./components/session/osSessionView";
+import {OsSessionsTab} from "./components/session/osSessionsTab";
 
 const router = createBrowserRouter([
     {
@@ -37,87 +42,106 @@ const router = createBrowserRouter([
             {
                 path: 'os/',
                 action: handleAddAction,
-            },
-            {
-                path: 'os/:os_id',
-                loader: OsApiServices.load,
-                action: handleDeleteAction,
                 element: <OsTabList active={""}/>,
                 children: [
                     {
-                        path: 'edit',
-                        loader: OsApiServices.load,
-                        action: handleEditAction,
-                        element: <OpenSpaceInfoEditDialog/>
-                    },
-                ]
-            },
-            {
-                path: 'os/:os_id/i/',
-                element: <OsTabList active={"i"}/>,
-                loader: ImageApiServices.loadAll,
-                action: handleImageUploadAction,
-                children: [
-                    {
-                        path: ':image_id',
-                        action: handleImageDeleteAction,
-                        element: <OsImageFullView resolve={useImpressionImageResolver}/>,
+                        path: ':os_id',
+                        action: handleDeleteAction,
                         children: [
                             {
-                                path: 'make_header',
-                                action: handleImageHeaderAction
+                                path: 'd',
+                                id: 'd',
+                                loader: OsApiServices.load,
+                                element: <OsInfoTab/>,
+                                children: [
+                                    {
+                                        path: 'edit',
+                                        loader: OsApiServices.load,
+                                        action: handleEditAction,
+                                        element: <OpenSpaceInfoEditDialog/>
+                                    },
+                                ]
                             },
                             {
-                                path: 'edit',
-                                loader: ImageDetailsApiService.load,
-                                action: handleImageDetailsEditAction,
-                                element: <OsImpressionEditDialog/>
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                path: 'os/:os_id/s/',
-                element: <OsTabList active={"s"}/>,
-                action: handleSessionAddAction,
-                loader: SessionApiServices.loadAll,
-                children: []
-            },
-            {
-                path: 'os/:os_id/s/:session_id',
-                action: handleSessionDeleteAction,
-                loader: SessionApiServices.loadWithImages,
-                element: <OsTabList active={"s"}/>,
-                children: [
-                    {
-                        path: 'edit',
-                        action: handleSessionEditAction,
-                        loader: SessionApiServices.load,
-                        element: <OsSessionEditDialog/>
-                    }
-                ]
-            },
-            {
-                path: 'os/:os_id/s/:session_id/i/',
-                action: handleImageUploadAction,
-                loader: SessionApiServices.loadWithImages,
-                element: <OsTabList active={"s"}/>,
-                children:[
-                    {
-                        path:':image_id',
-                        action: handleSessionImageDeleteAction,
-                        element: <OsImageFullView resolve={useSessionImageResolver}/>,
-                        children: [
+                                path: 'i',
+                                id: 'i',
+                                element: <OsImpressionsTab/>,
+                                loader: ImageApiServices.loadAll,
+                                action: handleImageUploadAction,
+                                children: [
+                                    {
+                                        path: ':image_id',
+                                        action: handleImageDeleteAction,
+                                        element: <OsImageFullView resolve={useImpressionImageResolver}/>,
+                                        children: [
+                                            {
+                                                path: 'make_header',
+                                                action: handleImageHeaderAction
+                                            },
+                                            {
+                                                path: 'edit',
+                                                loader: ImageDetailsApiService.load,
+                                                action: handleImageDetailsEditAction,
+                                                element: <OsImpressionEditDialog/>
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
                             {
-                                path: 'make_header',
-                                action: handleSessionImageHeaderAction
-                            }
+                                path: 's',
+                                id: 's/_',
+                                element: <OsSessionsTab/>,
+                                children: [
+                                    {
+                                        path: '_',
+                                        element: <OsSessionsOverview/>,
+                                        loader: SessionApiServices.loadAll,
+                                        action: handleSessionAddAction,
+                                        children: [
+                                            {
+                                                path: ':session_id/edit',
+                                                action: handleSessionEditAction,
+                                                loader: SessionApiServices.load,
+                                                element: <OsSessionEditDialog/>
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        path: '_/:session_id',
+                                        action: handleSessionDeleteAction,
+                                        loader: SessionApiServices.loadWithImages,
+                                        children: [
+                                            {
+                                                path: 'i',
+                                                action: handleImageUploadAction,
+                                                loader: SessionApiServices.loadWithImages,
+                                                element: <OsSessionView/>,
+                                                children: [
+                                                    {
+                                                        path: ':image_id',
+                                                        action: handleSessionImageDeleteAction,
+                                                        element: <OsImageFullView resolve={useSessionImageResolver}/>,
+                                                        children: [
+                                                            {
+                                                                path: 'make_header',
+                                                                action: handleSessionImageHeaderAction
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            },
+                                        ]
+                                    },
+
+                                ]
+                            },
+
                         ]
-                    }
+                    },
+
                 ]
             },
-
         ]
     }
 ])

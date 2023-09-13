@@ -24,7 +24,7 @@ export const handleSessionDeleteAction = async (args: ActionFunctionArgs) =>
     (args.request.method !== 'DELETE') || SessionApiServices.delete({
         sessionIdentifier: args.params.session_id!,
         osIdentifier: args.params.os_id!
-    }).then(() => redirect(`/os/${args.params.os_id!}/s`))
+    }).then(() => redirect(`/os/${args.params.os_id!}/s/_`))
 
 export const handleSessionImageDeleteAction = async (args: ActionFunctionArgs) => {
     return SessionImageApiServices.delete({
@@ -33,7 +33,7 @@ export const handleSessionImageDeleteAction = async (args: ActionFunctionArgs) =
         imageIdentifier: args.params.image_id!,
         isAvailable: true,
         isHeader: false
-    }).then(() => redirect(`/os/${args.params.os_id!}/s/${args.params.session_id!}/i`))
+    }).then(() => redirect(`/os/${args.params.os_id!}/s/_/${args.params.session_id!}/i`))
 }
 export const handleSessionImageHeaderAction = async (args: ActionFunctionArgs) => {
     return SessionImageApiServices.makeHeader({
@@ -42,6 +42,6 @@ export const handleSessionImageHeaderAction = async (args: ActionFunctionArgs) =
         imageIdentifier: args.params.image_id!,
         isAvailable: true,
         isHeader: false
-    }).then(() => redirect(`/os/${args.params.os_id!}/s/${args.params.session_id!}/i`))
+    }).then(() => redirect(`/os/${args.params.os_id!}/s/_/${args.params.session_id!}/i`))
 }
 

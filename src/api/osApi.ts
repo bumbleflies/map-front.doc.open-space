@@ -9,7 +9,6 @@ import {
 import axios from "axios";
 import {Endpoints} from "../config/Endpoints";
 import {LoaderFunctionArgs, redirect} from "react-router-dom";
-import {ImageApiServices} from "./imageApi";
 import {ImageNotAvailable, ImageType, uploadResponseToImageType} from "../types/image";
 
 export const OsApiServices = {
@@ -32,7 +31,7 @@ export const OsApiServices = {
         }),
 
     load: (args: LoaderFunctionArgs): Promise<null | MarkerWithImage | Response> =>
-        axios.get(Endpoints.openSpace(args.params.os_id!)).then(response => {
+        axios.get(Endpoints.openSpace(args.params.os_id!) + "?with_header_images=true").then(response => {
             console.log(`loaded open space: ${JSON.stringify(response.data)}`)
             const os = osLoaderToMarker(response.data)
             const headerImages: ImageType[] = Boolean(response.data.header_images) ?

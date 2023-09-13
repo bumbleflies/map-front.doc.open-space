@@ -10,7 +10,7 @@ import TagIcon from '@mui/icons-material/Tag';
 import {IconTextGrid} from "./iconTextGrid";
 import {Endpoints} from "../../config/Endpoints";
 import {MenuActionButton} from "../button/menuActionButton";
-import {useLoaderData, useNavigate, useSubmit} from "react-router-dom";
+import {Outlet, useLoaderData, useNavigate, useSubmit} from "react-router-dom";
 import {ImageType} from "../../types/image";
 
 
@@ -27,10 +27,11 @@ export const OsInfoTab = () => {
     }
 
     return (
+        <>
         <Grid container spacing={0} alignItems={"center"}>
             {/* Image */}
             <Grid item xs={12} textAlign={"center"}>
-                <ButtonBase data-testid={"os-images-button"} onClick={() => navigate(`i/`)}>
+                <ButtonBase data-testid={"os-images-button"} onClick={() => navigate(`../i`)}>
                     {infoMarker.isAvailable ?
                         <CardMedia
                             component="img"
@@ -81,5 +82,7 @@ export const OsInfoTab = () => {
                           text={`${infoMarker.position.lat}, ${infoMarker.position.lng}`}/>
             <IconTextGrid name={'identifier'} icon={<TagIcon/>} text={infoMarker.identifier}/>
         </Grid>
+            <Outlet/>
+        </>
     )
 }
