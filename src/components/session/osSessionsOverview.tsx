@@ -1,7 +1,7 @@
 import {IconButton, ImageList, ImageListItem, ImageListItemBar, ListItemButton} from "@mui/material"
 import NoteAddIcon from '@mui/icons-material/NoteAdd';
 import {Outlet, useFetcher, useLoaderData, useNavigate} from "react-router-dom";
-import {OsSessionDetailsApiType, OsSessionImage, OsSessionWithHeaderImage} from "../../types/session";
+import {OsSessionDetailsApiType, OsSessionWithHeaderImage} from "../../types/session";
 import {OsSessionsMenu} from "./osSessionsMenu";
 import {useSelectionMenu} from "../image/menu";
 import React, {useState} from "react";

@@ -1,5 +1,5 @@
 import axios from "axios";
-import {defer, LoaderFunctionArgs} from "react-router-dom";
+import {LoaderFunctionArgs} from "react-router-dom";
 import {Endpoints} from "../config/Endpoints";
 import {
     mapOsSessionApi,
@@ -8,16 +8,12 @@ import {
     OsSession,
     OsSessionApiType,
     OsSessionDetailsApiType,
-    OsSessionImage,
     OsSessionImageApiType,
     OsSessionImageNotAvailable,
     OsSessionMeta,
     OsSessionWithHeaderImage,
     OsWithSessions
 } from "../types/session";
-import {MarkerType} from "../types/marker";
-import {OsApiServices} from "./osApi";
-import {DeferredData} from "@remix-run/router/dist/utils";
 
 export type DeferredSessionType = {
     osWithSession: Promise<OsWithSessions>
