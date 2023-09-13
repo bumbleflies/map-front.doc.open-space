@@ -1,11 +1,10 @@
 import {IconButton, ImageList, ImageListItem, ImageListItemBar, ListItemButton} from "@mui/material"
 import NoteAddIcon from '@mui/icons-material/NoteAdd';
-import {Await, Outlet, useFetcher, useLoaderData, useNavigate} from "react-router-dom";
-import {OsSession, OsSessionDetailsApiType, OsSessionImage, OsWithSessions} from "../../types/session";
+import {Outlet, useFetcher, useLoaderData, useNavigate} from "react-router-dom";
+import {OsSessionDetailsApiType, OsSessionImage, OsSessionWithHeaderImage} from "../../types/session";
 import {OsSessionsMenu} from "./osSessionsMenu";
 import {useSelectionMenu} from "../image/menu";
-import React, {useEffect, useState} from "react";
-import {DeferredSessionType} from "../../api/sessionApi";
+import React, {useState} from "react";
 import {Endpoints} from "../../config/Endpoints";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import {MarkerType} from "../../types/marker";
@@ -14,7 +13,7 @@ import {useDataFromMatcher} from "../../helper/dataFromMatcher";
 
 export const OsSessionsOverview = () => {
     const addSessionFetcher = useFetcher()
-    const sessions = useLoaderData() as OsSession[]
+    const sessions = useLoaderData() as OsSessionWithHeaderImage[]
     const navigate = useNavigate()
 
     const {menu, selected} = useSelectionMenu()
@@ -52,46 +51,47 @@ export const OsSessionsOverview = () => {
                                     }}>
                         <NoteAddIcon fontSize={"large"}/>
                     </ListItemButton>
-                        <ImageListItemBar title={sessions.length > 0 ? null : "no sessions yet"}
-                                          subtitle={"add session impressions"}/>
+                    <ImageListItemBar title={sessions.length > 0 ? null : "no sessions yet"}
+                                      subtitle={"add session impressions"}/>
                 </ImageListItem>
                 {sessions.map((session) => (
-                                <ImageListItem key={session.sessionIdentifier}>
-                                    {false ?
-                                        <img onClick={() => navigate(`${session.sessionIdentifier}/i`)}
-                                             alt={session.sessionIdentifier}
-                                             loading="lazy"
-                                             data-testid={"os-session"}
-                                        /> :
-                                        <img
-                                            src={'/img/no-image-icon.png'}
-                                            onClick={() => navigate(`${session.sessionIdentifier}/i`)}
-                                            alt={'not available yet'}
-                                            data-testid={"os-session"}
-                                        />
-                                    }
+                    <ImageListItem key={session.sessionIdentifier}>
+                        {session.header.isAvailable ?
+                            <img onClick={() => navigate(`${session.sessionIdentifier}/i`)}
+                                 alt={session.sessionIdentifier}
+                                 src={Endpoints.openSpaceSessionImage(session.header)}
+                                 loading="lazy"
+                                 data-testid={"os-session"}
+                            /> :
+                            <img
+                                src={'/img/no-image-icon.png'}
+                                onClick={() => navigate(`${session.sessionIdentifier}/i`)}
+                                alt={'not available yet'}
+                                data-testid={"os-session"}
+                            />
+                        }
 
-                                    <ImageListItemBar
-                                        data-testid={'os-session-time-bar'}
-                                        subtitle={`${session.startDate.format('DD.MM')} ${session.startDate.format('HH:mm')} - ${session.endDate.format('HH:mm')}`}
-                                        actionIcon={
-                                            <IconButton
-                                                data-testid={"os-session-menu"}
-                                                sx={{color: 'white'}}
-                                                aria-label={`Session ${session.title}`}
-                                                onClick={(event: React.MouseEvent<HTMLButtonElement>) => menu.open(event, session.sessionIdentifier)}
-                                            >
-                                                <KeyboardArrowUpIcon/>
-                                            </IconButton>
-                                        }/>
-                                    <ImageListItemBar
-                                        position={"top"}
-                                        actionPosition={"left"}
-                                        subtitle={session.title}
-                                        data-testid={'os-session-title-bar'}/>
+                        <ImageListItemBar
+                            data-testid={'os-session-time-bar'}
+                            subtitle={`${session.startDate.format('DD.MM')} ${session.startDate.format('HH:mm')} - ${session.endDate.format('HH:mm')}`}
+                            actionIcon={
+                                <IconButton
+                                    data-testid={"os-session-menu"}
+                                    sx={{color: 'white'}}
+                                    aria-label={`Session ${session.title}`}
+                                    onClick={(event: React.MouseEvent<HTMLButtonElement>) => menu.open(event, session.sessionIdentifier)}
+                                >
+                                    <KeyboardArrowUpIcon/>
+                                </IconButton>
+                            }/>
+                        <ImageListItemBar
+                            position={"top"}
+                            actionPosition={"left"}
+                            subtitle={session.title}
+                            data-testid={'os-session-title-bar'}/>
 
-                                </ImageListItem>
-                            ))}
+                    </ImageListItem>
+                ))}
             </ImageList>
             <OsSessionsMenu menu={menu} selected={selected}/>
         </>

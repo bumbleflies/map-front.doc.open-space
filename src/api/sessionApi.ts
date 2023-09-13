@@ -9,14 +9,18 @@ import {
     OsSessionApiType,
     OsSessionDetailsApiType,
     OsSessionImage,
-    OsSessionMeta, OsWithSessions
+    OsSessionImageApiType,
+    OsSessionImageNotAvailable,
+    OsSessionMeta,
+    OsSessionWithHeaderImage,
+    OsWithSessions
 } from "../types/session";
 import {MarkerType} from "../types/marker";
 import {OsApiServices} from "./osApi";
 import {DeferredData} from "@remix-run/router/dist/utils";
 
 export type DeferredSessionType = {
-    osWithSession:Promise<OsWithSessions>
+    osWithSession: Promise<OsWithSessions>
 }
 export const SessionApiServices = {
     edit: async (sessionMeta: OsSessionMeta, newSession: OsSessionDetailsApiType) =>
@@ -42,62 +46,25 @@ export const SessionApiServices = {
             return mapOsSessionApi(response.data)
         })
     ,
-    loadAll:  async ({params}: LoaderFunctionArgs):Promise<OsSession[]> =>
-        axios.get(Endpoints.openSpaceSessions(params.os_id!)).then((response) => {
-                console.log(`loaded sessions for os ${params.os_id}: ${JSON.stringify(response.data)}`)
-                return  (response.data as OsSessionApiType[]).map(session => mapOsSessionApi(session))
-            }),
-    loadAllDeferred: async (args: LoaderFunctionArgs): Promise<DeferredData> => {
-        const osWithSessionPromise = OsApiServices.load(args).then(os =>
-            axios.get(Endpoints.openSpaceSessions((os as MarkerType).identifier)).then((response) => {
-                console.log(`loaded sessions for os ${args.params.os_id}: ${JSON.stringify(response.data)}`)
+    
+    loadAll: async ({params}: LoaderFunctionArgs): Promise<OsSessionWithHeaderImage[]> =>
+        axios.get(Endpoints.openSpaceSessions(params.os_id!) + "?with_header_images=true").then((response) => {
+            console.log(`loaded sessions for os ${params.os_id}: ${JSON.stringify(response.data)}`)
+            const osSessions = (response.data as OsSessionApiType[]).map(session => mapOsSessionApi(session));
+            const sessionHeader: OsSessionWithHeaderImage[] = osSessions.map((osSession, index) => {
+                const sessionHeaderImages = Boolean(response.data[index].header_images) ?
+                    response.data[index].header_images.map((image: OsSessionImageApiType) => mapSessionImageApi(osSession, image))
+                    :
+                    [new OsSessionImageNotAvailable(osSession)]
+
+                console.log('session header: ' + JSON.stringify(sessionHeaderImages))
                 return {
-                    os: os as MarkerType,
-                    sessions: (response.data as OsSessionApiType[]).map(session => mapOsSessionApi(session))
-                }
-            }).then((osSession) => {
-                return Promise.all(osSession.sessions.map((session) => {
-                    return axios.get(Endpoints.openSpaceSessionHeaderImage(session)).then((response) => {
-                        console.log(`loaded header for session ${JSON.stringify(session)}: ${JSON.stringify(response.data)}`)
-                        return mapSessionImageApi(session, response.data.pop())
-                    }).catch(() => {
-                        return {
-                            imageIdentifier: '',
-                            osIdentifier: session.osIdentifier,
-                            sessionIdentifier: session.sessionIdentifier,
-                            isHeader: false,
-                            isAvailable: false
-                        }
-                    })
-                })).then((sessionImages) => {
-                    return {
-                        os: osSession.os,
-                        sessions: osSession.sessions.map((session) => {
-                            const headerImage = sessionImages.find((image) => (image as OsSessionImage).sessionIdentifier === session.sessionIdentifier)
-                            return {
-                                ...session,
-                                header: {
-                                    isAvailable: headerImage!.isAvailable,
-                                    imageIdentifier: headerImage!.imageIdentifier,
-                                    osIdentifier: session.osIdentifier,
-                                    sessionIdentifier: session.sessionIdentifier,
-                                    isHeader: true
-                                }
-                            }
-                        })
-                    }
-                })
-            }).catch(error => {
-                console.log(`Failed to load Sessions: ${error}`)
-                return {
-                    os: os as MarkerType,
-                    sessions: []
+                    ...osSession,
+                    header: sessionHeaderImages.pop()
                 }
             })
-        )
-        return defer({osWithSession: osWithSessionPromise})
-    }
-    ,
+            return sessionHeader
+        }),
 
     add: async (osId: string, session: OsSessionDetailsApiType): Promise<OsSession> =>
         axios.post(Endpoints.openSpaceSessions(osId), session).then((response) => {

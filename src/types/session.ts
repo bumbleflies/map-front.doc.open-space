@@ -14,7 +14,7 @@ export type OsSession = OsSessionMeta & {
 }
 
 export type OsSessionWithHeaderImage = OsSession & {
-    header: (OsSessionImage)
+    header: OsSessionImage
 }
 
 export type OsSessionDetailsApiType = {
@@ -39,6 +39,20 @@ export type OsSessionImageApiType = OsImageApiType & {
 }
 
 export type OsSessionImage = ImageType & OsSessionMeta
+
+export class OsSessionImageNotAvailable implements OsSessionImage {
+    isAvailable = false;
+    isHeader = false;
+    osIdentifier: string
+    sessionIdentifier: string
+    imageIdentifier: string
+
+    constructor(session: OsSessionMeta) {
+        this.osIdentifier = session.osIdentifier
+        this.sessionIdentifier = session.sessionIdentifier
+        this.imageIdentifier = ''
+    }
+}
 
 export type OsSessionWithImages = OsSession & {
     images: OsSessionImage[]
