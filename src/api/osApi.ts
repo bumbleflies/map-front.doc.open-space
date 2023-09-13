@@ -12,7 +12,7 @@ import {LoaderFunctionArgs, redirect} from "react-router-dom";
 import {ImageApiServices} from "./imageApi";
 
 export const OsApiServices = {
-    save: (marker: TransientOSApiType) =>
+    save: (marker: TransientOSApiType): Promise<MarkerType | null> =>
         axios.post(Endpoints.openSpaces, marker).then(response => {
             console.log(`saved marker: ${JSON.stringify(marker)}`)
             return osLoaderToMarker(response.data);
@@ -21,7 +21,7 @@ export const OsApiServices = {
             return null
         }),
 
-    loadAll: () =>
+    loadAll: (): Promise<MarkerType[]> =>
         axios.get(Endpoints.openSpaces).then(response => {
             console.log(`loaded open spaces: ${JSON.stringify(response.data)}`)
             return response.data.map(osLoaderToMarker)
@@ -46,7 +46,7 @@ export const OsApiServices = {
             return redirect('/')
         }),
 
-    putApiMarker: (apiMarker: OSApiType) =>
+    putApiMarker: (apiMarker: OSApiType): Promise<MarkerType> =>
         axios.put(Endpoints.openSpace(apiMarker.identifier), apiMarker).then(response => {
             console.log(`updated open space: ${JSON.stringify(response.data)}`)
             return osLoaderToMarker(response.data);
@@ -54,9 +54,9 @@ export const OsApiServices = {
             return osLoaderToMarker(apiMarker)
         }),
 
-    put: (marker: MarkerType) => OsApiServices.putApiMarker(markerToOs(marker)),
+    put: (marker: MarkerType): Promise<MarkerType> => OsApiServices.putApiMarker(markerToOs(marker)),
 
-    delete: (identifier: string) =>
+    delete: (identifier: string): Promise<void> =>
         axios.delete(new URL(identifier, Endpoints.openSpaces).toString())
             .then(() => console.log(`deleted open space: ${identifier}`))
             .catch(error => console.error(`failed to delete marker: ${error}`))
