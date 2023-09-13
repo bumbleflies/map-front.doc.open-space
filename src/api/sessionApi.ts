@@ -46,13 +46,14 @@ export const SessionApiServices = {
             return mapOsSessionApi(response.data)
         })
     ,
-    
+
     loadAll: async ({params}: LoaderFunctionArgs): Promise<OsSessionWithHeaderImage[]> =>
         axios.get(Endpoints.openSpaceSessions(params.os_id!) + "?with_header_images=true").then((response) => {
             console.log(`loaded sessions for os ${params.os_id}: ${JSON.stringify(response.data)}`)
             const osSessions = (response.data as OsSessionApiType[]).map(session => mapOsSessionApi(session));
             const sessionHeader: OsSessionWithHeaderImage[] = osSessions.map((osSession, index) => {
-                const sessionHeaderImages = Boolean(response.data[index].header_images) ?
+                console.log('session header: ' + Boolean(response.data[index].header_images.length))
+                const sessionHeaderImages = Boolean(response.data[index].header_images.length) ?
                     response.data[index].header_images.map((image: OsSessionImageApiType) => mapSessionImageApi(osSession, image))
                     :
                     [new OsSessionImageNotAvailable(osSession)]

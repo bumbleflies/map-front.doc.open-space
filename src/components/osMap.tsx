@@ -22,7 +22,7 @@ export const OpenSpaceMap = () => {
         editSubmit(markerToOs(marker), {
             method: 'put',
             encType: "application/json",
-            action: `os/${marker.identifier}/edit`
+            action: `os/${marker.identifier}/d/edit`
         })
     }
 
