@@ -13,6 +13,6 @@ export const useDataFromMatcher = <T>({id, stateSetter}: DataFromMatcherProps<T>
         const matchedData = matches.find(m => m.id === id)!.data as T;
         console.log(`Loading data from matches: ${JSON.stringify(matches)}: ${JSON.stringify(matchedData)}`)
         stateSetter(matchedData)
-    }, [matches, stateSetter])
+    }, [matches, stateSetter, id])
 
 }
