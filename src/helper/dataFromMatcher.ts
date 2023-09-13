@@ -5,17 +5,14 @@ type DataFromMatcherProps<T> = {
     id: string,
     stateSetter: Dispatch<SetStateAction<T>>
 }
-export const useDataFromMatcher = <T>({id, stateSetter}: DataFromMatcherProps<T>): T => {
+
+export const useDataFromMatcher = <T>({id, stateSetter}: DataFromMatcherProps<T>): void => {
     const matches = useMatches()
 
-    const getMatchedData = () => matches.find(m => m.id === id)!.data as T;
-
-
     useEffect(() => {
-        const matchedData = getMatchedData()
+        const matchedData = matches.find(m => m.id === id)!.data as T;
         console.log(`Loading data from matches: ${JSON.stringify(matches)}: ${JSON.stringify(matchedData)}`)
         stateSetter(matchedData)
-    }, [matches, stateSetter, getMatchedData])
+    }, [matches, stateSetter])
 
-    return getMatchedData()
 }
