@@ -34,13 +34,10 @@ type StatusMessage = {
         text: string
     }
 }
-type OpenSpaceHarvesterHomeType = {
-    // mainly used for testing the module
-    map?: Map
-}
-export const OpenSpaceHarvesterHome = (props: OpenSpaceHarvesterHomeType) => {
 
-    const [map, setMap] = useState<Map | null>(props.map ? props.map : null)
+export const OpenSpaceHarvesterHome = () => {
+
+    const [map, setMap] = useState<Map | null>(null)
     const [statusMessages, setStatusMessages] = useState<StatusMessage[]>([])
     const [currentStatusMessage, setCurrentStatusMessage] = useState<StatusMessage | null>(null)
 

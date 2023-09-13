@@ -6,12 +6,12 @@ type OverlayButtonType = {
     onImageUpload: (e: ChangeEvent<HTMLInputElement>) => void;
     display: boolean
 }
-export const OverlayButton = (props: OverlayButtonType) => {
+export const OverlayButton = ({display, onImageUpload}: OverlayButtonType) => {
     return (
         <Button
             sx={{
                 position: "fixed",
-                display: props.display ? 'block' : 'none',
+                display: display ? 'block' : 'none',
                 transform: 'translate(330px,-50px)'
             }}
         >
@@ -22,7 +22,7 @@ export const OverlayButton = (props: OverlayButtonType) => {
                     name="upload-photo"
                     type="file"
                     accept={".png,.jpg"}
-                    onChange={props.onImageUpload}
+                    onChange={onImageUpload}
                 />
                 <Fab color="primary" size="medium" component="span"
                      aria-label="add">

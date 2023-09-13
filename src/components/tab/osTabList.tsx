@@ -1,14 +1,10 @@
 import {Box, ButtonBase, DialogTitle, Tab} from "@mui/material";
-import React from "react";
 import {Outlet, useMatches, useNavigate, useParams} from "react-router-dom";
 import {TabContext, TabList, TabPanel} from "@mui/lab";
 import {ResponsiveDrawer} from "./drawer";
 import CloseIcon from '@mui/icons-material/Close';
 
-export type OsTabListProps = {
-}
-
-export const OsTabList = (props: OsTabListProps) => {
+export const OsTabList = () => {
     const navigate = useNavigate()
     const {os_id} = useParams<"os_id">()
 

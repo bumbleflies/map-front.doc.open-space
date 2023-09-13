@@ -19,7 +19,7 @@ type OsImageFullViewProps = {
     resolve: () => string
 }
 
-export const OsImageFullView = (props: OsImageFullViewProps) => {
+export const OsImageFullView = ({resolve}: OsImageFullViewProps) => {
     const navigate = useNavigate()
     const theme = useTheme()
     const onDesktop = useMediaQuery(theme.breakpoints.up('sm'))
@@ -59,7 +59,7 @@ export const OsImageFullView = (props: OsImageFullViewProps) => {
                         <CardMedia
                             width="100%"
                             component={"img"}
-                            image={props.resolve()}
+                            image={resolve()}
                             data-testid={"os-image-fullscreen"}>
                         </CardMedia>
                     </Box>
@@ -84,7 +84,7 @@ export const OsImageFullView = (props: OsImageFullViewProps) => {
                         <CardMedia
                             width="100%"
                             component={"img"}
-                            image={props.resolve()}
+                            image={resolve()}
                             data-testid={"os-image-fullscreen"}>
                         </CardMedia>
                     </DialogContent>

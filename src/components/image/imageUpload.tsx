@@ -34,7 +34,7 @@ const acceptStyle = {
 const rejectStyle = {
     borderColor: '#ff1744'
 };
-export const ImageUpload = (props: ImageUploadProps) => {
+export const ImageUpload = ({files, onSelectHandler}: ImageUploadProps) => {
     const {
         getRootProps,
         getInputProps,
@@ -43,7 +43,7 @@ export const ImageUpload = (props: ImageUploadProps) => {
         isDragReject,
     } = useDropzone({
             accept: {'image/*': []},
-            onDrop: props.onSelectHandler,
+        onDrop: onSelectHandler,
         }
     );
     const style = useMemo(() => ({
@@ -59,10 +59,10 @@ export const ImageUpload = (props: ImageUploadProps) => {
 
     useEffect(() => {
         // Make sure to revoke the data uris to avoid memory leaks, will run on unmount
-        return () => props.files.forEach(file => URL.revokeObjectURL(file.preview));
-    }, [props.files]);
+        return () => files.forEach(file => URL.revokeObjectURL(file.preview));
+    }, [files]);
 
-    const thumbs = props.files.map(file => (
+    const thumbs = files.map(file => (
         <div style={thumb} key={file.name}>
             <div data-testid={`os-image-add-preview-${file.name.replaceAll('.', '-')}`} style={thumbInner}>
                 <img

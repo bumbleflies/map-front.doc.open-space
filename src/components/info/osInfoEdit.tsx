@@ -29,7 +29,7 @@ export const OpenSpaceInfoEditDialog = () => {
 
     const [infoEditMarker, setInfoEditMarker] = useState<MarkerType | null>(null)
 
-    useDataFromMatcher<MarkerType|null>({id:'os', stateSetter:setInfoEditMarker})
+    useDataFromMatcher<MarkerType | null>({id: 'os', stateSetter: setInfoEditMarker})
 
     useEffect(() => {
         if (infoEditMarker) {

@@ -6,17 +6,17 @@ export type IconTextGridProps = {
     icon: ReactElement,
     text: string
 }
-export const IconTextGrid = (props: IconTextGridProps) => {
+export const IconTextGrid = ({name, icon, text}: IconTextGridProps) => {
     return (
         <Grid item xs={12} container>
             <Grid item xs={2} textAlign={"center"}>
-                <Tooltip title={props.name}>
-                    {props.icon}
+                <Tooltip title={name}>
+                    {icon}
                 </Tooltip>
             </Grid>
             <Grid item xs={10} textAlign={"left"}>
-                <Typography data-testid={`grid-${props.name}-text`} color='text.secondary'>
-                    {props.text}
+                <Typography data-testid={`grid-${name}-text`} color='text.secondary'>
+                    {text}
                 </Typography>
             </Grid>
         </Grid>

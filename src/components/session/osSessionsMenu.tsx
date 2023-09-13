@@ -13,29 +13,29 @@ type OsImageMenuProps = {
     selected:string|null
 }
 
-export const OsSessionsMenu = (props: OsImageMenuProps) => {
+export const OsSessionsMenu = ({selected, menu}: OsImageMenuProps) => {
     const actionSubmit = useSubmit()
     const navigate = useNavigate()
 
     const deleteSession = () => {
-        props.menu.close()
+        menu.close()
         actionSubmit({}, {
             method: 'delete',
-            action: props.selected!
+            action: selected!
         })
     }
 
     const editSession = () => {
-        props.menu.close()
-        navigate(`${props.selected}/edit`)
+        menu.close()
+        navigate(`${selected}/edit`)
     }
     return (
         <>
             <Menu
                 id="session-action-menu"
-                anchorEl={props.menu.anchor}
-                open={Boolean(props.menu.anchor)}
-                onClose={props.menu.close}
+                anchorEl={menu.anchor}
+                open={Boolean(menu.anchor)}
+                onClose={menu.close}
                 anchorOrigin={{
                     vertical: 'top',
                     horizontal: 'center',

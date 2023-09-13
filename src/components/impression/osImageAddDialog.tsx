@@ -13,14 +13,14 @@ type OsImageAddDialogProps = {
     upload: (file: File) => Promise<ImageType | ImageNotAvailable>
 }
 
-export const OsImageAddDialog = (props: OsImageAddDialogProps) => {
+export const OsImageAddDialog = ({isOpen, title, submit, upload, closeHandler}: OsImageAddDialogProps) => {
     const [files, setFiles] = useState<FilePreview[]>([]);
 
     useEffect(() => {
-        if (!props.isOpen) {
+        if (!isOpen) {
             setFiles([])
         }
-    }, [props.isOpen])
+    }, [isOpen])
 
     const onFilesDropped = (acceptedFiles: File[]) => {
         setFiles(acceptedFiles.map(file => Object.assign(file, {
@@ -32,15 +32,15 @@ export const OsImageAddDialog = (props: OsImageAddDialogProps) => {
         const formData = new FormData()
         console.log('submitting files ' + JSON.stringify(filesToSubmit))
         filesToSubmit.map((file, index) => formData.append(`file_${index}`, file.slice(), file.name))
-        props.submit(formData, {method: 'POST'})
+        submit(formData, {method: 'POST'})
     }
 
     const saveSelectedFiles = async () => {
-        props.closeHandler()
+        closeHandler()
         let remainingFiles = Array.from(files)
         submitFiles(remainingFiles)
         Promise.all(files.map((file) =>
-            props.upload(file).then(() => {
+            upload(file).then(() => {
                 console.log(`Finished uploading ${file.name}`)
                 remainingFiles = remainingFiles.filter((f) => f.name !== file.name)
                 submitFiles(remainingFiles)
@@ -51,13 +51,13 @@ export const OsImageAddDialog = (props: OsImageAddDialogProps) => {
     }
 
     return (
-        <Dialog open={props.isOpen}>
-            <DialogTitle>{props.title}</DialogTitle>
+        <Dialog open={isOpen}>
+            <DialogTitle>{title}</DialogTitle>
             <DialogContent>
                 <ImageUpload files={files} onSelectHandler={onFilesDropped}/>
             </DialogContent>
             <DialogActions>
-                <Button data-testid='os-image-add-cancel' onClick={props.closeHandler}>Cancel</Button>
+                <Button data-testid='os-image-add-cancel' onClick={closeHandler}>Cancel</Button>
                 <Button data-testid='os-image-add-save' onClick={saveSelectedFiles}>Upload</Button>
             </DialogActions>
         </Dialog>
