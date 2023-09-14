@@ -1,49 +1,30 @@
 import React, {useState} from "react";
-import {
-    Avatar,
-    Button,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogContentText,
-    DialogTitle,
-    Grid,
-    IconButton,
-    Typography
-} from "@mui/material";
+import {Avatar, Grid, IconButton, Typography} from "@mui/material";
 import {yellow} from "@mui/material/colors";
-import useEventListener from "@use-it/event-listener";
+import {ConfirmDialog} from "./confirmDialog";
 
 type MenuActionButtonType = {
     onClickHandler: () => void,
     icon: React.JSX.Element,
-    name: string
+    name: string,
+    withConfirm?: boolean
 }
 
-export const MenuActionButton = ({name, icon, onClickHandler}: MenuActionButtonType) => {
+export const MenuActionButton = ({name, icon, onClickHandler, withConfirm = false}: MenuActionButtonType) => {
 
     const [confirmOpen, setConfirmOpen] = useState<boolean>(false)
+
     const openConfirm = () => {
-        setConfirmOpen(true)
+        if (withConfirm) {
+            setConfirmOpen(true)
+        } else {
+            onClickHandler()
+        }
     };
 
     const closeConfirm = () => {
         setConfirmOpen(false)
     }
-
-    const executeConfirm = () => {
-        onClickHandler()
-        closeConfirm()
-    }
-
-    function handler(event: KeyboardEvent) {
-        event.preventDefault()
-        if (event.key === 'Enter') {
-            executeConfirm()
-        }
-    }
-
-    useEventListener('keydown', handler);
 
     return (
         <>
@@ -62,24 +43,9 @@ export const MenuActionButton = ({name, icon, onClickHandler}: MenuActionButtonT
                     </Typography>
                 </Grid>
             </Grid>
-
-            <Dialog open={confirmOpen} onClose={closeConfirm}>
-
-                <DialogTitle>{"Heads up!"}</DialogTitle>
-                <DialogContent>
-                    <DialogContentText>
-                        Do you really want to {name.toLowerCase()}?
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button type={"reset"} onClick={closeConfirm} autoFocus color="secondary">
-                        No
-                    </Button>
-                    <Button type={"submit"} onClick={executeConfirm} color="primary">
-                        Yes
-                    </Button>
-                </DialogActions>
-            </Dialog>
+            <ConfirmDialog isOpen={confirmOpen} close={closeConfirm} title={'Heads up!'}
+                           question={`Do you really want to ${name.toLowerCase()}`}
+                           confirmSubmit={onClickHandler}/>
         </>
     )
 }

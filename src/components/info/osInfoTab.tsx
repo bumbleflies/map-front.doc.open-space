@@ -69,7 +69,8 @@ export const OsInfoTab = () => {
                         <Grid item xs={4}/>
                         <MenuActionButton onClickHandler={() => navigate(`edit`)}
                                           icon={<EditIcon/>} name={"Edit"}/>
-                        <MenuActionButton onClickHandler={deleteMarker} icon={<DeleteIcon/>} name={"Delete"}/>
+                        <MenuActionButton withConfirm onClickHandler={deleteMarker} icon={<DeleteIcon/>}
+                                          name={"Delete"}/>
                         <Grid item xs={4}/>
                     </Grid>
                     <Grid item xs={12} container>
