@@ -25,7 +25,6 @@ import {localDayjs} from "../helper/dayjsTimezone";
 import {StyledFab} from "./button/styledFab";
 import MapContext from "./context/mapContext";
 import {yellow} from '@mui/material/colors'
-import useOnMobile from "../helper/onMobileHook";
 
 type StatusMessage = {
     id: string
