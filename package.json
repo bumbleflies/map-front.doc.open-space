@@ -12,6 +12,7 @@
     "@mui/material": "^5.14.0",
     "@mui/system": "^5.14.1",
     "@mui/x-date-pickers": "^6.9.2",
+    "@use-it/event-listener": "^0.1.7",
     "axios": "^1.4.0",
     "dayjs": "^1.11.9",
     "leaflet": "^1.9.4",
