@@ -40,7 +40,7 @@ export const OsInfoTab = () => {
                                 <CardMedia
                                     component="img"
                                     height="300"
-                                    image={Endpoints.openSpaceImage((infoMarker as ImageType))}
+                                    image={Endpoints.openSpaceImage((infoMarker as ImageType),"header")}
                                     alt={`Image ${(infoMarker as ImageType).imageIdentifier} in Open Space ${infoMarker.identifier}`}
                                 />
                                 :

@@ -110,7 +110,6 @@ const router = createBrowserRouter([
                                     {
                                         path: '_/:session_id',
                                         action: handleSessionDeleteAction,
-                                        loader: SessionApiServices.loadWithImages,
                                         children: [
                                             {
                                                 path: 'i',

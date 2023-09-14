@@ -1,5 +1,5 @@
 // https://a-carreras-c.medium.com/development-and-production-variables-for-react-apps-c04af8b430a5
-import {TransientImageType} from "../types/image";
+import {ImageVariant, TransientImageType} from "../types/image";
 import {OsSessionImage, OsSessionMeta} from "../types/session";
 import {useParams} from "react-router-dom";
 
@@ -31,9 +31,9 @@ const SessionEndpoints = {
     openSpaceSessionImages: (sessionMeta: OsSessionMeta) => new URL(
         'i/',
         SessionEndpoints.openSpaceSession(sessionMeta) + '/').href,
-    openSpaceSessionImage: (image: OsSessionImage, asThumb: boolean = true) => new URL(
+    openSpaceSessionImage: (image: OsSessionImage, variant: ImageVariant = "thumb") => new URL(
         image.imageIdentifier,
-        SessionEndpoints.openSpaceSessionImages(image)).href + `?thumbnail=${asThumb}`,
+        SessionEndpoints.openSpaceSessionImages(image)).href + `?image_type=${variant}`,
     openSpaceSessionHeaderImage: (sessionMeta: OsSessionMeta) => new URL(
         '?only_header=True',
         SessionEndpoints.openSpaceSessionImages(sessionMeta)).href,
@@ -44,9 +44,9 @@ const ImagesEndpoints = {
     headerImage: (osId: string) => new URL(
         '?only_header=True',
         ImagesEndpoints.openSpaceImages(osId)).href,
-    openSpaceImage: (image: TransientImageType, asThumb: boolean = true) => new URL(
+    openSpaceImage: (image: TransientImageType, variant: ImageVariant = "thumb") => new URL(
         image.imageIdentifier,
-        ImagesEndpoints.openSpaceImages(image.osIdentifier)).href + `?thumbnail=${asThumb}`,
+        ImagesEndpoints.openSpaceImages(image.osIdentifier)).href + `?image_type=${variant}`,
     openSpaceImageDetails: (image: TransientImageType) => new URL(
         'details',
         ImagesEndpoints.openSpaceImage(image) + '/').href,
@@ -63,7 +63,7 @@ export const useImpressionImageResolver = () => {
     const {os_id} = useParams<"os_id">();
     const {image_id} = useParams<"image_id">();
 
-    return Endpoints.openSpaceImage({osIdentifier: os_id!, imageIdentifier: image_id!}, false)
+    return Endpoints.openSpaceImage({osIdentifier: os_id!, imageIdentifier: image_id!}, "full")
 }
 
 export const useSessionImageResolver = () => {
@@ -79,5 +79,5 @@ export const useSessionImageResolver = () => {
         imageIdentifier: image_id!,
         isHeader: false,
         isAvailable: true
-    }, false)
+    }, "full")
 }
