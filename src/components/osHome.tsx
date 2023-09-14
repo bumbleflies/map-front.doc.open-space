@@ -101,7 +101,7 @@ export const OpenSpaceHarvesterHome = () => {
     }
 
     const locationSuccess = (position: GeolocationPosition) => {
-        map?.setView({lat: position.coords.latitude, lng: position.coords.longitude})
+        map?.flyTo({lat: position.coords.latitude, lng: position.coords.longitude})
     }
 
     function shouldDrawFab() {

@@ -16,7 +16,7 @@ export const OpenSpaceMap = () => {
     const loadedMarker = useLoaderData() as MarkerType[]
     const {setMap} = useContext<MapContextType>(MapContext)
     const navigate = useNavigate();
-    const editSubmit = useSubmit()
+    const editSubmit = useSubmit();
 
     const updateMarker = (marker: MarkerType) => {
         editSubmit(markerToOs(marker), {
