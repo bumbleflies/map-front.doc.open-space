@@ -31,9 +31,9 @@ const SessionEndpoints = {
     openSpaceSessionImages: (sessionMeta: OsSessionMeta) => new URL(
         'i/',
         SessionEndpoints.openSpaceSession(sessionMeta) + '/').href,
-    openSpaceSessionImage: (image: OsSessionImage) => new URL(
+    openSpaceSessionImage: (image: OsSessionImage, asThumb: boolean = true) => new URL(
         image.imageIdentifier,
-        SessionEndpoints.openSpaceSessionImages(image)).href,
+        SessionEndpoints.openSpaceSessionImages(image)).href + `?thumbnail=${asThumb}`,
     openSpaceSessionHeaderImage: (sessionMeta: OsSessionMeta) => new URL(
         '?only_header=True',
         SessionEndpoints.openSpaceSessionImages(sessionMeta)).href,
@@ -63,7 +63,7 @@ export const useImpressionImageResolver = () => {
     const {os_id} = useParams<"os_id">();
     const {image_id} = useParams<"image_id">();
 
-    return Endpoints.openSpaceImage({osIdentifier: os_id!, imageIdentifier: image_id!},false)
+    return Endpoints.openSpaceImage({osIdentifier: os_id!, imageIdentifier: image_id!}, false)
 }
 
 export const useSessionImageResolver = () => {
@@ -79,5 +79,5 @@ export const useSessionImageResolver = () => {
         imageIdentifier: image_id!,
         isHeader: false,
         isAvailable: true
-    })
+    }, false)
 }
