@@ -48,8 +48,6 @@ export const OpenSpaceHarvesterHome = () => {
 
     const location = useLocation()
 
-    const onMobile = useOnMobile()
-
     useEffect(() => {
         if (statusMessages.length > 0) {
             console.log(`Setting current status message: ${statusMessages[0]}`)
