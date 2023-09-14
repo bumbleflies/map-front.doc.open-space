@@ -34,7 +34,7 @@ const SessionEndpoints = {
     openSpaceSessionImage: (image: OsSessionImage) => new URL(
         image.imageIdentifier,
         SessionEndpoints.openSpaceSessionImages(image)).href,
-    openSpaceSessionHeaderImage:(sessionMeta: OsSessionMeta) => new URL(
+    openSpaceSessionHeaderImage: (sessionMeta: OsSessionMeta) => new URL(
         '?only_header=True',
         SessionEndpoints.openSpaceSessionImages(sessionMeta)).href,
 }
@@ -44,9 +44,9 @@ const ImagesEndpoints = {
     headerImage: (osId: string) => new URL(
         '?only_header=True',
         ImagesEndpoints.openSpaceImages(osId)).href,
-    openSpaceImage: (image: TransientImageType) => new URL(
+    openSpaceImage: (image: TransientImageType, asThumb: boolean = true) => new URL(
         image.imageIdentifier,
-        ImagesEndpoints.openSpaceImages(image.osIdentifier)).href,
+        ImagesEndpoints.openSpaceImages(image.osIdentifier)).href + `?thumbnail=${asThumb}`,
     openSpaceImageDetails: (image: TransientImageType) => new URL(
         'details',
         ImagesEndpoints.openSpaceImage(image) + '/').href,
@@ -63,7 +63,7 @@ export const useImpressionImageResolver = () => {
     const {os_id} = useParams<"os_id">();
     const {image_id} = useParams<"image_id">();
 
-    return Endpoints.openSpaceImage({osIdentifier: os_id!, imageIdentifier: image_id!})
+    return Endpoints.openSpaceImage({osIdentifier: os_id!, imageIdentifier: image_id!},false)
 }
 
 export const useSessionImageResolver = () => {
@@ -77,7 +77,7 @@ export const useSessionImageResolver = () => {
         sessionIdentifier: session_id!,
         osIdentifier: os_id!,
         imageIdentifier: image_id!,
-        isHeader:false,
-        isAvailable:true
+        isHeader: false,
+        isAvailable: true
     })
 }
