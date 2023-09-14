@@ -46,10 +46,10 @@ const ImagesEndpoints = {
         ImagesEndpoints.openSpaceImages(osId)).href,
     openSpaceImage: (image: TransientImageType, variant: ImageVariant = "thumb") => new URL(
         image.imageIdentifier,
-        ImagesEndpoints.openSpaceImages(image.osIdentifier)).href + `?image_type=${variant}`,
+        ImagesEndpoints.openSpaceImages(image.osIdentifier)).href + (variant === "full" ? '' : `?image_type=${variant}`),
     openSpaceImageDetails: (image: TransientImageType) => new URL(
         'details',
-        ImagesEndpoints.openSpaceImage(image) + '/').href,
+        ImagesEndpoints.openSpaceImage(image, "full") + '/').href,
 
 }
 export const Endpoints = {
