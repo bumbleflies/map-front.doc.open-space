@@ -24,6 +24,7 @@ import {Endpoints} from "../../config/Endpoints";
 import {useImageUploadFetcher} from "../../helper/imageUploadFetcher";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {ImageHeaderItemBar} from "../image/imageHeaderItemBar";
+import ImageOptions from "../../config/Settings";
 
 export const OsSessionView = () => {
     const session = useLoaderData() as OsSessionWithImages
@@ -101,8 +102,9 @@ export const OsSessionView = () => {
                              alt={image.imageIdentifier}
                              loading="lazy"
                              data-testid={"os-image"}
+                             {...ImageOptions}
                         />
-                        <ImageHeaderItemBar submit={imageSubmit} image={image} />
+                        <ImageHeaderItemBar submit={imageSubmit} image={image}/>
                         <ImageListItemBar
                             subtitle={image.imageIdentifier}
                             actionIcon={
@@ -120,7 +122,7 @@ export const OsSessionView = () => {
                 ))}
                 {pendingImages.map((image) => (
                     <ImageListItem key={image}>
-                        <Skeleton variant="rectangular" width={170} height={150}/>
+                        <Skeleton variant="rectangular" {...ImageOptions}/>
                         <ImageListItemBar title={image}/>
                     </ImageListItem>
                 ))}

@@ -11,6 +11,7 @@ import {ImageApiServices} from "../../api/imageApi";
 import {useImageUploadFetcher} from "../../helper/imageUploadFetcher";
 import {useSelectionMenu} from "../image/menu";
 import {ImageHeaderItemBar} from "../image/imageHeaderItemBar";
+import ImageOptions from "../../config/Settings";
 
 export const OsImpressionsTab = () => {
     const images = useLoaderData() as ImageWithDetailsType[]
@@ -39,7 +40,7 @@ export const OsImpressionsTab = () => {
                 }}>
                     <ListItemButton data-testid={"os-impression-image-add-button"} onClick={() => setUploadOpen(true)}
                                     sx={{
-                                        minHeight: 150
+                                        minHeight: ImageOptions.height
                                     }}>
                         <AddPhotoAlternateIcon fontSize={"large"}/>
                     </ListItemButton>
@@ -54,9 +55,10 @@ export const OsImpressionsTab = () => {
                     <ImageListItem key={image.imageIdentifier}>
                         <img onClick={() => navigate(image.imageIdentifier)}
                              src={Endpoints.openSpaceImage(image)}
-                             alt={image.imageIdentifier}
+                             alt={`Open Space impression ${image.description}`}
                              loading="lazy"
                              data-testid={"os-image"}
+                             {...ImageOptions}
                         />
                         <ImageHeaderItemBar menu={menu} submit={imageSubmit} image={image}/>
 
@@ -78,7 +80,7 @@ export const OsImpressionsTab = () => {
                 ))}
                 {pendingImages.map((image) => (
                     <ImageListItem key={image}>
-                        <Skeleton variant="rectangular" width={170} height={150}/>
+                        <Skeleton variant="rectangular" {...ImageOptions}/>
                         <ImageListItemBar title={image}/>
                     </ImageListItem>
                 ))}

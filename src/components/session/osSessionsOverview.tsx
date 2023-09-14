@@ -9,6 +9,7 @@ import {Endpoints} from "../../config/Endpoints";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import {MarkerType} from "../../types/marker";
 import {useDataFromMatcher} from "../../helper/dataFromMatcher";
+import ImageOptions from "../../config/Settings";
 
 
 export const OsSessionsOverview = () => {
@@ -47,7 +48,7 @@ export const OsSessionsOverview = () => {
                     <ListItemButton data-testid={"os-session-add-button"}
                                     onClick={addSession}
                                     sx={{
-                                        minHeight: 150
+                                        minHeight: ImageOptions.height
                                     }}>
                         <NoteAddIcon fontSize={"large"}/>
                     </ListItemButton>
@@ -62,12 +63,14 @@ export const OsSessionsOverview = () => {
                                  src={Endpoints.openSpaceSessionImage(session.header)}
                                  loading="lazy"
                                  data-testid={"os-session"}
+                                 {...ImageOptions}
                             /> :
                             <img
                                 src={'/img/no-image-icon.png'}
                                 onClick={() => navigate(`${session.sessionIdentifier}/i`)}
                                 alt={'not available yet'}
                                 data-testid={"os-session"}
+                                {...ImageOptions}
                             />
                         }
 
