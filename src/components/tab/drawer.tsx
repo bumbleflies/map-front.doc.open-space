@@ -1,6 +1,6 @@
-import {Drawer, SwipeableDrawer, Toolbar, useMediaQuery} from "@mui/material"
+import {Drawer, SwipeableDrawer, Toolbar} from "@mui/material"
 import React, {useEffect, useState} from "react";
-import {useTheme} from '@mui/material/styles';
+import useOnMobile from "../../helper/onMobileHook";
 
 type DrawerProps = {
     children: React.ReactNode,
@@ -57,9 +57,11 @@ const MobileDrawer = ({children, onCloseHandler}: DrawerProps) => {
 }
 
 export const ResponsiveDrawer = ({children, onCloseHandler}: DrawerProps) => {
-    const theme = useTheme()
-    const onMobile = useMediaQuery(theme.breakpoints.down('sm'))
-    return onMobile ? <MobileDrawer onCloseHandler={onCloseHandler}>{children}</MobileDrawer>
+    const onMobile = useOnMobile()
+    return onMobile ?
+        <MobileDrawer onCloseHandler={onCloseHandler}>
+            {children}
+        </MobileDrawer>
         :
         <DesktopDrawer onCloseHandler={onCloseHandler}>
             <Toolbar/>

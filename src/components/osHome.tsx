@@ -8,6 +8,7 @@ import {
     Avatar,
     Box,
     Button,
+    Grid,
     IconButton,
     Link,
     Paper,
@@ -24,6 +25,7 @@ import {localDayjs} from "../helper/dayjsTimezone";
 import {StyledFab} from "./button/styledFab";
 import MapContext from "./context/mapContext";
 import {yellow} from '@mui/material/colors'
+import useOnMobile from "../helper/onMobileHook";
 
 type StatusMessage = {
     id: string
@@ -45,6 +47,8 @@ export const OpenSpaceHarvesterHome = () => {
     const fetcher = useFetcher()
 
     const location = useLocation()
+
+    const onMobile = useOnMobile()
 
     useEffect(() => {
         if (statusMessages.length > 0) {
@@ -113,7 +117,7 @@ export const OpenSpaceHarvesterHome = () => {
         <Paper sx={{height: '100vh'}}>
             <AppBar id={"appbar"} position={"fixed"} sx={{zIndex: (theme) => theme.zIndex.drawer + 1}}>
                 <Toolbar>
-                    <Avatar onClick={()=>navigate('/')} data-testid={"navigate-home"}>
+                    <Avatar onClick={() => navigate('/')} data-testid={"navigate-home"}>
                         <Image src={"/img/bumblefly-blue.png"}></Image>
                     </Avatar>
 
@@ -155,9 +159,16 @@ export const OpenSpaceHarvesterHome = () => {
 
             <AppBar position="sticky" color="primary" sx={{top: 'auto', bottom: 10}}>
                 <Toolbar>
-                    <Typography>made with ❤️ by 🐝🦋 - &nbsp;
-                    </Typography>
-                    <Link href={'https://bumbleflies.de'} target={"_blank"} color={yellow[700]}>bumbleflies</Link>
+                    <Grid container>
+                        <Grid item xs={12}>
+                            <Typography>made with ❤️ by 🐝🦋
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={3}>
+                            <Link href={'https://bumbleflies.de'} target={"_blank"}
+                                  color={yellow[700]}>bumbleflies</Link>
+                        </Grid>
+                    </Grid>
                     <Box sx={{flexGrow: 1}}/>
                     {shouldDrawFab() ?
                         <StyledFab data-testid={"os-home-fab-add"} color="secondary" aria-label="add"
