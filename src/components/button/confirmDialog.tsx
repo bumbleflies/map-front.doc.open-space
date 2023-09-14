@@ -1,16 +1,4 @@
-import {
-    Avatar,
-    Button,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogContentText,
-    DialogTitle,
-    Grid,
-    IconButton,
-    Typography
-} from "@mui/material";
-import {useState} from "react";
+import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from "@mui/material";
 import useEventListener from "@use-it/event-listener";
 
 type ConfirmDialogProps={
