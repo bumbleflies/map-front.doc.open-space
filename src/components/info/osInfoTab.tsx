@@ -69,7 +69,7 @@ export const OsInfoTab = () => {
                         <Grid item xs={4}/>
                         <MenuActionButton onClickHandler={() => navigate(`edit`)}
                                           icon={<EditIcon/>} name={"Edit"}/>
-                        <MenuActionButton withConfirm onClickHandler={deleteMarker} icon={<DeleteIcon/>}
+                        <MenuActionButton onClickHandler={deleteMarker} icon={<DeleteIcon/>}
                                           name={"Delete"}/>
                         <Grid item xs={4}/>
                     </Grid>
