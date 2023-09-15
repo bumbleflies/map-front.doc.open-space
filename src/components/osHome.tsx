@@ -25,7 +25,7 @@ import {localDayjs} from "../helper/dayjsTimezone";
 import {StyledFab} from "./button/styledFab";
 import MapContext from "./context/mapContext";
 import {yellow} from '@mui/material/colors'
-import useOnMobile from "../helper/onMobileHook";
+import {useBrowserLocation} from "./location";
 
 type StatusMessage = {
     id: string
@@ -98,13 +98,11 @@ export const OpenSpaceHarvesterHome = () => {
         })
     }
 
-    const centerCurrentLocation = () => {
-        navigator.geolocation.getCurrentPosition(locationSuccess)
-    }
-
-    const locationSuccess = (position: GeolocationPosition) => {
+    const flyTo = (position: GeolocationPosition) => {
         map?.flyTo({lat: position.coords.latitude, lng: position.coords.longitude})
     }
+
+    const centerCurrentLocation = useBrowserLocation({locationSuccess: flyTo})
 
     function shouldDrawFab() {
         // dirty hack to hide FAB when image is displayed
