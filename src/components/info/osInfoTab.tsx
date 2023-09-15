@@ -35,23 +35,25 @@ export const OsInfoTab = () => {
                 <Grid container spacing={0} alignItems={"center"}>
                     {/* Image */}
                     <Grid item xs={12} textAlign={"center"}>
-                        <ButtonBase data-testid={"os-images-button"} onClick={() => navigate(`../i`)}>
-                            {infoMarker.isAvailable ?
+                        {infoMarker.isAvailable ?
+                            <ButtonBase data-testid={"os-images-button"}
+                                        onClick={() => navigate(`../i/${(infoMarker as ImageType).imageIdentifier}`)}>
                                 <CardMedia
                                     component="img"
                                     height="300"
-                                    image={Endpoints.openSpaceImage((infoMarker as ImageType),"header")}
+                                    image={Endpoints.openSpaceImage((infoMarker as ImageType), "header")}
                                     alt={`Image ${(infoMarker as ImageType).imageIdentifier} in Open Space ${infoMarker.identifier}`}
                                 />
-                                :
+                            </ButtonBase>
+                            :
+                            <ButtonBase data-testid={"os-images-button"} onClick={() => navigate(`../i`)}>
                                 <CardMedia
                                     component="img"
                                     image={'/img/no-image-icon.png'}
                                     alt={'no image available yet'}
                                 />
-
-                            }
-                        </ButtonBase>
+                            </ButtonBase>
+                        }
                     </Grid>
                     {/* Title */}
                     <Grid item xs={12}>
