@@ -29,8 +29,7 @@ describe('Performs a simple run', () => {
         cy.getByDataTestId('grid-identifier-text').then((grid) => {
             osId = grid.text()
             cy.getByDataTestId("os-title").should("contain.text", "Open Space @")
-            cy.getByDataTestId("os-delete-button").click()
-            cy.get('div.leaflet-tooltip').contains(osId).should('not.exist')
+            cy.clickDeleteOs()
         })
     })
 

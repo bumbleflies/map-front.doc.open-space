@@ -27,11 +27,11 @@ export const clickStatusMessage = () => {
 
 export const clickDeleteOs = () => {
     cy.url().then((url: string) => {
-
         const parts = url.endsWith('/') ? url.slice(0, -1).split('/') : url.split('/')
         expect(parts.length).to.be.eq(6)
         const osId = parts.pop()
         cy.getByDataTestId("os-delete-button").click()
+        cy.getByDataTestId('confirm-dialog-confirm-dialog').click()
         cy.get('div.leaflet-tooltip').contains(osId!).should('not.exist')
     })
 }

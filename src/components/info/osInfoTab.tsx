@@ -1,10 +1,9 @@
 import React, {useState} from "react";
 import {MarkerWithImage} from "../../types/marker";
-import {Box, ButtonBase, CardMedia, Divider, Grid, Typography} from "@mui/material";
+import {Box, ButtonBase, CardMedia, Divider, Grid, IconButton, Typography} from "@mui/material";
 import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import NightlightIcon from "@mui/icons-material/Nightlight";
 import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import TagIcon from '@mui/icons-material/Tag';
 import {IconTextGrid} from "./iconTextGrid";
@@ -13,6 +12,8 @@ import {MenuActionButton} from "../button/menuActionButton";
 import {Outlet, useNavigate, useSubmit} from "react-router-dom";
 import {ImageType} from "../../types/image";
 import {useDataFromMatcher} from "../../helper/dataFromMatcher";
+import DeleteIcon from "@mui/icons-material/Delete";
+import ConfirmDialog, {useConfirmDialog} from "../confirmDialog";
 
 
 export const OsInfoTab = () => {
@@ -28,6 +29,8 @@ export const OsInfoTab = () => {
             action: `/os/${infoMarker!.identifier}`
         })
     }
+
+    const [isConfirmOpen, openConfirm, closeConfirm] = useConfirmDialog()
 
     return (
         <>
@@ -71,8 +74,6 @@ export const OsInfoTab = () => {
                         <Grid item xs={4}/>
                         <MenuActionButton onClickHandler={() => navigate(`edit`)}
                                           icon={<EditIcon/>} name={"Edit"}/>
-                        <MenuActionButton onClickHandler={deleteMarker} icon={<DeleteIcon/>}
-                                          name={"Delete"}/>
                         <Grid item xs={4}/>
                     </Grid>
                     <Grid item xs={12} container>
@@ -88,6 +89,22 @@ export const OsInfoTab = () => {
                     <IconTextGrid name={'position'} icon={<LocationOnIcon/>}
                                   text={`${infoMarker.position.lat}, ${infoMarker.position.lng}`}/>
                     <IconTextGrid name={'identifier'} icon={<TagIcon/>} text={infoMarker.identifier}/>
+                    <Grid item xs={12} container>
+                        <Box sx={{py: 2, flexGrow: 1}}>
+                            <Divider/>
+                        </Box>
+                    </Grid>
+                    <IconButton onClick={openConfirm} id={"os-delete"} data-testid={"os-delete-button"}>
+                        <DeleteIcon/>
+                    </IconButton>
+                    <ConfirmDialog title={"Heads up!"}
+                                   description={`Are your sure you want to delete ${infoMarker.title}`}
+                                   dialog={{
+                                       open: isConfirmOpen,
+                                       onClose: closeConfirm,
+                                       onConfirm: deleteMarker,
+                                       buttons: {cancel: 'abort', confirm: 'confirm'}
+                                   }}/>
                 </Grid>
                 : null}
             <Outlet/>
