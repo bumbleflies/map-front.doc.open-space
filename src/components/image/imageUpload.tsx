@@ -1,7 +1,7 @@
 import {Container, FilePreview, img, thumb, thumbInner, thumbsContainer} from "./filePreview";
 import {useDropzone} from "react-dropzone";
 import React, {useEffect, useMemo} from "react";
-import {Box} from "@mui/material";
+import {Box, Button} from "@mui/material";
 
 type ImageUploadProps = {
     files: FilePreview[],
@@ -41,6 +41,7 @@ export const ImageUpload = ({files, onSelectHandler}: ImageUploadProps) => {
         isFocused,
         isDragAccept,
         isDragReject,
+        open,
     } = useDropzone({
             accept: {'image/*': []},
         onDrop: onSelectHandler,
@@ -79,9 +80,14 @@ export const ImageUpload = ({files, onSelectHandler}: ImageUploadProps) => {
     ));
     return (
         <Box>
-            <Container {...getRootProps({style})}>
-                <input data-testid={"os-image-upload"} {...getInputProps()} />
-                <p>Drag 'n' drop some files here, or click to select files</p>
+            <Container>
+                <Container {...getRootProps({style})}>
+                    <input data-testid={"os-image-upload"} {...getInputProps()} />
+                    <p>Click to select or drag 'n' drop some files here</p>
+                </Container>
+                <Button onClick={open}>
+                    Open File Dialog
+                </Button>
             </Container>
             <aside style={thumbsContainer}>
                 {thumbs}
