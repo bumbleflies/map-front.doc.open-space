@@ -1,6 +1,5 @@
 import React from 'react';
 import './Router.css';
-import {OpenSpaceHarvesterHome} from "./components/osHome";
 import {createBrowserRouter, RouterProvider} from 'react-router-dom';
 
 import {OsApiServices} from "./api/osApi";
@@ -35,9 +34,10 @@ import {OsSessionsTab} from "./components/session/osSessionsTab";
 import AuthProvider from "./components/auth/provider";
 import {Redirect} from "./components/route/redirect";
 import {useAuth0} from "@auth0/auth0-react";
+import {OsMapView} from "./components/map/osMapView";
 
 const UserProfile = () => {
-    const {user}=useAuth0()
+    const {user} = useAuth0()
     return (
         <>
         </>
@@ -55,7 +55,7 @@ const router = createBrowserRouter([
     },
     {
         path: '/',
-        element: <OpenSpaceHarvesterHome/>,
+        element: <OsMapView />,
         loader: OsApiServices.loadAll,
         children: [
             {

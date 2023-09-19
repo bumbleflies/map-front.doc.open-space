@@ -1,10 +1,10 @@
 import {Map} from "leaflet";
-import {markerToOs, MarkerType, update} from "../types/marker";
+import {markerToOs, MarkerType, update} from "../../types/marker";
 import React, {useContext} from "react";
 import {MapContainer, Marker, Tooltip} from "react-leaflet";
 import ReactLeafletGoogleLayer from "react-leaflet-google-layer";
 import {useLoaderData, useNavigate, useSubmit} from "react-router-dom";
-import MapContext, {MapContextType} from "./context/mapContext";
+import {MapContext, MapContextType} from "../context/mapContext";
 
 
 const munich = {
@@ -13,8 +13,8 @@ const munich = {
 };
 
 export const OpenSpaceMap = () => {
-    const loadedMarker = useLoaderData() as MarkerType[]
     const {setMap} = useContext<MapContextType>(MapContext)
+    const loadedMarker = useLoaderData() as MarkerType[]
     const navigate = useNavigate();
     const editSubmit = useSubmit();
 

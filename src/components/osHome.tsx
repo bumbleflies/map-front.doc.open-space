@@ -1,109 +1,20 @@
-import React, {useEffect, useState} from "react";
-import {Map} from "leaflet";
-import {MarkerType, transientMarkerToOs} from "../types/marker";
-import {
-    Alert,
-    AlertColor,
-    AppBar,
-    Avatar,
-    Box,
-    Button,
-    Grid,
-    IconButton,
-    Link,
-    Paper,
-    Snackbar,
-    Toolbar,
-    Typography
-} from "@mui/material";
+import React from "react";
+import {AppBar, Avatar, Box, Grid, IconButton, Link, Paper, Toolbar, Typography} from "@mui/material";
 import {Image} from "mui-image";
-import {OpenSpaceMap} from "./osMap";
-import AddIcon from "@mui/icons-material/Add";
-import MyLocationIcon from "@mui/icons-material/MyLocation";
-import {Outlet, useFetcher, useLocation, useNavigate} from "react-router-dom";
-import {localDayjs} from "../helper/dayjsTimezone";
+import {Outlet, useLocation, useNavigate} from "react-router-dom";
 import {StyledFab} from "./button/styledFab";
-import MapContext from "./context/mapContext";
 import {yellow} from '@mui/material/colors'
-import {useBrowserLocation} from "../helper/location";
 import UserProfileActions from "./auth/userProfileActions";
 
-type StatusMessage = {
-    id: string
-    message: string
-    type: AlertColor
-    withLink?: {
-        to: string
-        text: string
-    }
+type OpenSpaceHarvesterHomeProps = {
+    actionFab: React.ReactElement<typeof StyledFab>,
+    rightIconButton: React.ReactElement<typeof IconButton>,
+    mainPage: React.ReactNode
 }
 
-export const OpenSpaceHarvesterHome = () => {
-
-    const [map, setMap] = useState<Map | null>(null)
-    const [statusMessages, setStatusMessages] = useState<StatusMessage[]>([])
-    const [currentStatusMessage, setCurrentStatusMessage] = useState<StatusMessage | null>(null)
-
+export const OpenSpaceHarvesterHome = ({actionFab, rightIconButton, mainPage}: OpenSpaceHarvesterHomeProps) => {
     const navigate = useNavigate();
-    const fetcher = useFetcher()
-
     const location = useLocation()
-
-    useEffect(() => {
-        if (statusMessages.length > 0) {
-            console.log(`Setting current status message: ${statusMessages[0]}`)
-            setCurrentStatusMessage(statusMessages[0])
-        } else {
-            setCurrentStatusMessage(null)
-        }
-    }, [statusMessages, setCurrentStatusMessage])
-
-    useEffect(() => {
-        if (Boolean(fetcher.data)) {
-            const savedMarker = fetcher.data as MarkerType
-            addStatusMessage({
-                id: savedMarker.identifier,
-                message: `New Open Space [${savedMarker.identifier}] added`,
-                type: 'success',
-                withLink: {
-                    to: `/os/${savedMarker.identifier}/d`,
-                    text: 'Open'
-                }
-            })
-        }
-    }, [fetcher.data]);
-
-    const addMarker = () => {
-        let currentCenter = map!.getCenter()!;
-        fetcher.submit(transientMarkerToOs({
-            position: currentCenter,
-            title: `Open Space @ ${currentCenter.lat}, ${currentCenter.lng}`,
-            startDate: localDayjs().startOf('hour'),
-            endDate: localDayjs().startOf('hour').add(2, 'hours')
-        }), {
-            method: 'post',
-            encType: "application/json",
-            action: 'os/'
-        })
-    }
-
-    const addStatusMessage = (message: StatusMessage) => {
-        console.log('adding status message', message)
-        setStatusMessages(prevState => [...prevState, message])
-    }
-
-    const popMessage = (messageId?: string) => {
-        setStatusMessages(prevState => {
-            console.log(`popping ${messageId} from messages`)
-            return prevState.filter(m => m.id !== messageId)
-        })
-    }
-
-    const flyTo = (position: GeolocationPosition) => {
-        map?.flyTo({lat: position.coords.latitude, lng: position.coords.longitude})
-    }
-
-    const centerCurrentLocation = useBrowserLocation({locationSuccess: flyTo})
 
     function shouldDrawFab() {
         // dirty hack to hide FAB when image is displayed
@@ -125,33 +36,11 @@ export const OpenSpaceHarvesterHome = () => {
                     </Typography>
 
                     <Box sx={{flexGrow: 1}}/>
-                    <UserProfileActions />
+                    <UserProfileActions/>
                 </Toolbar>
             </AppBar>
 
-            <MapContext.Provider value={{map: map, setMap: setMap}}>
-                <OpenSpaceMap/>
-            </MapContext.Provider>
-
-            <Snackbar
-                open={Boolean(currentStatusMessage)}
-                autoHideDuration={6000}
-                onClose={() => popMessage(currentStatusMessage?.id)}
-                sx={{bottom: {xs: 90, sm: '10vh'}}}
-                anchorOrigin={{vertical: "bottom", horizontal: "right"}}>
-                <Alert onClose={() => popMessage(currentStatusMessage!.id)} severity={currentStatusMessage?.type}
-                       sx={{width: '100%'}}>
-                    {currentStatusMessage?.message}
-                    {currentStatusMessage?.withLink !== undefined ?
-                        <Button data-testid="status-message-button" color="inherit" size="small"
-                                onClick={() => {
-                                    popMessage(currentStatusMessage?.id)
-                                    navigate(currentStatusMessage.withLink!.to)
-                                }}>
-                            {currentStatusMessage.withLink.text}
-                        </Button> : null}
-                </Alert>
-            </Snackbar>
+            {mainPage}
 
             <Outlet/>
 
@@ -169,15 +58,9 @@ export const OpenSpaceHarvesterHome = () => {
                     </Grid>
                     <Box sx={{flexGrow: 1}}/>
                     {shouldDrawFab() ?
-                        <StyledFab data-testid={"os-home-fab-add"} color="secondary" aria-label="add"
-                                   onClick={addMarker}>
-                            <AddIcon/>
-                        </StyledFab> : null}
+                        actionFab : null}
                     <Box sx={{flexGrow: 1}}/>
-                    <IconButton onClick={centerCurrentLocation} color="inherit"
-                                aria-label={"current location"}>
-                        <MyLocationIcon/>
-                    </IconButton>
+                    {rightIconButton}
                 </Toolbar>
             </AppBar>
         </Paper>
