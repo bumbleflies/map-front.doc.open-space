@@ -25,7 +25,8 @@ import {localDayjs} from "../helper/dayjsTimezone";
 import {StyledFab} from "./button/styledFab";
 import MapContext from "./context/mapContext";
 import {yellow} from '@mui/material/colors'
-import {useBrowserLocation} from "./location";
+import {useBrowserLocation} from "../helper/location";
+import UserProfileActions from "./auth/userProfileActions";
 
 type StatusMessage = {
     id: string
@@ -124,6 +125,7 @@ export const OpenSpaceHarvesterHome = () => {
                     </Typography>
 
                     <Box sx={{flexGrow: 1}}/>
+                    <UserProfileActions />
                 </Toolbar>
             </AppBar>
 

@@ -5,7 +5,7 @@ export const useSelectionMenu = () => {
     const [selected, setSelected] = useState<null | string>(null)
 
 
-    function openMenu(event: React.MouseEvent<HTMLButtonElement>, selectionIdentifier: string) {
+    function openMenu(event: React.MouseEvent<HTMLElement>, selectionIdentifier: string) {
         setMenuAnchorEl(event.currentTarget);
         setSelected(selectionIdentifier)
     }
@@ -20,7 +20,7 @@ export const useSelectionMenu = () => {
         menu: {
             open: openMenu,
             close: closeMenu,
-            anchor:menuAnchorEl
+            anchor: menuAnchorEl
         }
     }
 }

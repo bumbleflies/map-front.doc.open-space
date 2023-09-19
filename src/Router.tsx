@@ -32,8 +32,27 @@ import {OsImpressionsTab} from "./components/impression/osImpressionsTab";
 import {OsSessionsOverview} from "./components/session/osSessionsOverview";
 import {OsSessionView} from "./components/session/osSessionView";
 import {OsSessionsTab} from "./components/session/osSessionsTab";
+import AuthProvider from "./components/auth/provider";
+import {Redirect} from "./components/route/redirect";
+import {useAuth0} from "@auth0/auth0-react";
+
+const UserProfile = () => {
+    const {user}=useAuth0()
+    return (
+        <>
+        </>
+    )
+}
 
 const router = createBrowserRouter([
+    {
+        path: "/redirect",
+        element: <Redirect/>
+    },
+    {
+        path: "/u/me",
+        element: <UserProfile/>
+    },
     {
         path: '/',
         element: <OpenSpaceHarvesterHome/>,
@@ -46,7 +65,7 @@ const router = createBrowserRouter([
                 children: [
                     {
                         path: ':os_id',
-                        id:'os',
+                        id: 'os',
                         action: handleDeleteAction,
                         loader: OsApiServices.load,
                         children: [
@@ -145,9 +164,11 @@ const router = createBrowserRouter([
     }
 ])
 
-const Router = () => {
+const AuthRouter = () => {
     return (
-        <RouterProvider router={router}/>
+        <AuthProvider>
+            <RouterProvider router={router}/>
+        </AuthProvider>
     )
 }
-export default React.memo(Router)
+export default React.memo(AuthRouter)
