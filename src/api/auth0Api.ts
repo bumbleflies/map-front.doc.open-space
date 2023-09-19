@@ -11,7 +11,7 @@ export class Auth0ApiService {
 
     async getUserMetadataName(user: User, accessToken: string) {
         return axios.get(this.getUserDetailsEndpoint(user), this.getHeader(accessToken)).then((response) => {
-            return response.data.user_metadata.name;
+            return response.data.user_metadata?.name;
         })
     }
 

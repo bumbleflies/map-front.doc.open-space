@@ -23,6 +23,7 @@ import {
 } from "./osCommands";
 import {assertNoImages, clickImagesBack, clickImagesView, uploadImage} from "./imageCommands";
 import {addSession} from "./sessionCommands";
+import {loginToAuth0} from "./auth0Commands";
 
 Cypress.Commands.addAll({
     registerInterceptRoutes,
@@ -37,7 +38,8 @@ Cypress.Commands.addAll({
     uploadImage,
     onTestOs,
     openOsEdit,
-    addSession
+    addSession,
+    loginToAuth0
 })
 
 declare global {
@@ -68,6 +70,8 @@ declare global {
             openOsEdit(osId: string): Chainable<void>
 
             addSession(): Chainable<void>
+
+            loginToAuth0(username: string, password: string): Chainable<void>
 
 //       drag(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
 //       dismiss(subject: string, options?: Partial<TypeOptions>): Chainable<Element>

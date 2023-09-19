@@ -42,13 +42,13 @@ export const UserMenu = () => {
 
     return (
         <>
-            <Avatar alt={userMetadataName} src={user?.profile}
+            <Avatar data-testid='user-profile-avatar' alt={userMetadataName} src={user?.profile}
                     onClick={(event: React.MouseEvent<HTMLDivElement>) => {
                         menu.open(event, user?.sub!)
                     }}>
             </Avatar>
             <Popover
-                id="session-action-menu"
+                data-testid="user-profile-action-menu"
                 anchorEl={menu.anchor}
                 open={Boolean(menu.anchor)}
                 onClose={menu.close}
@@ -84,21 +84,22 @@ export const UserMenu = () => {
                 anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
             >
                 <Card>
-                    <CardHeader avatar={<Avatar alt={userMetadataName} src={user?.profile}> </Avatar>}
+                    <CardHeader data-testid={'user-profile-card-header'}
+                                avatar={<Avatar alt={userMetadataName} src={user?.profile}> </Avatar>}
                                 title={userMetadataName}
                                 subheader={user?.email}
                     />
                     <CardActions>
                         <List sx={{width: '100%'}}>
                             <Divider></Divider>
-                            <ListItemButton onClick={gotoProfile}>
+                            <ListItemButton data-testid={'user-profile-edit-button'} onClick={gotoProfile}>
                                 <ListItemIcon>
                                     <PersonIcon fontSize="small"/>
                                 </ListItemIcon>
                                 <ListItemText secondary={'Profile'}/>
                             </ListItemButton>
                             <Divider></Divider>
-                            <ListItemButton onClick={doLogout}>
+                            <ListItemButton data-testid={'user-profile-logout-button'} onClick={doLogout}>
                                 <ListItemIcon>
                                     <Logout fontSize="small"/>
                                 </ListItemIcon>
