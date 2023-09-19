@@ -46,10 +46,6 @@ jobs:
       # frontend
       - name: Checkout repository
         uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 18
-          cache: 'yarn'
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
         run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
@@ -79,6 +75,8 @@ jobs:
           cd backend
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+      - name: Install cypress
+        run: npm i cypress
       - name: Cypress run
         uses: cypress-io/github-action@v5
         with:
