@@ -12,7 +12,6 @@ export const LocatorButton = () => {
 
     const centerCurrentLocation = useBrowserLocation({locationSuccess: flyTo})
 
-    console.log(JSON.stringify(centerCurrentLocation))
     return (
         <IconButton onClick={centerCurrentLocation} color="inherit"
                     aria-label={"current location"}>

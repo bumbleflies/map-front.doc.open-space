@@ -44,7 +44,7 @@ export const OpenSpaceHarvesterHome = ({actionFab, rightIconButton, mainPage}: O
 
             <Outlet/>
 
-            <AppBar position="sticky" color="primary" sx={{top: 'auto', bottom: 10}}>
+            <AppBar position="sticky" color="primary" >
                 <Toolbar>
                     <Grid container>
                         <Grid item xs={12}>

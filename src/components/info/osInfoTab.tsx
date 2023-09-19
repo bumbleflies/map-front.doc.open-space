@@ -14,6 +14,7 @@ import {ImageType} from "../../types/image";
 import {useDataFromMatcher} from "../../helper/dataFromMatcher";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ConfirmDialog, {useConfirmDialog} from "../confirmDialog";
+import {useSnackbar} from "material-ui-snackbar-provider";
 
 
 export const OsInfoTab = () => {
@@ -21,6 +22,7 @@ export const OsInfoTab = () => {
     const deleteSubmit = useSubmit();
     const [infoMarker, setInfoMarker] = useState<MarkerWithImage | null>(null)
 
+    const {showMessage}=useSnackbar()
     useDataFromMatcher<MarkerWithImage | null>({id: 'os', stateSetter: setInfoMarker})
 
     const deleteMarker = () => {
@@ -28,6 +30,7 @@ export const OsInfoTab = () => {
             method: 'delete',
             action: `/os/${infoMarker!.identifier}`
         })
+        showMessage(`Open Space [${infoMarker!.identifier}] deleted`)
     }
 
     const [isConfirmOpen, openConfirm, closeConfirm] = useConfirmDialog()

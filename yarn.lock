@@ -8286,6 +8286,13 @@ makeerror@1.0.12:
   dependencies:
     tmpl "1.0.5"
 
+material-ui-snackbar-provider@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/material-ui-snackbar-provider/-/material-ui-snackbar-provider-2.0.0.tgz#81080a0376ea4121f424c6482fdd6ad1be1af06f"
+  integrity sha512-oTbtSbgiRfqAvG0TLFLaHjamG1kmbobg2xJUtwJib6EivJ2RPG9/O1gVOksp+dX2jfX5lLffrBG6+cyoU+ep4A==
+  dependencies:
+    prop-types "^15.7.2"
+
 mdn-data@2.0.14:
   version "2.0.14"
   resolved "https://registry.npmjs.org/mdn-data/-/mdn-data-2.0.14.tgz"
@@ -9505,7 +9512,7 @@ prompts@^2.0.1, prompts@^2.4.2:
     kleur "^3.0.3"
     sisteransi "^1.0.5"
 
-prop-types@^15.6.2, prop-types@^15.8.1:
+prop-types@^15.6.2, prop-types@^15.7.2, prop-types@^15.8.1:
   version "15.8.1"
   resolved "https://registry.npmjs.org/prop-types/-/prop-types-15.8.1.tgz"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==

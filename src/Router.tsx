@@ -40,6 +40,7 @@ const UserProfile = () => {
     const {user} = useAuth0()
     return (
         <>
+            {user?.name}
         </>
     )
 }
