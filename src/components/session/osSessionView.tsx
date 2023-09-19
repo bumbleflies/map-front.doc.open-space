@@ -97,7 +97,7 @@ export const OsSessionView = () => {
                 </ImageListItem>
                 {session.images.map((image) => (
                     <ImageListItem key={image.imageIdentifier} data-testid={"os-session-image"}>
-                        <img onClick={() => navigate(image.imageIdentifier)}
+                        <img onClick={() => navigate(image.imageIdentifier + '/_')}
                              src={Endpoints.openSpaceSessionImage(image)}
                              alt={image.imageIdentifier}
                              loading="lazy"

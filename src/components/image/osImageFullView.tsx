@@ -50,7 +50,7 @@ export const OsImageFullView = ({resolve}: OsImageFullViewProps) => {
                         <IconButton data-testid={"os-image-fullscreen-close-button"}
                                     aria-label={"close fullscreen image"}
                                     onClick={() => {
-                                        navigate('..')
+                                        navigate('../..')
                                     }} color="inherit">
                             <CloseIcon/>
                         </IconButton>
@@ -70,7 +70,7 @@ export const OsImageFullView = ({resolve}: OsImageFullViewProps) => {
                         <IconButton data-testid={"os-image-fullscreen-close-button"}
                                     aria-label={"close fullscreen image"}
                                     onClick={() => {
-                                        navigate('..')
+                                        navigate('../..')
                                     }} color="inherit"
                                     sx={{
                                         position: 'absolute',

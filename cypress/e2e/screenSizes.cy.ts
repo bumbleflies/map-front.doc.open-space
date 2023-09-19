@@ -1,54 +1,16 @@
 import ViewportPreset = Cypress.ViewportPreset;
 
 import screenSizes from '../fixtures/screens.json'
+import {crudWorkflowSuite} from "./crudWorkflow";
+import {Suite} from "mocha";
 
-describe('clicks through on different viewports', () => {
-    beforeEach(() => {
-        cy.registerInterceptRoutes()
-        cy.visit('http://localhost:3000/')
-        cy.wait('@googlemaps')
-    })
+screenSizes.map(screenSize => {
 
-    screenSizes.forEach(screenSize => {
-        it(`runs on ${screenSize}`, () => {
+    return describe(`runs on ${screenSize}`, () => {
+        beforeEach(()=>{
             cy.viewport(screenSize as ViewportPreset)
-            cy.clickAddOs()
-            cy.clickStatusMessage()
-            cy.getByDataTestId("os-title").should("contain.text", "Open Space @")
-            cy.getByDataTestId('grid-identifier-text').then((osIdElement) => {
-                cy.openEditAssertTitle(osIdElement.text(), 'Open Space')
-            })
-            cy.assertNoImages()
-
-            cy.clickImagesView()
-            cy.uploadImage('impression', 'cypress/fixtures/test-image.png')
-
-            cy.getByDataTestId('os-image').click()
-            cy.getByDataTestId('os-image-fullscreen').should('exist')
-            cy.getByDataTestId('os-image-fullscreen-close-button').click()
-            cy.clickImagesBack()
-
-            cy.getByDataTestId("os-images-button").click()
-            cy.getByDataTestId('os-image-menu').click()
-            cy.getByDataTestId('os-image-delete-menu').click()
-            cy.get('div.MuiImageListItemBar-title').contains('no images yet').should('exist')
-
-            // session
-            cy.addSession()
-            // goto session
-            cy.getByDataTestId('os-session').click()
-            cy.getByDataTestId('os-session-image').should('not.exist')
-            // upload image
-            cy.uploadImage('session', 'cypress/fixtures/test-image.png')
-            cy.getByDataTestId('os-session-image').should('exist')
-            // view in fullscreen
-            cy.getByDataTestId('os-image').click()
-            cy.getByDataTestId('os-image-fullscreen').should('exist')
-            cy.getByDataTestId('os-image-fullscreen-close-button').click()
-
-            cy.clickImagesBack()
-            cy.clickDeleteOs()
         })
+        crudWorkflowSuite()
     })
 
 })

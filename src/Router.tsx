@@ -83,8 +83,11 @@ const router = createBrowserRouter([
                                     {
                                         path: ':image_id',
                                         action: handleImageDeleteAction,
-                                        element: <OsImageFullView resolve={useImpressionImageResolver}/>,
                                         children: [
+                                            {
+                                                path: '_',
+                                                element: <OsImageFullView resolve={useImpressionImageResolver}/>,
+                                            },
                                             {
                                                 path: 'make_header',
                                                 action: handleImageHeaderAction
@@ -131,8 +134,12 @@ const router = createBrowserRouter([
                                                     {
                                                         path: ':image_id',
                                                         action: handleSessionImageDeleteAction,
-                                                        element: <OsImageFullView resolve={useSessionImageResolver}/>,
                                                         children: [
+                                                            {
+                                                                path: '_',
+                                                                element: <OsImageFullView
+                                                                    resolve={useSessionImageResolver}/>,
+                                                            },
                                                             {
                                                                 path: 'make_header',
                                                                 action: handleSessionImageHeaderAction

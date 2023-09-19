@@ -53,7 +53,7 @@ export const OsImpressionsTab = () => {
                 </ImageListItem>
                 {images.map((image) => (
                     <ImageListItem key={image.imageIdentifier}>
-                        <img onClick={() => navigate(image.imageIdentifier)}
+                        <img onClick={() => navigate(image.imageIdentifier + '/_')}
                              src={Endpoints.openSpaceImage(image)}
                              alt={`Open Space impression ${image.description}`}
                              loading="lazy"
