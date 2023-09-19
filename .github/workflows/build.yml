@@ -75,6 +75,8 @@ jobs:
           cd backend
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+      - name: Install cypress
+        run: npx cypress install
       - name: Cypress run
         uses: cypress-io/github-action@v5
         with:
