@@ -22,7 +22,7 @@ export const OsInfoTab = () => {
     const deleteSubmit = useSubmit();
     const [infoMarker, setInfoMarker] = useState<MarkerWithImage | null>(null)
 
-    const {showMessage}=useSnackbar()
+    const {showMessage} = useSnackbar()
     useDataFromMatcher<MarkerWithImage | null>({id: 'os', stateSetter: setInfoMarker})
 
     const deleteMarker = () => {

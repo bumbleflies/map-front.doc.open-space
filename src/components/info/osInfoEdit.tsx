@@ -83,7 +83,7 @@ export const OpenSpaceInfoEditDialog = () => {
     }
 
     return (
-        <Dialog open={Boolean(title)}>
+        <Dialog open={true}>
             <DialogTitle>Edit Open Space Info</DialogTitle>
             <DialogContent>
                 <Grid container spacing={2}>
@@ -101,7 +101,7 @@ export const OpenSpaceInfoEditDialog = () => {
                             id="name"
                             label="Open Space Name"
                             variant="standard"
-                            defaultValue={title}
+                            value={title}
                             onChange={v => setTitle(v.target.value)}
                         />
                     </Grid>

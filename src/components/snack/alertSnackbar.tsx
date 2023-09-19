@@ -22,3 +22,4 @@ export const AlertSnackbar = ({message, SnackbarProps, ButtonProps, action}: Ale
         </Snackbar>
     )
 }
+export default AlertSnackbar

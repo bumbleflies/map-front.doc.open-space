@@ -16,12 +16,16 @@ import {
 import React from "react";
 import PersonIcon from "@mui/icons-material/Person";
 import {Logout} from "@mui/icons-material";
+import {useUserMetadata} from "./userProfileView";
 
 export const UserMenu = () => {
-    const {user, logout} = useAuth0()
+    const { logout} = useAuth0()
     const {menu} = useSelectionMenu()
     const location = useLocation()
     const navigate = useNavigate()
+
+    const {userMetadataName, user} = useUserMetadata()
+
     const doLogout = () => {
         menu.close()
         return logout({
@@ -37,7 +41,7 @@ export const UserMenu = () => {
 
     return (
         <>
-            <Avatar alt={user?.name} src={user?.profile}
+            <Avatar alt={userMetadataName} src={user?.profile}
                     onClick={(event: React.MouseEvent<HTMLDivElement>) => {
                         menu.open(event, user?.sub!)
                     }}>
@@ -79,8 +83,8 @@ export const UserMenu = () => {
                 anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
             >
                 <Card>
-                    <CardHeader avatar={<Avatar alt={user?.name} src={user?.profile}> </Avatar>}
-                                title={user?.name}
+                    <CardHeader avatar={<Avatar alt={userMetadataName} src={user?.profile}> </Avatar>}
+                                title={userMetadataName}
                                 subheader={user?.email}
                     />
                     <CardActions>
