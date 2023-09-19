@@ -31,12 +31,10 @@ import {OsImpressionsTab} from "./components/impression/osImpressionsTab";
 import {OsSessionsOverview} from "./components/session/osSessionsOverview";
 import {OsSessionView} from "./components/session/osSessionView";
 import {OsSessionsTab} from "./components/session/osSessionsTab";
-import AuthProvider from "./components/auth/provider";
 import {Redirect} from "./components/route/redirect";
 import {OsMapView} from "./components/map/osMapView";
 import {UserProfileView} from "./components/auth/userProfileView";
-import {SnackbarProvider} from 'material-ui-snackbar-provider';
-import AlertSnackbar from "./components/snack/alertSnackbar";
+import {OsContextProvider} from "./osContextProvider";
 
 const router = createBrowserRouter([
     {
@@ -158,32 +156,11 @@ const router = createBrowserRouter([
     }
 ])
 
-type OsProviderProps = {
-    children: React.ReactNode
-}
-const OsProvider = ({children}: OsProviderProps) => {
-    return (
-        <SnackbarProvider
-            SnackbarComponent={AlertSnackbar}
-            SnackbarProps={{
-                style: {
-                    marginBottom: '10vh',
-                    marginRight: '-20px'
-                },
-                anchorOrigin: {horizontal: 'right', vertical: 'bottom'},
-                autoHideDuration: 4000
-            }}>
-            <AuthProvider>
-                {children}
-            </AuthProvider>
-        </SnackbarProvider>
-    )
-}
 const AuthRouter = () => {
     return (
-        <OsProvider>
+        <OsContextProvider>
             <RouterProvider router={router}/>
-        </OsProvider>
+        </OsContextProvider>
     )
 }
 export default React.memo(AuthRouter)

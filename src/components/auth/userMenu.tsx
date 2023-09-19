@@ -16,7 +16,8 @@ import {
 import React from "react";
 import PersonIcon from "@mui/icons-material/Person";
 import {Logout} from "@mui/icons-material";
-import {useUserMetadata} from "./userProfileView";
+
+import {useUserMetadata} from "./hooks";
 
 export const UserMenu = () => {
     const { logout} = useAuth0()
