@@ -33,17 +33,8 @@ import {OsSessionView} from "./components/session/osSessionView";
 import {OsSessionsTab} from "./components/session/osSessionsTab";
 import AuthProvider from "./components/auth/provider";
 import {Redirect} from "./components/route/redirect";
-import {useAuth0} from "@auth0/auth0-react";
 import {OsMapView} from "./components/map/osMapView";
-
-const UserProfile = () => {
-    const {user} = useAuth0()
-    return (
-        <>
-            {user?.name}
-        </>
-    )
-}
+import {UserProfileView} from "./components/auth/userProfileView";
 
 const router = createBrowserRouter([
     {
@@ -52,11 +43,11 @@ const router = createBrowserRouter([
     },
     {
         path: "/u/me",
-        element: <UserProfile/>
+        element: <UserProfileView/>
     },
     {
         path: '/',
-        element: <OsMapView />,
+        element: <OsMapView/>,
         loader: OsApiServices.loadAll,
         children: [
             {

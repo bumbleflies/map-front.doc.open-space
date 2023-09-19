@@ -7,8 +7,8 @@ import {yellow} from '@mui/material/colors'
 import UserProfileActions from "./auth/userProfileActions";
 
 type OpenSpaceHarvesterHomeProps = {
-    actionFab: React.ReactElement<typeof StyledFab>,
-    rightIconButton: React.ReactElement<typeof IconButton>,
+    actionFab?: React.ReactElement<typeof StyledFab>,
+    rightIconButton?: React.ReactElement<typeof IconButton>,
     mainPage: React.ReactNode
 }
 
