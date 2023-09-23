@@ -38,7 +38,7 @@ export const PlaceAutocomplete = () => {
                 setValue(locationHints.results[0].formatted_address)
             })
         }
-    }, [infoEditMarker, init]);
+    }, [setValue, infoEditMarker, init]);
 
     useEffect(() => {
         if (ready && 'OK' === status) {
