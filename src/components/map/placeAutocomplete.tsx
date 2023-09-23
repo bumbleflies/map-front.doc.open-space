@@ -36,7 +36,7 @@ export const PlaceAutocomplete = () => {
             init()
             fromLatLng(infoEditMarker.position.lat, infoEditMarker.position.lng).then((locationHints) => {
                 setValue(locationHints.results[0].formatted_address)
-            })
+            }).catch((error) => {})
         }
     }, [setValue, infoEditMarker, init]);
 
