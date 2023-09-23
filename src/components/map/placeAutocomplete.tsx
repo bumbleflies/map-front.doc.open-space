@@ -3,6 +3,7 @@ import {Autocomplete, TextField} from "@mui/material";
 import usePlacesAutocomplete from "use-places-autocomplete";
 import {useDataFromMatcher} from "../../helper/dataFromMatcher";
 import {MarkerType} from "../../types/marker";
+import {fromLatLng, setKey,} from "react-geocode";
 
 export const PlaceAutocomplete = () => {
     const [infoEditMarker, setInfoEditMarker] = useState<MarkerType | null>(null)
@@ -31,9 +32,13 @@ export const PlaceAutocomplete = () => {
 
     useEffect(() => {
         if (infoEditMarker !== null) {
+            setKey(process.env.REACT_APP_GOOGLE_API_KEY!)
             init()
+            fromLatLng(infoEditMarker.position.lat, infoEditMarker.position.lng).then((locationHints) => {
+                setValue(locationHints.results[0].formatted_address)
+            })
         }
-    }, [infoEditMarker]);
+    }, [infoEditMarker, init]);
 
     useEffect(() => {
         if (ready && 'OK' === status) {
@@ -46,7 +51,7 @@ export const PlaceAutocomplete = () => {
             <Autocomplete
                 filterOptions={(x) => x}
                 autoComplete
-                isOptionEqualToValue={(option, value) => option.toLowerCase().startsWith(value.toLowerCase())}
+                freeSolo
                 renderInput={(params) =>
                     <TextField {...params} label={'Place'}/>}
                 options={placeOptions}
