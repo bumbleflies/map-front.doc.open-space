@@ -35,8 +35,13 @@ import {Redirect} from "./components/route/redirect";
 import {OsMapView} from "./components/map/osMapView";
 import {UserProfileView} from "./components/auth/userProfileView";
 import {OsContextProvider} from "./osContextProvider";
+import {PlaceAutocomplete} from "./components/map/placeAutocomplete";
 
 const router = createBrowserRouter([
+    {
+        path: '/places',
+        element: <PlaceAutocomplete />
+    },
     {
         path: "/redirect",
         element: <Redirect/>

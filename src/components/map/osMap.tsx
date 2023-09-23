@@ -33,7 +33,7 @@ export const OpenSpaceMap = () => {
                       zoomControl={false}
                       style={{height: '90vh'}}
                       ref={(ref: Map) => setMap(ref)}>
-            <ReactLeafletGoogleLayer apiKey={process.env.REACT_APP_GOOGLE_API_KEY} type={'roadmap'}/>
+            <ReactLeafletGoogleLayer useGoogMapsLoader={false} apiKey={process.env.REACT_APP_GOOGLE_API_KEY} type={'roadmap'}/>
             {loadedMarker.map(marker =>
                 <Marker position={marker.position}
                         draggable

@@ -17,6 +17,8 @@ import 'dayjs/locale/de';
 import {useNavigate, useSubmit} from "react-router-dom";
 import {useDataFromMatcher} from "../../helper/dataFromMatcher";
 
+import {PlaceAutocomplete} from "../map/placeAutocomplete";
+
 
 export const OpenSpaceInfoEditDialog = () => {
     const [title, setTitle] = useState<string | null>(null)
@@ -125,6 +127,9 @@ export const OpenSpaceInfoEditDialog = () => {
                                     onAccept={acceptEndDate} onChange={setPendingEndDate}/>
                             </Grid>
                         </LocalizationProvider>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <PlaceAutocomplete/>
                     </Grid>
                 </Grid>
             </DialogContent>
