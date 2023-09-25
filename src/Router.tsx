@@ -122,6 +122,7 @@ const router = createBrowserRouter([
                                         ]
                                     },
                                     {
+                                        // not a child below '_' to load new element in drawer
                                         path: '_/:session_id',
                                         action: handleSessionDeleteAction,
                                         children: [
@@ -131,6 +132,12 @@ const router = createBrowserRouter([
                                                 loader: SessionApiServices.loadWithImages,
                                                 element: <OsSessionView/>,
                                                 children: [
+                                                    {
+                                                        path: 'edit',
+                                                        action: handleSessionEditAction,
+                                                        loader: SessionApiServices.load,
+                                                        element: <OsSessionEditDialog/>
+                                                    },
                                                     {
                                                         path: ':image_id',
                                                         action: handleSessionImageDeleteAction,

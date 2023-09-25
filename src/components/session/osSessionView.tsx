@@ -25,6 +25,8 @@ import {useImageUploadFetcher} from "../../helper/imageUploadFetcher";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {ImageHeaderItemBar} from "../image/imageHeaderItemBar";
 import ImageOptions from "../../config/Settings";
+import {MenuActionButton} from "../button/menuActionButton";
+import EditIcon from "@mui/icons-material/Edit";
 
 export const OsSessionView = () => {
     const session = useLoaderData() as OsSessionWithImages
@@ -72,6 +74,17 @@ export const OsSessionView = () => {
                 </Grid>
                 {/* Dates */}
                 <IconTextGrid name={'session runtime'} icon={<TimelapseIcon/>} text={timeInfo}/>
+                <Grid item xs={12} container>
+                    <Box sx={{py: 2, flexGrow: 1}}>
+                        <Divider/>
+                    </Box>
+                </Grid>
+                    <Grid item xs={12} container>
+                        <Grid item xs={4}/>
+                        <MenuActionButton onClickHandler={() => navigate('edit')}
+                                          icon={<EditIcon/>} name={"Edit"}/>
+                        <Grid item xs={4}/>
+                    </Grid>
                 <Grid item xs={12} container>
                     <Box sx={{py: 2, flexGrow: 1}}>
                         <Divider/>
