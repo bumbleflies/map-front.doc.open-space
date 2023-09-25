@@ -1,4 +1,3 @@
-import React, {useState} from "react";
 import {MarkerWithImage} from "../../types/marker";
 import {Box, ButtonBase, CardMedia, Divider, Grid, IconButton, Typography} from "@mui/material";
 import WbSunnyIcon from "@mui/icons-material/WbSunny";

@@ -44,7 +44,7 @@ export const PlaceAutocomplete = ({position, onUpdatePosition}: PlaceAutocomplet
         if (ready && 'OK' === status) {
             setPlaceOptions([...new Set([value, ...data.map(place => place.description)])])
         }
-    }, [data, ready, status]);
+    }, [data, ready, status, value]);
 
     const onSelectionClosed = (e: SyntheticEvent, reason: string) => {
 
