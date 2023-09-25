@@ -76,6 +76,18 @@ describe('when editing an open space', () => {
             cy.getByDataTestId('grid-end\\ date-text').should('have.text', '16.08.2023 - 21:00')
         })
     })
+
+
+    it('updates the place', () => {
+        cy.onTestOs().then((testOsId) => {
+            cy.openOsEdit(testOsId)
+            cy.getByDataTestId('os-location-place').type('{selectall}Test Location')
+            cy.get('.MuiAutocomplete-listbox').get('li').eq(1).click()
+            cy.getByDataTestId("os-edit-save").click()
+            cy.getByDataTestId('grid-position-text').should('have.text', 'Test Location')
+        })
+    })
+
 })
 
 export {}

@@ -2,7 +2,7 @@ import React, {Dispatch, SetStateAction, SyntheticEvent, useEffect, useState} fr
 import {Autocomplete, TextField} from "@mui/material";
 import usePlacesAutocomplete from "use-places-autocomplete";
 import {MarkerPosition, MarkerPositionType} from "../../types/marker";
-import {fromLatLng, setKey,} from "react-geocode";
+import {setKey,} from "react-geocode";
 
 type PlaceAutocompleteProps = {
     position: MarkerPositionType | null,
@@ -10,6 +10,8 @@ type PlaceAutocompleteProps = {
 }
 export const PlaceAutocomplete = ({position, onUpdatePosition}: PlaceAutocompleteProps) => {
     const [placeOptions, setPlaceOptions] = useState<string[]>([])
+
+    const [selectedPlace, setSelectedPlace] = useState<string | null>(null)
 
     const {
         ready,
@@ -33,12 +35,8 @@ export const PlaceAutocomplete = ({position, onUpdatePosition}: PlaceAutocomplet
     useEffect(() => {
         setKey(process.env.REACT_APP_GOOGLE_API_KEY!)
         init()
-        if (false &&position ) {
-            fromLatLng(position!.lat, position!.lng).then((locationHints) => {
-                console.log(locationHints)
-                setValue(locationHints.results[0].formatted_address)
-            }).catch((error) => {
-            })
+        if (position?.place) {
+            setValue(position.place)
         }
     }, [setValue, position, init]);
 
@@ -48,26 +46,46 @@ export const PlaceAutocomplete = ({position, onUpdatePosition}: PlaceAutocomplet
         }
     }, [data, ready, status]);
 
-    const onNewPlace = (e: SyntheticEvent, reason: string) => {
-        console.log(reason)
-        if (reason === 'selectOption'&&position) {
-            onUpdatePosition(new MarkerPosition({...position, place: value}))
+    const onSelectionClosed = (e: SyntheticEvent, reason: string) => {
+
+        switch (reason) {
+            case 'selectOption': {
+                if (position) {
+                    console.log(selectedPlace)
+                    const newPlace = selectedPlace ? selectedPlace : value
+                    console.log(`new place ${newPlace}`)
+                    onUpdatePosition(new MarkerPosition({...position, place: newPlace}))
+                    setSelectedPlace(null)
+                }
+                break;
+            }
+            default: {
+                console.log(reason)
+            }
         }
+    }
+
+    const onSelectionChanged = (e: SyntheticEvent, newValue: string | null, reason: string) => {
+        console.log(`selection changed: ${newValue}`)
+        setSelectedPlace(newValue!)
     }
 
     return (
         <>
             <Autocomplete
+                data-testid={'os-location-place'}
                 filterOptions={(x) => x}
                 autoComplete
                 freeSolo
+                includeInputInList
                 renderInput={(params) =>
                     <TextField {...params} label={'Place'}/>}
                 options={placeOptions}
-                onInputChange={(e: React.SyntheticEvent, newValue: string) => {
+                onInputChange={(e: SyntheticEvent, newValue: string) => {
                     setValue(newValue)
                 }}
-                onClose={onNewPlace}
+                onClose={onSelectionClosed}
+                onHighlightChange={onSelectionChanged}
                 value={value}
                 noOptionsText={'Start typing to find place'}
             />

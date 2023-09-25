@@ -86,7 +86,7 @@ export const transientMarkerToOs = (os: TransientMarker): TransientOSApiType => 
 export const osLoaderToMarker = (os: OSApiType): MarkerType => {
     return {
         identifier: os.identifier,
-        position: new MarkerPosition({...os.location, place: ''}),
+        position: new MarkerPosition({...os.location}),
         title: os.title,
         startDate: localDayjs(os.start_date),
         endDate: localDayjs(os.end_date)
