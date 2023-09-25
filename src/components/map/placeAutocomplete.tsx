@@ -6,9 +6,8 @@ import {MarkerType} from "../../types/marker";
 import {fromLatLng, setKey,} from "react-geocode";
 
 export const PlaceAutocomplete = () => {
-    const [infoEditMarker, setInfoEditMarker] = useState<MarkerType | null>(null)
 
-    useDataFromMatcher<MarkerType | null>({id: 'os', stateSetter: setInfoEditMarker})
+    const infoEditMarker = useDataFromMatcher<MarkerType | null>({id: 'os'})
 
     const [placeOptions, setPlaceOptions] = useState<string[]>([])
     const {
@@ -21,7 +20,7 @@ export const PlaceAutocomplete = () => {
         requestOptions: {
             locationBias: {
                 center: infoEditMarker !== null ? infoEditMarker!.position : {lat: 1, lng: 1},
-                radius: 10000
+                radius: 1000
             },
             origin: infoEditMarker?.position,
         },

@@ -20,10 +20,9 @@ import {useSnackbar} from "material-ui-snackbar-provider";
 export const OsInfoTab = () => {
     const navigate = useNavigate()
     const deleteSubmit = useSubmit();
-    const [infoMarker, setInfoMarker] = useState<MarkerWithImage | null>(null)
 
     const {showMessage} = useSnackbar()
-    useDataFromMatcher<MarkerWithImage | null>({id: 'os', stateSetter: setInfoMarker})
+    const infoMarker = useDataFromMatcher<MarkerWithImage>({id: 'os'})
 
     const deleteMarker = () => {
         deleteSubmit({}, {

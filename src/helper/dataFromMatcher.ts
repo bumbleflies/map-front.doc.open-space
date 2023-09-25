@@ -1,18 +1,21 @@
 import {useMatches} from "react-router-dom";
-import {Dispatch, SetStateAction, useEffect} from "react";
+import {Dispatch, SetStateAction, useEffect, useState} from "react";
 
 type DataFromMatcherProps<T> = {
     id: string,
-    stateSetter: Dispatch<SetStateAction<T>>
 }
 
-export const useDataFromMatcher = <T>({id, stateSetter}: DataFromMatcherProps<T>): void => {
+export const useDataFromMatcher = <T>({id}: DataFromMatcherProps<T>): T|null => {
     const matches = useMatches()
+
+    const [matched,setMatched]=useState<T|null>(null)
 
     useEffect(() => {
         const matchedData = matches.find(m => m.id === id)!.data as T;
         console.log(`Loading data from matches: ${JSON.stringify(matchedData)}`)
-        stateSetter(matchedData)
-    }, [matches, stateSetter, id])
+        setMatched(matchedData)
+    }, [matches,, id])
+
+    return matched
 
 }

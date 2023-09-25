@@ -4,7 +4,7 @@ import {Outlet, useFetcher, useLoaderData, useNavigate} from "react-router-dom";
 import {OsSessionDetailsApiType, OsSessionWithHeaderImage} from "../../types/session";
 import {OsSessionsMenu} from "./osSessionsMenu";
 import {useSelectionMenu} from "../image/menu";
-import React, {useState} from "react";
+import React from "react";
 import {Endpoints} from "../../config/Endpoints";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import {MarkerType} from "../../types/marker";
@@ -19,9 +19,7 @@ export const OsSessionsOverview = () => {
 
     const {menu, selected} = useSelectionMenu()
 
-    const [os, setOs] = useState<MarkerType | null>(null)
-
-    useDataFromMatcher<MarkerType | null>({id: 'os', stateSetter: setOs})
+    const os = useDataFromMatcher<MarkerType>({id: 'os'})
 
     const addSession = () => {
         if (os !== null) {
