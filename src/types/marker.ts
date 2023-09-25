@@ -1,10 +1,25 @@
-import {LatLng} from "leaflet";
+import {LatLng, LatLngLiteral} from "leaflet";
 import {Dayjs} from "dayjs";
 import {ImageNotAvailable, ImageType} from "./image";
 import {localDayjs} from "../helper/dayjsTimezone";
 
+export type PlaceType = string
+
+export type MarkerPositionType = LatLngLiteral & {
+    place?: PlaceType
+}
+
+export class MarkerPosition extends LatLng implements MarkerPositionType {
+    place: PlaceType;
+
+    constructor({lat, lng, place}: MarkerPositionType) {
+        super(lat, lng);
+        this.place = place ? place : `${lat}, ${lng}`
+    }
+}
+
 export type TransientMarker = {
-    position: LatLng,
+    position: MarkerPosition,
     title: string,
     startDate: Dayjs,
     endDate: Dayjs
@@ -16,7 +31,7 @@ export type MarkerType = TransientMarker &
     }
 
 export type OptionalMarkerProps = {
-    position?: LatLng,
+    position?: MarkerPositionType,
     title?: string,
     startDate?: Dayjs,
     endDate?: Dayjs
@@ -29,7 +44,7 @@ export type TransientOSApiType = {
     title: string,
     start_date: string,
     end_date: string,
-    location: { lat: number, lng: number }
+    location: { lat: number, lng: number, place: string }
 }
 
 export type OSApiType = {
@@ -45,7 +60,7 @@ export function update(marker: MarkerType) {
                 ...newMarkerProps.identifier && {identifier: newMarkerProps.identifier},
                 ...newMarkerProps.startDate && {startDate: newMarkerProps.startDate},
                 ...newMarkerProps.endDate && {endDate: newMarkerProps.endDate},
-                ...newMarkerProps.position && {position: newMarkerProps.position}
+                ...newMarkerProps.position && {position: new MarkerPosition(newMarkerProps.position)}
             }
         }
     }
@@ -54,7 +69,7 @@ export function update(marker: MarkerType) {
 export const markerToOs = (os: MarkerType): OSApiType => {
     return {
         identifier: os.identifier,
-        location: {lat: os.position.lat, lng: os.position.lng},
+        location: {lat: os.position.lat, lng: os.position.lng, place:os.position.place},
         title: os.title,
         start_date: os.startDate.toISOString(),
         end_date: os.endDate.toISOString()
@@ -71,7 +86,7 @@ export const transientMarkerToOs = (os: TransientMarker): TransientOSApiType => 
 export const osLoaderToMarker = (os: OSApiType): MarkerType => {
     return {
         identifier: os.identifier,
-        position: new LatLng(os.location.lat, os.location.lng),
+        position: new MarkerPosition({...os.location, place: ''}),
         title: os.title,
         startDate: localDayjs(os.start_date),
         endDate: localDayjs(os.end_date)

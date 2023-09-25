@@ -1,4 +1,4 @@
-import {markerToOs, MarkerType, update} from "../../types/marker";
+import {MarkerPositionType, markerToOs, MarkerType, update} from "../../types/marker";
 import React, {useEffect, useState} from "react";
 import {Dayjs} from "dayjs";
 import {
@@ -26,6 +26,7 @@ export const OpenSpaceInfoEditDialog = () => {
     const [endDate, setEndDate] = useState<Dayjs | null>(null)
     const [pendingStartDate, setPendingStartDate] = useState<Dayjs | null>(null)
     const [pendingEndDate, setPendingEndDate] = useState<Dayjs | null>(null)
+    const [position, setPosition] = useState<MarkerPositionType | null>(null)
     const navigate = useNavigate()
     const editSubmit = useSubmit();
 
@@ -36,6 +37,7 @@ export const OpenSpaceInfoEditDialog = () => {
             setTitle(infoEditMarker.title)
             setStartDate(infoEditMarker.startDate)
             setEndDate(infoEditMarker.endDate)
+            setPosition(infoEditMarker.position)
         }
     }, [infoEditMarker, setTitle, setStartDate, setEndDate])
 
@@ -73,7 +75,8 @@ export const OpenSpaceInfoEditDialog = () => {
         const newMarkerApiType = markerToOs(update(infoEditMarker!).with({
             title: title!,
             startDate: pendingStartDate ? pendingStartDate : startDate!,
-            endDate: pendingEndDate ? pendingEndDate : endDate!
+            endDate: pendingEndDate ? pendingEndDate : endDate!,
+            position: position!
         }))
 
         editSubmit(newMarkerApiType, {
@@ -127,7 +130,7 @@ export const OpenSpaceInfoEditDialog = () => {
                         </LocalizationProvider>
                     </Grid>
                     <Grid item xs={12}>
-                        <PlaceAutocomplete/>
+                        <PlaceAutocomplete position={position} onUpdatePosition={setPosition}/>
                     </Grid>
                 </Grid>
             </DialogContent>

@@ -89,7 +89,7 @@ export const OsInfoTab = () => {
                     <IconTextGrid name={'end date'} icon={<NightlightIcon/>}
                                   text={infoMarker.endDate.format("DD.MM.YYYY - HH:mm")}/>
                     <IconTextGrid name={'position'} icon={<LocationOnIcon/>}
-                                  text={`${infoMarker.position.lat}, ${infoMarker.position.lng}`}/>
+                                  text={infoMarker.position.place}/>
                     <IconTextGrid name={'identifier'} icon={<TagIcon/>} text={infoMarker.identifier}/>
                     <Grid item xs={12} container>
                         <Box sx={{py: 2, flexGrow: 1}}>

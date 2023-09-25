@@ -1,15 +1,16 @@
-import React, {useEffect, useState} from "react";
+import React, {Dispatch, SetStateAction, SyntheticEvent, useEffect, useState} from "react";
 import {Autocomplete, TextField} from "@mui/material";
 import usePlacesAutocomplete from "use-places-autocomplete";
-import {useDataFromMatcher} from "../../helper/dataFromMatcher";
-import {MarkerType} from "../../types/marker";
+import {MarkerPosition, MarkerPositionType} from "../../types/marker";
 import {fromLatLng, setKey,} from "react-geocode";
 
-export const PlaceAutocomplete = () => {
-
-    const infoEditMarker = useDataFromMatcher<MarkerType | null>({id: 'os'})
-
+type PlaceAutocompleteProps = {
+    position: MarkerPositionType | null,
+    onUpdatePosition: Dispatch<SetStateAction<MarkerPositionType | null>>
+}
+export const PlaceAutocomplete = ({position, onUpdatePosition}: PlaceAutocompleteProps) => {
     const [placeOptions, setPlaceOptions] = useState<string[]>([])
+
     const {
         ready,
         value,
@@ -17,33 +18,42 @@ export const PlaceAutocomplete = () => {
         setValue,
         init
     } = usePlacesAutocomplete({
-        requestOptions: {
+        requestOptions: position ? {
             locationBias: {
-                center: infoEditMarker !== null ? infoEditMarker!.position : {lat: 1, lng: 1},
+                center: position,
                 radius: 1000
             },
-            origin: infoEditMarker?.position,
-        },
+            origin: position,
+        } : {},
         debounce: 300,
         callbackName: 'none',
         initOnMount: false
     });
 
     useEffect(() => {
-        if (infoEditMarker !== null) {
-            setKey(process.env.REACT_APP_GOOGLE_API_KEY!)
-            init()
-            fromLatLng(infoEditMarker.position.lat, infoEditMarker.position.lng).then((locationHints) => {
+        setKey(process.env.REACT_APP_GOOGLE_API_KEY!)
+        init()
+        if (false &&position ) {
+            fromLatLng(position!.lat, position!.lng).then((locationHints) => {
+                console.log(locationHints)
                 setValue(locationHints.results[0].formatted_address)
-            }).catch((error) => {})
+            }).catch((error) => {
+            })
         }
-    }, [setValue, infoEditMarker, init]);
+    }, [setValue, position, init]);
 
     useEffect(() => {
         if (ready && 'OK' === status) {
-            setPlaceOptions(data.map(place => place.description))
+            setPlaceOptions([...new Set([value, ...data.map(place => place.description)])])
         }
     }, [data, ready, status]);
+
+    const onNewPlace = (e: SyntheticEvent, reason: string) => {
+        console.log(reason)
+        if (reason === 'selectOption'&&position) {
+            onUpdatePosition(new MarkerPosition({...position, place: value}))
+        }
+    }
 
     return (
         <>
@@ -57,10 +67,10 @@ export const PlaceAutocomplete = () => {
                 onInputChange={(e: React.SyntheticEvent, newValue: string) => {
                     setValue(newValue)
                 }}
+                onClose={onNewPlace}
                 value={value}
                 noOptionsText={'Start typing to find place'}
             />
-
         </>
     )
 }

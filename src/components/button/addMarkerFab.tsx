@@ -1,7 +1,7 @@
 import React, {useContext, useEffect} from "react";
 import {MapContext, MapContextType} from "../context/mapContext";
 import {useFetcher, useNavigate} from "react-router-dom";
-import {MarkerType, transientMarkerToOs} from "../../types/marker";
+import {MarkerPosition, MarkerType, transientMarkerToOs} from "../../types/marker";
 import {localDayjs} from "../../helper/dayjsTimezone";
 import {StyledFab} from "./styledFab";
 import AddIcon from "@mui/icons-material/Add";
@@ -23,7 +23,7 @@ export const AddMarkerFab = () => {
     }, [fetcher.data, navigate, showMessage]);
 
     const addMarker = () => {
-        let currentCenter = map!.getCenter()!;
+        let currentCenter = new MarkerPosition(map!.getCenter()!);
         fetcher.submit(transientMarkerToOs({
             position: currentCenter,
             title: `Open Space @ ${currentCenter.lat}, ${currentCenter.lng}`,
