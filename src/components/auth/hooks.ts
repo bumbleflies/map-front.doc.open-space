@@ -1,5 +1,5 @@
 import {useAuth0} from "@auth0/auth0-react";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useSearchParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {Auth0ApiService} from "../../api/auth0Api";
 
@@ -37,4 +37,46 @@ export const useRedirectIfNotAuthenticated = () => {
         }
     }, [navigate, isAuthenticated, isLoading]);
 
+}
+export const useLoginMethod = () => {
+    const [searchParams] = useSearchParams()
+    const {loginWithPopup, loginWithRedirect} = useAuth0()
+    const loginWithUsernamePassword = () =>
+        loginWithRedirect({
+            authorizationParams: {
+                connection: 'Username-Password-Authentication',
+            },
+        })
+
+
+    const loginWithEmailCode = () => loginWithPopup({
+        authorizationParams: {
+            connection: 'email',
+        },
+    })
+
+    const loginMethod = () => {
+        return searchParams.get('logintype') === 'usernamepassword' ?
+            loginWithUsernamePassword : loginWithEmailCode
+    }
+
+    return {loginMethod: loginMethod()}
+}
+
+export const useBackendAuth = () => {
+    const [searchParams] = useSearchParams()
+    const {getAccessTokenWithPopup, getAccessTokenSilently} = useAuth0()
+
+    const getAccessToken = (options: { authorizationParams: { audience: string } }) => {
+        return searchParams.get('logintype') === 'usernamepassword' ?
+            getAccessTokenSilently(options) : getAccessTokenWithPopup(options)
+    }
+
+    return {
+        withAccessToken: ():Promise<string|undefined> => getAccessToken({
+            authorizationParams: {
+                audience: 'https://open-space-app/api',
+            }
+        })
+    }
 }

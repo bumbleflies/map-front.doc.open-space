@@ -1,6 +1,6 @@
 import React from 'react';
 import './Router.css';
-import {createBrowserRouter, RouterProvider} from 'react-router-dom';
+import {ActionFunctionArgs, createBrowserRouter, redirect, RouterProvider} from 'react-router-dom';
 
 import {OsApiServices} from "./api/osApi";
 import {ImageApiServices} from "./api/imageApi";
@@ -25,7 +25,7 @@ import {
 import {SessionApiServices} from "./api/sessionApi";
 import {OsSessionEditDialog} from "./components/session/osSessionEditDialog";
 import {OsTabList} from "./components/tab/osTabList";
-import {useImpressionImageResolver, useSessionImageResolver} from "./config/Endpoints";
+import {Endpoints, useImpressionImageResolver, useSessionImageResolver} from "./config/Endpoints";
 import {OsInfoTab} from "./components/info/osInfoTab";
 import {OsImpressionsTab} from "./components/impression/osImpressionsTab";
 import {OsSessionsOverview} from "./components/session/osSessionsOverview";
@@ -35,8 +35,26 @@ import {Redirect} from "./components/route/redirect";
 import {OsMapView} from "./components/map/osMapView";
 import {UserProfileView} from "./components/auth/userProfileView";
 import {OsContextProvider} from "./osContextProvider";
+import axios from "axios";
+
+type HasToken = {
+    token: string
+}
+
+export const handleAuthAction = async (args: ActionFunctionArgs) => {
+    args.request.json().then((hasToken: HasToken) => {
+        console.log(`handleAuth ${JSON.stringify(hasToken.token)}`)
+        axios.get(new URL('/auth', Endpoints.openSpaces).href, {headers: {Authorization: `Bearer ${hasToken.token}`}}).then(() => {
+        })
+    })
+    return redirect('/u/me')
+}
 
 const router = createBrowserRouter([
+    {
+        path: "/auth",
+        action: handleAuthAction,
+    },
     {
         path: "/redirect",
         element: <Redirect/>
