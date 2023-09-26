@@ -90,6 +90,8 @@ jobs:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           OS_AUTH_DOMAIN: ${{ vars.OS_AUTH_DOMAIN }}
           OS_AUTH_AUDIENCE: ${{ vars.OS_AUTH_AUDIENCE }}
+          OS_AUTH_TEST_CLIENT_ID: ${{ vars.OS_AUTH_TEST_CLIENT_ID }}
+          OS_AUTH_TEST_CLIENT_SECRET: ${{ vars.OS_AUTH_TEST_CLIENT_SECRET }}
   deploy:
     runs-on: ubuntu-latest
     needs:
