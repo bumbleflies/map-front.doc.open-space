@@ -1,7 +1,7 @@
 describe("With an logged in user", () => {
 
     beforeEach(() => {
-        cy.loginToAuth0(Cypress.env('auth0_username'), 'aaAA12%$12a')
+        cy.loginToAuth0(Cypress.env('auth0_username'), Cypress.env('auth0_password'))
     });
 
     afterEach(() => {

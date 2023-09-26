@@ -14,13 +14,13 @@ export const getByDataTestId = function (testid: string) {
 }
 
 export const clickAddOs = () => {
-    cy.url().should('eq', 'http://localhost:3000/')
+    cy.url().should('eq', 'http://localhost:3000/?logintype=usernamepassword')
     cy.getByDataTestId('os-home-fab-add').click()
     return cy.wait('@osApi')
 }
 
 export const clickStatusMessage = () => {
-    cy.url().should('eq', 'http://localhost:3000/')
+    cy.url().should('eq', 'http://localhost:3000/?logintype=usernamepassword')
     cy.getByDataTestId('status-message-button').click()
     cy.wait('@headerApi')
 }

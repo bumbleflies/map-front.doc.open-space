@@ -16,13 +16,15 @@ export const crudWorkflowSuite = () => {
         })
 
         it('navigates home page', () => {
-            cy.clickAddOs()
-            cy.clickStatusMessage()
-            cy.getByDataTestId('navigate-home').click()
-            cy.url().should('eq', 'http://localhost:3000/')
+            cy.onTestOs().then((testOsId) => {
+                cy.getByDataTestId('navigate-home').click()
+                cy.url().should('eq', 'http://localhost:3000/')
+            })
         })
 
         it('creates an open space marker and delete it', () => {
+            cy.loginToAuth0(Cypress.env('auth0_username'), Cypress.env('auth0_password'))
+            cy.visit('http://localhost:3000/?logintype=usernamepassword')
             cy.clickAddOs()
             cy.clickStatusMessage()
             cy.getByDataTestId('grid-identifier-text').then((grid) => {

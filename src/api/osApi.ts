@@ -11,9 +11,12 @@ import {Endpoints} from "../config/Endpoints";
 import {LoaderFunctionArgs, redirect} from "react-router-dom";
 import {ImageNotAvailable, ImageType, uploadResponseToImageType} from "../types/image";
 
+const makeAuthHeader = (token: string) => {
+    return {headers: {Authorization: `Bearer ${token}`}}
+}
 export const OsApiServices = {
-    save: (marker: TransientOSApiType): Promise<MarkerType | null> =>
-        axios.post(Endpoints.openSpaces, marker).then(response => {
+    save: (marker: TransientOSApiType, token: string): Promise<MarkerType | null> =>
+        axios.post(Endpoints.openSpaces, marker, makeAuthHeader(token)).then(response => {
             console.log(`saved marker: ${JSON.stringify(marker)}`)
             return osLoaderToMarker(response.data);
         }).catch(error => {

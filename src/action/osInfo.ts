@@ -17,5 +17,5 @@ export const handleEditAction = async (args: ActionFunctionArgs) => {
 
 export const handleAddAction = async (args: ActionFunctionArgs) => {
     const formData = await args.request.json();
-    return OsApiServices.save(formData)
+    return OsApiServices.save(formData.os, formData.token)
 }
