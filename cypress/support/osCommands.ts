@@ -7,6 +7,7 @@ export const registerInterceptRoutes = () => {
     cy.intercept('patch', 'http://localhost:5000/os/*/i/*').as('imageHeaderApi')
     cy.intercept('patch', 'http://localhost:5000/os/*/s/*/i/*').as('imageHeaderApi')
     cy.intercept('http://localhost:5000/os/*/s/').as('sessionsApi')
+    cy.intercept(`https://${Cypress.env('auth0_domain')}/oauth/token`,).as('oauthToken')
 }
 
 export const getByDataTestId = function (testid: string) {
@@ -16,6 +17,7 @@ export const getByDataTestId = function (testid: string) {
 export const clickAddOs = () => {
     cy.url().should('eq', 'http://localhost:3000/?logintype=usernamepassword')
     cy.getByDataTestId('os-home-fab-add').click()
+    cy.wait('@oauthToken')
     return cy.wait('@osApi')
 }
 
