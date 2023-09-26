@@ -16,8 +16,6 @@ import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import React, {useEffect, useState} from "react";
 import {useSnackbar} from "material-ui-snackbar-provider";
 import {useRedirectIfNotAuthenticated, useUserMetadata} from "./hooks";
-import {useSubmit} from "react-router-dom";
-import {useAuth0} from "@auth0/auth0-react";
 
 const UserProfileCard = () => {
     const [userName, setUserName] = useState<string>('')
@@ -77,37 +75,10 @@ const UserProfileCard = () => {
     )
 }
 
-
-const AuthComponent = () => {
-
-    const submit = useSubmit()
-    const {getAccessTokenWithPopup, getAccessTokenSilently} = useAuth0()
-
-    const onSubmit = () => {
-        console.log('onsubmit')
-        getAccessTokenWithPopup({
-            authorizationParams: {
-                audience: 'https://open-space-app/api',
-            }
-        }).then((accessToken) => {
-            submit({token: accessToken!}, {
-                method: 'post',
-                action: '/auth',
-                encType: "application/json",
-            })
-        })
-    }
-
-    return (
-        <Button onClick={onSubmit}>Submit</Button>
-    )
-}
-
 export const UserProfileView = () => {
     return (
         <OpenSpaceHarvesterHome mainPage={<Paper sx={{height: '90vh', backgroundColor: 'grey'}} color={"grey"}>
             <UserProfileCard/>
-            <AuthComponent/>
         </Paper>}/>
     )
 }
