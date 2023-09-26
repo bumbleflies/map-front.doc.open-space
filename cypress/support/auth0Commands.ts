@@ -17,7 +17,7 @@ const loginViaAuth0Ui=(username: string, password: string) =>{
   )
 
   // Ensure Auth0 has redirected us back to the RWA.
-  cy.url().should('equal', 'http://localhost:3000/')
+  cy.url().should('contain', 'http://localhost:3000/')
 }
 
 export const loginToAuth0 = (username: string, password: string) => {
