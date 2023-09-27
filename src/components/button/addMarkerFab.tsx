@@ -7,18 +7,42 @@ import {StyledFab} from "./styledFab";
 import AddIcon from "@mui/icons-material/Add";
 import {useSnackbar} from "material-ui-snackbar-provider";
 import {useAuth0} from "@auth0/auth0-react";
-import {Tooltip} from "@mui/material";
+import {Tooltip, Typography} from "@mui/material";
 import {useBackendAuth, useLoginMethod} from "../auth/hooks";
+import ConfirmDialog, {useConfirmDialog} from "../confirmDialog";
 
+const LoginBeforeAddMarkerFab = () => {
+    const {loginMethod} = useLoginMethod()
+    const {isOpen, onClickOpen, onClose} = useConfirmDialog()
+    return (
+        <>
+            <Tooltip title={'Login to add Open Space'} placement={"top"}>
+                <StyledFab data-testid={"os-home-fab-add-disables"} color="default" aria-label="add"
+                           onClick={onClickOpen}>
+                    <AddIcon/>
+                </StyledFab>
+            </Tooltip>
+            <ConfirmDialog title={'Login to add an Open Space'}
+                           description={'You only need your email address in the next step'} dialog={{
+                open: isOpen,
+                onConfirm: loginMethod,
+                onClose: onClose,
+                buttons: {
+                    cancel: 'Cancel',
+                    confirm: 'Login'
+                }
+            }}/>
+        </>
+    )
+}
 export const AddMarkerFab = () => {
     const {map} = useContext<MapContextType>(MapContext)
     const fetcher = useFetcher()
     const {showMessage} = useSnackbar()
     const navigate = useNavigate()
     const {isAuthenticated} = useAuth0()
-    const {withAccessToken}=useBackendAuth()
+    const {withAccessToken} = useBackendAuth()
 
-    const {loginMethod} = useLoginMethod()
 
     useEffect(() => {
         if (Boolean(fetcher.data)) {
@@ -55,11 +79,6 @@ export const AddMarkerFab = () => {
                 <AddIcon/>
             </StyledFab>
             :
-            <Tooltip title={'Login to add Open Space'} placement={"top"}>
-                <StyledFab data-testid={"os-home-fab-add-disables"} color="default" aria-label="add"
-                           onClick={loginMethod}>
-                    <AddIcon/>
-                </StyledFab>
-            </Tooltip>
+            <LoginBeforeAddMarkerFab/>
     )
 }

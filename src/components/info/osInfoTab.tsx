@@ -31,7 +31,7 @@ export const OsInfoTab = () => {
         showMessage(`Open Space [${infoMarker!.identifier}] deleted`)
     }
 
-    const [isConfirmOpen, openConfirm, closeConfirm] = useConfirmDialog()
+    const {isOpen, onClickOpen, onClose} = useConfirmDialog()
 
     return (
         <>
@@ -95,14 +95,14 @@ export const OsInfoTab = () => {
                             <Divider/>
                         </Box>
                     </Grid>
-                    <IconButton onClick={openConfirm} id={"os-delete"} data-testid={"os-delete-button"}>
+                    <IconButton onClick={onClickOpen} id={"os-delete"} data-testid={"os-delete-button"}>
                         <DeleteIcon/>
                     </IconButton>
                     <ConfirmDialog title={"Heads up!"}
                                    description={`Are your sure you want to delete ${infoMarker.title}`}
                                    dialog={{
-                                       open: isConfirmOpen,
-                                       onClose: closeConfirm,
+                                       open: isOpen,
+                                       onClose: onClose,
                                        onConfirm: deleteMarker,
                                        buttons: {cancel: 'abort', confirm: 'confirm'}
                                    }}/>

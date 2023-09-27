@@ -6,7 +6,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import {useState} from "react";
 
-export const useConfirmDialog = (): [boolean, () => void, () => void] => {
+export const useConfirmDialog = () => {
     const [open, setOpen] = useState<boolean>(false);
 
     const handleClickOpen = () => {
@@ -17,13 +17,13 @@ export const useConfirmDialog = (): [boolean, () => void, () => void] => {
         setOpen(false);
     };
 
-    return [open, handleClickOpen, handleClose]
+    return {isOpen:open, onClickOpen:handleClickOpen, onClose: handleClose}
 
 }
 
 type ConfirmDialogProps = {
     title: string,
-    description: string,
+    description: string|React.ReactNode,
     dialog: {
         open: boolean,
         onConfirm: () => void
