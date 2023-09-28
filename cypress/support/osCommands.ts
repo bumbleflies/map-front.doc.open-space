@@ -8,6 +8,7 @@ export const registerInterceptRoutes = () => {
     cy.intercept('patch', 'http://localhost:5000/os/*/s/*/i/*').as('imageHeaderApi')
     cy.intercept('http://localhost:5000/os/*/s/').as('sessionsApi')
     cy.intercept(`https://${Cypress.env('auth0_domain')}/oauth/token`,).as('oauthToken')
+    cy.intercept(`https://${Cypress.env('auth0_domain')}/api/v2/users/*`,).as('authUser')
 }
 
 export const getByDataTestId = function (testid: string) {
@@ -15,14 +16,14 @@ export const getByDataTestId = function (testid: string) {
 }
 
 export const clickAddOs = () => {
-    cy.url().should('eq', 'http://localhost:3000/?logintype=usernamepassword')
+    cy.url().should('eq', 'http://localhost:3000/')
     cy.getByDataTestId('os-home-fab-add').click()
     cy.wait('@oauthToken')
     return cy.wait('@osApi')
 }
 
 export const clickStatusMessage = () => {
-    cy.url().should('eq', 'http://localhost:3000/?logintype=usernamepassword')
+    cy.url().should('eq', 'http://localhost:3000/')
     cy.getByDataTestId('status-message-button').click()
     cy.wait('@headerApi')
 }

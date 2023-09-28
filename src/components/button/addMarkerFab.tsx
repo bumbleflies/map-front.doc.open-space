@@ -17,7 +17,7 @@ const LoginBeforeAddMarkerFab = () => {
     return (
         <>
             <Tooltip title={'Login to add Open Space'} placement={"top"}>
-                <StyledFab data-testid={"os-home-fab-add-disables"} color="default" aria-label="add"
+                <StyledFab data-testid={"os-home-fab-add-disabled"} color="default" aria-label="add"
                            onClick={onClickOpen}>
                     <AddIcon/>
                 </StyledFab>

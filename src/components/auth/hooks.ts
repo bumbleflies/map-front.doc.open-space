@@ -64,16 +64,14 @@ export const useLoginMethod = () => {
 }
 
 export const useBackendAuth = () => {
-    const [searchParams] = useSearchParams()
     const {getAccessTokenWithPopup, getAccessTokenSilently} = useAuth0()
 
-    const getAccessToken = (options: { authorizationParams: { audience: string } }) => {
-        return searchParams.get('logintype') === 'usernamepassword' ?
-            getAccessTokenSilently(options) : getAccessTokenWithPopup(options)
+    const getAccessToken = async (options: { authorizationParams: { audience: string } }) => {
+        return getAccessTokenSilently(options).catch((reson: any) => getAccessTokenWithPopup(options))
     }
 
     return {
-        withAccessToken: ():Promise<string|undefined> => getAccessToken({
+        withAccessToken: (): Promise<string | undefined> => getAccessToken({
             authorizationParams: {
                 audience: 'https://open-space-app/api',
             }

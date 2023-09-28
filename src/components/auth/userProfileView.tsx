@@ -61,6 +61,7 @@ const UserProfileCard = () => {
                     <CardHeader subheader={user?.email}/>
                     <CardContent>
                         <TextField
+                            inputProps={{"data-testid": "user-profile-edit-name"}}
                             fullWidth={true}
                             autoFocus
                             margin="dense"
@@ -72,8 +73,9 @@ const UserProfileCard = () => {
                         />
                     </CardContent>
                     <CardActions>
-                        <Button onClick={cancel} color={"secondary"}>Cancel</Button>
-                        <Button onClick={updateAuth0UserName}>Save</Button>
+                        <Button data-testid={'user-profile-edit-cancel'}
+                                onClick={cancel} color={"secondary"}>Cancel</Button>
+                        <Button data-testid={'user-profile-edit-save'} onClick={updateAuth0UserName}>Save</Button>
                     </CardActions>
                 </Card>
             </Container>
