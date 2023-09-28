@@ -63,6 +63,7 @@ export const OsSessionEditDialog = () => {
                     id="title"
                     label="Session Title"
                     variant="standard"
+                    type={"search"}
                     value={title}
                     onChange={v => setTitle(v.target.value)}
                 />
