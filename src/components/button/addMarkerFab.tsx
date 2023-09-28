@@ -7,7 +7,7 @@ import {StyledFab} from "./styledFab";
 import AddIcon from "@mui/icons-material/Add";
 import {useSnackbar} from "material-ui-snackbar-provider";
 import {useAuth0} from "@auth0/auth0-react";
-import {Tooltip, Typography} from "@mui/material";
+import {Tooltip} from "@mui/material";
 import {useBackendAuth, useLoginMethod} from "../auth/hooks";
 import ConfirmDialog, {useConfirmDialog} from "../confirmDialog";
 
