@@ -16,11 +16,13 @@ import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import React, {useEffect, useState} from "react";
 import {useSnackbar} from "material-ui-snackbar-provider";
 import {useRedirectIfNotAuthenticated, useUserMetadata} from "./hooks";
+import {useNavigate} from "react-router-dom";
 
 const UserProfileCard = () => {
     const [userName, setUserName] = useState<string>('')
     const {userMetadataName, updateUserMetadataName, user} = useUserMetadata()
     const {showMessage} = useSnackbar()
+    const navigate=useNavigate()
 
     useRedirectIfNotAuthenticated()
 
@@ -36,6 +38,10 @@ const UserProfileCard = () => {
                     showMessage(`Updated profile name to ${userName}`)
                 })
         }
+    }
+
+    function cancel() {
+        navigate('/')
     }
 
     return (
@@ -66,7 +72,7 @@ const UserProfileCard = () => {
                         />
                     </CardContent>
                     <CardActions>
-                        <Button onClick={() => setUserName(userMetadataName)} color={"secondary"}>Cancel</Button>
+                        <Button onClick={cancel} color={"secondary"}>Cancel</Button>
                         <Button onClick={updateAuth0UserName}>Save</Button>
                     </CardActions>
                 </Card>
