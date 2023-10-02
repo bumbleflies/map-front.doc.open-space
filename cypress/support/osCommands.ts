@@ -1,5 +1,6 @@
 export const registerInterceptRoutes = () => {
     cy.intercept('https://maps.googleapis.com/maps/api/mapsjs/gen_204?csp_test=true').as('googlemaps');
+    cy.intercept('https://maps.googleapis.com/maps-api-v3/api/js/54/7a/intl/en_gb/controls.js').as('mapLoaded')
     cy.intercept('http://localhost:5000/os/').as('osApi')
     cy.intercept('http://localhost:5000/os/*?with_header_images=true').as('headerApi')
     cy.intercept('http://localhost:5000/os/*/i/').as('imagesApi')

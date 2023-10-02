@@ -35,4 +35,20 @@ export const loginToAuth0 = (username: string, password: string) => {
     log.end()
 }
 
+export const gotoProfilePage = () => {
+    cy.wait('@mapLoaded')
+    cy.getByDataTestId('user-profile-avatar').click()
+    cy.getByDataTestId('user-profile-edit-button').click()
+    cy.wait('@authUser')
+    cy.url().should('eq', 'http://localhost:3000/u/me')
+}
+
+export const changeUserName = (username: string) => {
+    cy.getByDataTestId('user-profile-edit-name').type(`{selectall}${username}`)
+    cy.wait(300)
+    cy.getByDataTestId('user-profile-edit-save').click()
+    cy.wait('@authUser')
+    cy.wait(300)
+}
+
 export {}

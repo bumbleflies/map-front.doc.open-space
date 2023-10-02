@@ -1,33 +1,24 @@
-import {OpenSpaceHarvesterHome} from "../osHome";
-import {
-    Avatar,
-    Button,
-    Card,
-    CardActions,
-    CardContent,
-    CardHeader,
-    Container,
-    Paper,
-    TextField,
-    Toolbar
-} from "@mui/material";
+import {Avatar, Button, Card, CardActions, CardContent, CardHeader, Dialog, TextField} from "@mui/material";
 
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {useSnackbar} from "material-ui-snackbar-provider";
-import {useRedirectIfNotAuthenticated, useUserMetadata} from "./hooks";
+import {useRedirectIfNotAuthenticated} from "./hooks";
 import {useNavigate} from "react-router-dom";
+import {UserMetadataContext, UserMetadataContextType} from "./context";
 
 const UserProfileCard = () => {
     const [userName, setUserName] = useState<string>('')
-    const {userMetadataName, updateUserMetadataName, user} = useUserMetadata()
+    const {userMetadataName, updateUserMetadataName, user} = useContext<UserMetadataContextType>(UserMetadataContext)
     const {showMessage} = useSnackbar()
-    const navigate=useNavigate()
+    const navigate = useNavigate()
 
     useRedirectIfNotAuthenticated()
 
     useEffect(() => {
-        setUserName(userMetadataName);
+        if (userMetadataName !== null) {
+            setUserName(userMetadataName);
+        }
     }, [userMetadataName]);
 
 
@@ -46,8 +37,7 @@ const UserProfileCard = () => {
 
     return (
         <>
-            <Toolbar/>
-            <Container component={"main"} maxWidth={"xs"}>
+            <Dialog open={true}>
                 <Card sx={{
                     marginTop: 8,
                     display: 'flex',
@@ -78,15 +68,13 @@ const UserProfileCard = () => {
                         <Button data-testid={'user-profile-edit-save'} onClick={updateAuth0UserName}>Save</Button>
                     </CardActions>
                 </Card>
-            </Container>
+            </Dialog>
         </>
     )
 }
 
 export const UserProfileView = () => {
     return (
-        <OpenSpaceHarvesterHome mainPage={<Paper sx={{height: '90vh', backgroundColor: 'grey'}} color={"grey"}>
-            <UserProfileCard/>
-        </Paper>}/>
+        <UserProfileCard/>
     )
 }

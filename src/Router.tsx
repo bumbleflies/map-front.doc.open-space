@@ -34,8 +34,8 @@ import {OsSessionsTab} from "./components/session/osSessionsTab";
 import {Redirect} from "./components/route/redirect";
 import {OsMapView} from "./components/map/osMapView";
 import {UserProfileView} from "./components/auth/userProfileView";
-import {OsContextProvider} from "./osContextProvider";
 import axios from "axios";
+import {OsContextProvider} from './osContextProvider';
 
 type HasToken = {
     token: string
@@ -60,14 +60,14 @@ const router = createBrowserRouter([
         element: <Redirect/>
     },
     {
-        path: "/u/me",
-        element: <UserProfileView/>
-    },
-    {
         path: '/',
         element: <OsMapView/>,
         loader: OsApiServices.loadAll,
         children: [
+            {
+                path: "/u/me",
+                element: <UserProfileView/>
+            },
             {
                 path: 'os/',
                 action: handleAddAction,

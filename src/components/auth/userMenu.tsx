@@ -13,19 +13,19 @@ import {
     ListItemText,
     Popover
 } from "@mui/material";
-import React from "react";
+import React, {useContext} from "react";
 import PersonIcon from "@mui/icons-material/Person";
 import {Logout} from "@mui/icons-material";
+import {UserMetadataContext, UserMetadataContextType} from "./context";
 
-import {useUserMetadata} from "./hooks";
 
 export const UserMenu = () => {
-    const { logout} = useAuth0()
+    const {logout} = useAuth0()
     const {menu} = useSelectionMenu()
     const location = useLocation()
     const navigate = useNavigate()
 
-    const {userMetadataName, user} = useUserMetadata()
+    const {userMetadataName, user} = useContext<UserMetadataContextType>(UserMetadataContext)
 
     const doLogout = () => {
         menu.close()
@@ -37,12 +37,13 @@ export const UserMenu = () => {
     }
 
     const gotoProfile = () => {
+        menu.close()
         return navigate(`/u/me`)
     }
 
     return (
         <>
-            <Avatar data-testid='user-profile-avatar' alt={userMetadataName} src={user?.profile}
+            <Avatar data-testid='user-profile-avatar' alt={userMetadataName!} src={user?.profile}
                     onClick={(event: React.MouseEvent<HTMLDivElement>) => {
                         menu.open(event, user?.sub!)
                     }}>
@@ -85,7 +86,7 @@ export const UserMenu = () => {
             >
                 <Card>
                     <CardHeader data-testid={'user-profile-card-header'}
-                                avatar={<Avatar alt={userMetadataName} src={user?.profile}> </Avatar>}
+                                avatar={<Avatar alt={userMetadataName!} src={user?.profile}> </Avatar>}
                                 title={userMetadataName}
                                 subheader={user?.email}
                     />

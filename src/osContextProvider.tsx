@@ -3,6 +3,7 @@ import {SnackbarProvider} from "material-ui-snackbar-provider";
 import AlertSnackbar from "./components/snack/alertSnackbar";
 import AuthProvider from "./components/auth/provider";
 import ReactGoogleMapLoader from "react-google-maps-loader";
+import UserMetadataContextProvider from "./components/auth/context";
 
 type OsProviderProps = {
     children: React.ReactNode
@@ -20,11 +21,16 @@ export const OsContextProvider = ({children}: OsProviderProps) => {
                 autoHideDuration: 4000
             }}>
             <AuthProvider>
-                <ReactGoogleMapLoader
-                    params={{
-                        key: process.env.REACT_APP_GOOGLE_API_KEY!,
-                        libraries: "places,geocode",
-                    }} render={() => children}/>
+                <UserMetadataContextProvider>
+                    <ReactGoogleMapLoader
+                        params={{
+                            key: process.env.REACT_APP_GOOGLE_API_KEY!,
+                            libraries: "places,geocode",
+                        }} render={() =>
+                        children
+                    }/>
+
+                </UserMetadataContextProvider>
             </AuthProvider>
         </SnackbarProvider>
     )

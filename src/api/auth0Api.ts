@@ -9,7 +9,7 @@ export class Auth0ApiService {
         this.authEndpoint = process.env.REACT_APP_AUTH_DOMAIN!
     }
 
-    async getUserMetadataName(user: User, accessToken: string) {
+    async getUserMetadataName(user: User, accessToken: string): Promise<string> {
         return axios.get(this.getUserDetailsEndpoint(user), this.getHeader(accessToken)).then((response) => {
             return response.data.user_metadata?.name;
         })
