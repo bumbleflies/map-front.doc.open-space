@@ -14,4 +14,12 @@ export default defineConfig({
         auth0_password: process.env.CYPRESS_TEST_PASSWORD,
         auth0_domain: process.env.REACT_APP_AUTH_DOMAIN,
     },
+    retries: {
+        // Configure retry attempts for `cypress run`
+        // Default is 0
+        runMode: 2,
+        // Configure retry attempts for `cypress open`
+        // Default is 0
+        openMode: 0
+    }
 });
