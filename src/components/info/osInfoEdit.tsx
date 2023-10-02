@@ -18,6 +18,7 @@ import {useNavigate, useSubmit} from "react-router-dom";
 import {useDataFromMatcher} from "../../helper/dataFromMatcher";
 
 import {PlaceAutocomplete} from "../map/placeAutocomplete";
+import {useBackendAuth} from "../auth/hooks";
 
 
 export const OpenSpaceInfoEditDialog = () => {
@@ -31,6 +32,7 @@ export const OpenSpaceInfoEditDialog = () => {
     const editSubmit = useSubmit();
 
     const infoEditMarker = useDataFromMatcher<MarkerType>({id: 'os'})
+    const {withAccessToken} = useBackendAuth()
 
     useEffect(() => {
         if (infoEditMarker) {
@@ -78,11 +80,12 @@ export const OpenSpaceInfoEditDialog = () => {
             endDate: pendingEndDate ? pendingEndDate : endDate!,
             position: position!
         }))
-
-        editSubmit(newMarkerApiType, {
-            method: 'put',
-            encType: "application/json"
-        })
+        withAccessToken().then((accessToken) =>
+            editSubmit({os: newMarkerApiType, token: accessToken!}, {
+                method: 'put',
+                encType: "application/json"
+            })
+        )
     }
 
     return (

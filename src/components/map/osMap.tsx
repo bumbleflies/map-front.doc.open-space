@@ -5,6 +5,7 @@ import {MapContainer, Marker, Tooltip} from "react-leaflet";
 import ReactLeafletGoogleLayer from "react-leaflet-google-layer";
 import {useLoaderData, useNavigate, useSubmit} from "react-router-dom";
 import {MapContext, MapContextType} from "../context/mapContext";
+import {useBackendAuth} from "../auth/hooks";
 
 
 const munich = {
@@ -17,13 +18,14 @@ export const OpenSpaceMap = () => {
     const loadedMarker = useLoaderData() as MarkerType[]
     const navigate = useNavigate();
     const editSubmit = useSubmit();
+    const {withAccessToken} = useBackendAuth()
 
     const updateMarker = (marker: MarkerType) => {
-        editSubmit(markerToOs(marker), {
+        withAccessToken().then((accessToken) => editSubmit({os: markerToOs(marker), token: accessToken!}, {
             method: 'put',
             encType: "application/json",
             action: `os/${marker.identifier}/d/edit`
-        })
+        }))
     }
 
     return (
@@ -33,7 +35,8 @@ export const OpenSpaceMap = () => {
                       zoomControl={false}
                       style={{height: '90vh'}}
                       ref={(ref: Map) => setMap(ref)}>
-            <ReactLeafletGoogleLayer useGoogMapsLoader={false} apiKey={process.env.REACT_APP_GOOGLE_API_KEY} type={'roadmap'}/>
+            <ReactLeafletGoogleLayer useGoogMapsLoader={false} apiKey={process.env.REACT_APP_GOOGLE_API_KEY}
+                                     type={'roadmap'}/>
             {loadedMarker.map(marker =>
                 <Marker position={marker.position}
                         draggable

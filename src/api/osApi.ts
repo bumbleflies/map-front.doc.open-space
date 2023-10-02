@@ -50,15 +50,15 @@ export const OsApiServices = {
             return redirect('/')
         }),
 
-    putApiMarker: (apiMarker: OSApiType): Promise<MarkerType> =>
-        axios.put(Endpoints.openSpace(apiMarker.identifier), apiMarker).then(response => {
+    putApiMarker: (apiMarker: OSApiType, token: string): Promise<MarkerType> =>
+        axios.put(Endpoints.openSpace(apiMarker.identifier), apiMarker, makeAuthHeader(token)).then(response => {
             console.log(`updated open space: ${JSON.stringify(response.data)}`)
             return osLoaderToMarker(response.data);
         }).catch(() => {
             return osLoaderToMarker(apiMarker)
         }),
 
-    put: (marker: MarkerType): Promise<MarkerType> => OsApiServices.putApiMarker(markerToOs(marker)),
+    put: (marker: MarkerType, token: string): Promise<MarkerType> => OsApiServices.putApiMarker(markerToOs(marker), token),
 
     delete: (identifier: string, token: string): Promise<void> =>
         axios.delete(new URL(identifier, Endpoints.openSpaces).toString(), makeAuthHeader(token))
