@@ -14,6 +14,7 @@ import {useDataFromMatcher} from "../../helper/dataFromMatcher";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ConfirmDialog, {useConfirmDialog} from "../confirmDialog";
 import {useSnackbar} from "material-ui-snackbar-provider";
+import {useBackendAuth} from "../auth/hooks";
 
 
 export const OsInfoTab = () => {
@@ -22,13 +23,16 @@ export const OsInfoTab = () => {
 
     const {showMessage} = useSnackbar()
     const infoMarker = useDataFromMatcher<MarkerWithImage>({id: 'os'})
+    const {withAccessToken} = useBackendAuth()
 
     const deleteMarker = () => {
-        deleteSubmit({}, {
-            method: 'delete',
-            action: `/os/${infoMarker!.identifier}`
-        })
-        showMessage(`Open Space [${infoMarker!.identifier}] deleted`)
+        withAccessToken().then((accessToken) =>
+            deleteSubmit({token: accessToken!}, {
+                method: 'delete',
+                encType: "application/json",
+                action: `/os/${infoMarker!.identifier}`
+            })
+        ).then(() => showMessage(`Open Space [${infoMarker!.identifier}] deleted`))
     }
 
     const {isOpen, onClickOpen, onClose} = useConfirmDialog()

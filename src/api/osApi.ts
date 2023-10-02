@@ -60,8 +60,8 @@ export const OsApiServices = {
 
     put: (marker: MarkerType): Promise<MarkerType> => OsApiServices.putApiMarker(markerToOs(marker)),
 
-    delete: (identifier: string): Promise<void> =>
-        axios.delete(new URL(identifier, Endpoints.openSpaces).toString())
+    delete: (identifier: string, token: string): Promise<void> =>
+        axios.delete(new URL(identifier, Endpoints.openSpaces).toString(), makeAuthHeader(token))
             .then(() => console.log(`deleted open space: ${identifier}`))
             .catch(error => console.error(`failed to delete marker: ${error}`))
 

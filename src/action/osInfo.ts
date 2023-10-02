@@ -3,9 +3,9 @@ import {OsApiServices} from "../api/osApi";
 
 export const handleDeleteAction = async (args: ActionFunctionArgs) => {
     const osId = args.params.os_id!;
-    return OsApiServices.delete(osId).then(() => {
+    return args.request.json().then((formData) => OsApiServices.delete(osId, formData.token).then(() => {
         return redirect('/')
-    })
+    }))
 }
 
 export const handleEditAction = async (args: ActionFunctionArgs) => {
@@ -16,6 +16,5 @@ export const handleEditAction = async (args: ActionFunctionArgs) => {
 }
 
 export const handleAddAction = async (args: ActionFunctionArgs) => {
-    const formData = await args.request.json();
-    return OsApiServices.save(formData.os, formData.token)
+    return args.request.json().then((formData) => OsApiServices.save(formData.os, formData.token))
 }
