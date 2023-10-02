@@ -36,7 +36,6 @@ export const loginToAuth0 = (username: string, password: string) => {
 }
 
 export const gotoProfilePage = () => {
-    cy.wait('@mapLoaded')
     cy.getByDataTestId('user-profile-avatar').click()
     cy.getByDataTestId('user-profile-edit-button').click()
     cy.wait('@authUser')
@@ -45,10 +44,8 @@ export const gotoProfilePage = () => {
 
 export const changeUserName = (username: string) => {
     cy.getByDataTestId('user-profile-edit-name').type(`{selectall}${username}`)
-    cy.wait(300)
     cy.getByDataTestId('user-profile-edit-save').click()
     cy.wait('@authUser')
-    cy.wait(300)
 }
 
 export {}

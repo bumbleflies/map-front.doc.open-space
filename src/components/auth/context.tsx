@@ -1,4 +1,4 @@
-import React, {createContext, useEffect, useState} from 'react';
+import React, {createContext, useEffect, useMemo, useState} from 'react';
 import {Auth0ApiService} from "../../api/auth0Api";
 import {useAuth0, User} from "@auth0/auth0-react";
 
@@ -21,8 +21,8 @@ type UserMetadataContextProviderProps = {
 
 export const UserMetadataContextProvider = ({children}: UserMetadataContextProviderProps) => {
     const [userMetadataName, setUserMetadataName] = useState<string | null>(null)
-    const authService = new Auth0ApiService()
     const {isAuthenticated, getAccessTokenSilently, user} = useAuth0()
+    const authService = useMemo(() => new Auth0ApiService(), [])
 
     useEffect(() => {
         if (isAuthenticated && user !== undefined) {
@@ -33,7 +33,7 @@ export const UserMetadataContextProvider = ({children}: UserMetadataContextProvi
             })
         }
 
-    }, [authService])
+    }, [isAuthenticated, authService, getAccessTokenSilently, user])
 
     const updateUserMetadataName = async (newName: string) => {
         if (newName !== null) {
