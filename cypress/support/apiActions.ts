@@ -28,7 +28,16 @@ export const createOs = async () => {
 }
 
 export const deleteOs = () => {
-    cy.get('@testOsId').then((testId) => {
-        return axios.delete(`http://localhost:5000/os/${testId}`)
-    })
+    cy.get('@testOsId').then((testId) =>
+        axios.get('http://localhost:5000/auth/token', {
+            params: {
+                email: Cypress.env('auth0_username'),
+                password: Cypress.env('auth0_password')
+            }
+        }).then((response) => axios.delete(`http://localhost:5000/os/${testId}`, {
+            headers: {
+                Authorization: `Bearer ${response.data}`
+            }
+        }))
+    )
 }

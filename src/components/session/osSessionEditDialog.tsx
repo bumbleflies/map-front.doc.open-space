@@ -15,6 +15,7 @@ import {OsSession, OsSessionDetailsApiType} from "../../types/session";
 import {DateTimePicker, LocalizationProvider} from "@mui/x-date-pickers";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {Dayjs} from "dayjs";
+import {useBackendAuth} from "../auth/hooks";
 
 export const OsSessionEditDialog = () => {
     const navigate = useNavigate()
@@ -25,6 +26,7 @@ export const OsSessionEditDialog = () => {
     const [title, setTitle] = useState<string>('');
     const [startDate, setStartDate] = useState<Dayjs | null>(null)
     const [duration, setDuration] = useState<number>(0)
+    const {withAccessToken} = useBackendAuth()
 
     useEffect(() => {
         setTitle(session.title)
@@ -42,10 +44,11 @@ export const OsSessionEditDialog = () => {
             start_date: startDate!.toISOString(),
             end_date: startDate!.add(duration, 'minutes').toISOString()
         }
-        sessionEditSubmit(editSessionData, {
-            method: "put",
-            encType: "application/json"
-        })
+        withAccessToken().then((accessToken) =>
+            sessionEditSubmit({session: editSessionData, token: accessToken!}, {
+                method: "put",
+                encType: "application/json"
+            }))
     }
 
     return (

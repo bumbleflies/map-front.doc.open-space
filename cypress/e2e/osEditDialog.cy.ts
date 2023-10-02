@@ -7,6 +7,7 @@ describe('when editing an open space', () => {
         cy.visit('http://localhost:3000/')
         cy.wait('@googlemaps')
         cy.viewport('macbook-16')
+        cy.loginToAuth0(Cypress.env('auth0_username'), Cypress.env('auth0_password'))
     })
 
     afterEach(() => {

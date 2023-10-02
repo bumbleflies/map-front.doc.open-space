@@ -14,13 +14,14 @@ import {
     OsSessionWithHeaderImage,
     OsWithSessions
 } from "../types/session";
+import {makeAuthHeader} from "./auth0Api";
 
 export type DeferredSessionType = {
     osWithSession: Promise<OsWithSessions>
 }
 export const SessionApiServices = {
-    edit: async (sessionMeta: OsSessionMeta, newSession: OsSessionDetailsApiType) =>
-        axios.put(Endpoints.openSpaceSession(sessionMeta), newSession).then((response) => {
+    edit: async (sessionMeta: OsSessionMeta, newSession: OsSessionDetailsApiType, token: string) =>
+        axios.put(Endpoints.openSpaceSession(sessionMeta), newSession, makeAuthHeader(token)).then((response) => {
             return mapOsSessionApi(response.data)
         })
     ,
@@ -63,14 +64,14 @@ export const SessionApiServices = {
             return sessionHeader
         }),
 
-    add: async (osId: string, session: OsSessionDetailsApiType): Promise<OsSession> =>
-        axios.post(Endpoints.openSpaceSessions(osId), session).then((response) => {
+    add: async (osId: string, session: OsSessionDetailsApiType, token: string): Promise<OsSession> =>
+        axios.post(Endpoints.openSpaceSessions(osId), session, makeAuthHeader(token)).then((response) => {
             console.log(`Added new session ${JSON.stringify(session)} to ${osId}...`)
             return mapOsSessionApi(response.data)
         }),
 
-    delete: async (sessionMeta: OsSessionMeta): Promise<void> => {
+    delete: async (sessionMeta: OsSessionMeta, token: string): Promise<void> => {
         console.log(`Deleting new session ${JSON.stringify(sessionMeta)}...`)
-        return axios.delete(Endpoints.openSpaceSession(sessionMeta))
+        return axios.delete(Endpoints.openSpaceSession(sessionMeta), makeAuthHeader(token))
     }
 }

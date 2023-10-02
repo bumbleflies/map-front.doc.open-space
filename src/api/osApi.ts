@@ -10,10 +10,8 @@ import axios from "axios";
 import {Endpoints} from "../config/Endpoints";
 import {LoaderFunctionArgs, redirect} from "react-router-dom";
 import {ImageNotAvailable, ImageType, uploadResponseToImageType} from "../types/image";
+import {makeAuthHeader} from "./auth0Api";
 
-const makeAuthHeader = (token: string) => {
-    return {headers: {Authorization: `Bearer ${token}`}}
-}
 export const OsApiServices = {
     save: (marker: TransientOSApiType, token: string): Promise<MarkerType | null> =>
         axios.post(Endpoints.openSpaces, marker, makeAuthHeader(token)).then(response => {

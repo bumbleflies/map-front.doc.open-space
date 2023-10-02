@@ -10,6 +10,7 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import {MarkerType} from "../../types/marker";
 import {useDataFromMatcher} from "../../helper/dataFromMatcher";
 import ImageOptions from "../../config/Settings";
+import {useBackendAuth} from "../auth/hooks";
 
 
 export const OsSessionsOverview = () => {
@@ -20,6 +21,7 @@ export const OsSessionsOverview = () => {
     const {menu, selected} = useSelectionMenu()
 
     const os = useDataFromMatcher<MarkerType>({id: 'os'})
+    const {withAccessToken} = useBackendAuth()
 
     const addSession = () => {
         if (os !== null) {
@@ -28,10 +30,13 @@ export const OsSessionsOverview = () => {
                 start_date: os.startDate.toISOString(),
                 end_date: os.startDate.clone().add(1, 'hour').toISOString()
             }
-            addSessionFetcher.submit(newSessionData, {
+            withAccessToken().then((accessToken) => addSessionFetcher.submit({
+                session: newSessionData,
+                token: accessToken!
+            }, {
                 method: 'post',
                 encType: "application/json"
-            })
+            }))
         }
     }
 

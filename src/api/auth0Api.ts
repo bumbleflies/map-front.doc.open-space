@@ -32,3 +32,7 @@ export class Auth0ApiService {
         return `https://${this.authEndpoint}/api/v2/users/${user!.sub}`;
     }
 }
+
+export const makeAuthHeader = (token: string) => {
+    return {headers: {Authorization: `Bearer ${token}`}}
+}
