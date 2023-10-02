@@ -1,8 +1,7 @@
 import ViewportPreset = Cypress.ViewportPreset;
 
-import screenSizes from '../fixtures/screens.json'
+import screenSizes from '../fixtures/small_screens.json'
 import {crudWorkflowSuite} from "./crudWorkflow";
-import {Suite} from "mocha";
 
 screenSizes.map(screenSize => {
 
