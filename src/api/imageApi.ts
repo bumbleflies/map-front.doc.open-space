@@ -9,12 +9,13 @@ import {
     uploadResponseToImageType
 } from "../types/image";
 import {ImageDetailsApiService} from "./imageDetailsApi";
+import {makeAuthHeader} from "./auth0Api";
 
 export const ImageApiServices = {
-    upload: async (image: ImpressionImageUpload) => {
+    upload: async (image: ImpressionImageUpload, token: string) => {
         const uploadData = new FormData()
         uploadData.append('image', image.imageFile)
-        return axios.post(Endpoints.openSpaceImages(image.osIdentifier), uploadData).then(response => {
+        return axios.post(Endpoints.openSpaceImages(image.osIdentifier), uploadData, makeAuthHeader(token)).then(response => {
             console.log(`uploaded file ${uploadData} to ${Endpoints.openSpaceImages(image.osIdentifier)}`)
             return uploadResponseToImageType(response.data)
         }).catch(error => {
@@ -43,8 +44,8 @@ export const ImageApiServices = {
             return []
         }),
 
-    delete: (image: TransientImageType) =>
-        axios.delete(Endpoints.openSpaceImage(image)).catch((error) => {
+    delete: (image: TransientImageType,token: string) =>
+        axios.delete(Endpoints.openSpaceImage(image),makeAuthHeader(token)).catch((error) => {
             console.log(`error deleting image: ${image}: ${error}`)
         })
     ,

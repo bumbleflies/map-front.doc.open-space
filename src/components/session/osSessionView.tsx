@@ -27,6 +27,7 @@ import {ImageHeaderItemBar} from "../image/imageHeaderItemBar";
 import ImageOptions from "../../config/Settings";
 import {MenuActionButton} from "../button/menuActionButton";
 import EditIcon from "@mui/icons-material/Edit";
+import {useBackendAuth} from "../auth/hooks";
 
 export const OsSessionView = () => {
     const session = useLoaderData() as OsSessionWithImages
@@ -37,6 +38,7 @@ export const OsSessionView = () => {
 
     const [title, setTitle] = useState<string>('');
     const [timeInfo, setTimeInfo] = useState<string>('')
+    const {withAccessToken} = useBackendAuth()
 
     useEffect(() => {
         setTitle(session.title)
@@ -44,16 +46,20 @@ export const OsSessionView = () => {
     }, [session, setTitle, setTimeInfo])
 
 
-    const uploadFile = (file: File) => {
-        return SessionImageApiServices.upload({
+    const uploadFile = (file: File) =>
+        withAccessToken().then(accessToken => SessionImageApiServices.upload({
             ...session,
             imageFile: file
-        })
-    }
+        }, accessToken!))
+
 
     const deleteImage = (imageIdentifier: string) => {
         console.log(`deleting ${imageIdentifier}`)
-        imageSubmit({}, {method: 'delete', action: imageIdentifier})
+        return withAccessToken().then((accessToken) => imageSubmit({token: accessToken!}, {
+            method: 'delete',
+            encType: "application/json",
+            action: imageIdentifier
+        }))
     }
 
     return (
@@ -79,12 +85,12 @@ export const OsSessionView = () => {
                         <Divider/>
                     </Box>
                 </Grid>
-                    <Grid item xs={12} container>
-                        <Grid item xs={4}/>
-                        <MenuActionButton onClickHandler={() => navigate('edit')}
-                                          icon={<EditIcon/>} name={"Edit"}/>
-                        <Grid item xs={4}/>
-                    </Grid>
+                <Grid item xs={12} container>
+                    <Grid item xs={4}/>
+                    <MenuActionButton onClickHandler={() => navigate('edit')}
+                                      icon={<EditIcon/>} name={"Edit"}/>
+                    <Grid item xs={4}/>
+                </Grid>
                 <Grid item xs={12} container>
                     <Box sx={{py: 2, flexGrow: 1}}>
                         <Divider/>

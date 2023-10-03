@@ -12,6 +12,7 @@ import {useImageUploadFetcher} from "../../helper/imageUploadFetcher";
 import {useSelectionMenu} from "../image/menu";
 import {ImageHeaderItemBar} from "../image/imageHeaderItemBar";
 import ImageOptions from "../../config/Settings";
+import {useBackendAuth} from "../auth/hooks";
 
 export const OsImpressionsTab = () => {
     const images = useLoaderData() as ImageWithDetailsType[]
@@ -22,13 +23,14 @@ export const OsImpressionsTab = () => {
 
     const navigate = useNavigate()
     const {os_id} = useParams<"os_id">();
+    const {withAccessToken} = useBackendAuth()
 
-    const uploadFile = (file: File) => {
-        return ImageApiServices.upload({
+    const uploadFile = (file: File) =>
+        withAccessToken().then(accessToken => ImageApiServices.upload({
             osIdentifier: os_id!,
             imageFile: file
-        })
-    }
+        }, accessToken!))
+
 
     return (
         <>

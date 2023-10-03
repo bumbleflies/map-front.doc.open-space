@@ -13,12 +13,12 @@ export const handleImageUploadAction = async (args: ActionFunctionArgs) => {
     })
 }
 
-export const handleImageDeleteAction = async (args: ActionFunctionArgs) => {
-    return ImageApiServices.delete({
-        osIdentifier: args.params.os_id!,
-        imageIdentifier: args.params.image_id!,
-    }).then(() => redirect(`/os/${args.params.os_id!}/i`))
-}
+export const handleImageDeleteAction = async (args: ActionFunctionArgs) =>
+    args.request.json().then(imageDeleteData => ImageApiServices.delete({
+            osIdentifier: args.params.os_id!,
+            imageIdentifier: args.params.image_id!,
+        }, imageDeleteData.token).then(() => redirect(`/os/${args.params.os_id!}/i`))
+    )
 
 export const handleImageHeaderAction = async (args: ActionFunctionArgs) => {
     return ImageApiServices.makeHeader({

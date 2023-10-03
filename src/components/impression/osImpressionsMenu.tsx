@@ -3,6 +3,7 @@ import {Divider, ListItemIcon, ListItemText, Menu, MenuItem} from "@mui/material
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import {useNavigate, useSubmit} from "react-router-dom";
+import {useBackendAuth} from "../auth/hooks";
 
 
 type OsImpressionsMenuProps = {
@@ -16,13 +17,15 @@ type OsImpressionsMenuProps = {
 export const OsImpressionsMenu = ({selected, menu}: OsImpressionsMenuProps) => {
     const actionSubmit = useSubmit()
     const navigate = useNavigate()
+    const {withAccessToken} = useBackendAuth()
 
     const deleteImage = () => {
         menu.close()
-        actionSubmit({}, {
+        withAccessToken().then((accessToken) => actionSubmit({token: accessToken!}, {
             method: 'delete',
+            encType: "application/json",
             action: selected!
-        })
+        }))
     }
 
     const editImage = () => {
