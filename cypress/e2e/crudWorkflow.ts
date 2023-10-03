@@ -36,6 +36,7 @@ export const crudWorkflowSuite = () => {
         })
 
         it('adds, edits and deletes an image', () => {
+            cy.loginToAuth0(Cypress.env('auth0_username'), Cypress.env('auth0_password'))
             cy.onTestOs().then((testOsId) => {
 
                 cy.assertNoImages()
@@ -71,6 +72,7 @@ export const crudWorkflowSuite = () => {
         })
 
         it('views the image in fullscreen', () => {
+            cy.loginToAuth0(Cypress.env('auth0_username'), Cypress.env('auth0_password'))
             cy.onTestOs().then((testOsId) => {
                 cy.clickImagesView()
                 cy.uploadImage('impression', 'cypress/fixtures/test-image.png')
