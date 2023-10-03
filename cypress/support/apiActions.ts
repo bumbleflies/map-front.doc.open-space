@@ -42,16 +42,5 @@ export const createOs = async (bearerToken: string) => {
 }
 
 export const deleteOs = (bearerToken: string) => {
-    cy.get('@testOsId').then((testId) => {
-        Cypress.log({
-                    displayName: 'BACKEND API',
-                    message: [`🚨 Delete OS | ${testId}`],
-                    autoEnd: true,
-                }).snapshot('created os')
-        return axios.delete(`http://localhost:5000/os/${testId}`, {
-            headers: {
-                Authorization: `Bearer ${bearerToken}`
-            }
-        })
-    })
+    // just let the data be there, no delete anymore
 }
