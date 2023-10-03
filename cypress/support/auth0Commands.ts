@@ -19,7 +19,10 @@ const loginViaAuth0Ui = (username: string, password: string) => {
         cy.getByDataTestId('user-profile-avatar').should('exist')
         // Ensure Auth0 has redirected us back to the RWA.
         cy.url().should('contain', 'http://localhost:3000/')
+    }, {
+        cacheAcrossSpecs: true,
     })
+    cy.visit('http://localhost:3000/')
 }
 
 export const loginToAuth0 = (username: string, password: string) => {
@@ -44,10 +47,10 @@ export const gotoProfilePage = () => {
     cy.url().should('eq', 'http://localhost:3000/u/me')
 }
 
-export const changeUserName = (username: string, force:boolean=false) => {
+export const changeUserName = (username: string, force: boolean = false) => {
     cy.getByDataTestId('user-profile-edit-name').type(`{selectall}${username}`)
     cy.getByDataTestId('user-profile-edit-save').click()
-    force||cy.wait('@authUser')
+    force || cy.wait('@authUser')
 }
 
 export {}
