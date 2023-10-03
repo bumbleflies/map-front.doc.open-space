@@ -9,7 +9,22 @@ export const registerInterceptRoutes = () => {
     cy.intercept('patch', 'http://localhost:5000/os/*/s/*/i/*').as('imageHeaderApi')
     cy.intercept('http://localhost:5000/os/*/s/').as('sessionsApi')
     cy.intercept(`https://${Cypress.env('auth0_domain')}/oauth/token`,).as('oauthToken')
-    cy.intercept(`https://${Cypress.env('auth0_domain')}/api/v2/users/*`,).as('authUser')
+    cy.intercept(`https://${Cypress.env('auth0_domain')}/api/v2/users/*`, {
+        "email": "christian.daehn+cypresstest@bumbleflies.de",
+        "identities": [
+            {
+                "connection": "email",
+                "provider": "email",
+                "user_id": "65141fac0db0b1066edb7a1f",
+                "isSocial": false
+            }
+        ],
+        "picture": "https://s.gravatar.com/avatar/7145c2e762d7c7ffb2c2f2aa8b8c44d9?s=480&r=pg&d=https%3A%2F%2Fcdn.auth0.com%2Favatars%2Fch.png",
+        "user_id": "email|65141fac0db0b1066edb7a1f",
+        "user_metadata": {
+            "name": "Cypress Test User1"
+        },
+    }).as('authUser')
 }
 
 export const getByDataTestId = function (testid: string) {
