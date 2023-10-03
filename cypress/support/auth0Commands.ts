@@ -1,23 +1,25 @@
 const loginViaAuth0Ui = (username: string, password: string) => {
-    // App landing page redirects to Auth0.
-    cy.visit('http://localhost:3000/?logintype=usernamepassword')
+    cy.session([username, password], () => {
+        // App landing page redirects to Auth0.
+        cy.visit('http://localhost:3000/?logintype=usernamepassword')
 
-    cy.getByDataTestId('user-login-button').click()
+        cy.getByDataTestId('user-login-button').click()
 
-    // Login on Auth0.
-    cy.origin(
-        Cypress.env('auth0_domain'),
-        {args: {username, password}},
-        ({username, password}) => {
-            cy.get('input#username').type(username)
-            cy.contains('button[value=default]', 'Continue').click()
-            cy.get('input#password').type(password, {log: false})
-            cy.contains('button._button-login-password', 'Continue').click()
-        }
-    )
-    cy.getByDataTestId('user-profile-avatar').should('exist')
-    // Ensure Auth0 has redirected us back to the RWA.
-    cy.url().should('contain', 'http://localhost:3000/')
+        // Login on Auth0.
+        cy.origin(
+            Cypress.env('auth0_domain'),
+            {args: {username, password}},
+            ({username, password}) => {
+                cy.get('input#username').type(username)
+                cy.contains('button[value=default]', 'Continue').click()
+                cy.get('input#password').type(password, {log: false})
+                cy.contains('button._button-login-password', 'Continue').click()
+            }
+        )
+        cy.getByDataTestId('user-profile-avatar').should('exist')
+        // Ensure Auth0 has redirected us back to the RWA.
+        cy.url().should('contain', 'http://localhost:3000/')
+    })
 }
 
 export const loginToAuth0 = (username: string, password: string) => {
@@ -42,10 +44,10 @@ export const gotoProfilePage = () => {
     cy.url().should('eq', 'http://localhost:3000/u/me')
 }
 
-export const changeUserName = (username: string) => {
+export const changeUserName = (username: string, force:boolean=false) => {
     cy.getByDataTestId('user-profile-edit-name').type(`{selectall}${username}`)
     cy.getByDataTestId('user-profile-edit-save').click()
-    cy.wait('@authUser')
+    force||cy.wait('@authUser')
 }
 
 export {}

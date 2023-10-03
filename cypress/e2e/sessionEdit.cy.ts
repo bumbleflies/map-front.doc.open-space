@@ -1,9 +1,10 @@
-import {createOs, deleteOs} from "../support/apiActions";
+import {createOs, deleteOs, login} from "../support/apiActions";
 
 describe('when adding os sessions', () => {
     beforeEach(() => {
+        login()
         cy.registerInterceptRoutes()
-        createOs()
+        cy.get('@bearerToken').then(bearerToken => createOs(bearerToken as unknown as string))
         cy.visit('http://localhost:3000/')
         cy.wait('@googlemaps')
         cy.viewport('macbook-16')
@@ -11,7 +12,7 @@ describe('when adding os sessions', () => {
     })
 
     afterEach(() => {
-        deleteOs()
+        cy.get('@bearerToken').then(bearerToken => deleteOs(bearerToken as unknown as string))
         cy.visit('http://localhost:3000/') // to prevent error after delete
     })
 
@@ -51,7 +52,7 @@ describe('when adding os sessions', () => {
         })
     })
 
-    it('cancels edit',()=>{
+    it('cancels edit', () => {
         cy.onTestOs().then((testOsId) => {
             // add session
             cy.clickImagesView()

@@ -3,8 +3,9 @@ describe("With an logged in user", () => {
     beforeEach(() => {
         cy.registerInterceptRoutes()
         cy.loginToAuth0(Cypress.env('auth0_username'), Cypress.env('auth0_password'))
+        cy.visit('http://localhost:3000')
         cy.gotoProfilePage()
-        cy.changeUserName('Cypress Test User')
+        cy.changeUserName('Cypress Test User', true)
         cy.visit('http://localhost:3000')
     });
 

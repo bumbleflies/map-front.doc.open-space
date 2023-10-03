@@ -1,9 +1,10 @@
-import {createOs, deleteOs} from "../support/apiActions";
+import {createOs, deleteOs, login} from "../support/apiActions";
 
 describe('when editing an open space', () => {
     beforeEach(() => {
         cy.registerInterceptRoutes()
-        createOs()
+        login()
+        cy.get('@bearerToken').then(bearerToken => createOs(bearerToken as unknown as string))
         cy.visit('http://localhost:3000/')
         cy.wait('@googlemaps')
         cy.viewport('macbook-16')
@@ -11,7 +12,7 @@ describe('when editing an open space', () => {
     })
 
     afterEach(() => {
-        deleteOs()
+        cy.get('@bearerToken').then(bearerToken => deleteOs(bearerToken as unknown as string))
         cy.visit('http://localhost:3000/') // to prevent error after delete
     })
 

@@ -1,4 +1,4 @@
-import {createOs, deleteOs} from "../support/apiActions";
+import {createOs, deleteOs, login} from "../support/apiActions";
 
 
 export const crudWorkflowSuite = () => {
@@ -6,13 +6,14 @@ export const crudWorkflowSuite = () => {
 
         beforeEach(() => {
             cy.registerInterceptRoutes()
-            createOs()
+            login()
+            cy.get('@bearerToken').then(bearerToken => createOs(bearerToken as unknown as string))
             cy.visit('http://localhost:3000/')
             cy.wait('@googlemaps')
         })
 
         afterEach(() => {
-            deleteOs()
+            cy.get('@bearerToken').then(bearerToken => deleteOs(bearerToken as unknown as string))
         })
 
         it('navigates home page', () => {
@@ -24,6 +25,7 @@ export const crudWorkflowSuite = () => {
 
         it('creates an open space marker and delete it', () => {
             cy.loginToAuth0(Cypress.env('auth0_username'), Cypress.env('auth0_password'))
+            cy.visit('http://localhost:3000/')
             cy.clickAddOs()
             cy.clickStatusMessage()
             cy.getByDataTestId('grid-identifier-text').then((grid) => {

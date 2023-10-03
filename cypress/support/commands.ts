@@ -77,7 +77,7 @@ declare global {
 
             gotoProfilePage(): Chainable<void>
 
-            changeUserName(username: string): Chainable<string>
+            changeUserName(username: string, force?:boolean): Chainable<string>
 
 //       drag(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
 //       dismiss(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
