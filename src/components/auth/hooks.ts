@@ -38,10 +38,10 @@ export const useLoginMethod = () => {
 }
 
 export const useBackendAuth = () => {
-    const {getAccessTokenWithPopup, getAccessTokenSilently} = useAuth0()
+    const {getAccessTokenWithPopup} = useAuth0()
 
     const getAccessToken = async (options: { authorizationParams: { audience: string } }) => {
-        return getAccessTokenSilently(options).catch((reson: any) => getAccessTokenWithPopup(options))
+        return getAccessTokenWithPopup(options)
     }
 
     return {
