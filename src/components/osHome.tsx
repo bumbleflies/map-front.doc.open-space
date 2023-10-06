@@ -63,6 +63,9 @@ export const OpenSpaceHarvesterHome = ({actionFab, rightIconButton, mainPage}: O
                     {rightIconButton}
                 </Toolbar>
             </AppBar>
+            <AppBar position="sticky" color="inherit" >
+                <Toolbar />
+            </AppBar>
         </Paper>
     )
 }
