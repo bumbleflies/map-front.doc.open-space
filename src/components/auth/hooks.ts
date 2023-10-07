@@ -50,7 +50,7 @@ export const useBackendAuth = (silently: boolean = false) => {
 
     return {
         withAccessToken: async (silently: boolean = false): Promise<string | undefined> => {
-            if (isAuthenticated && accessToken === undefined) {
+            if (accessToken === undefined) {
                 return getAccessTokenSilently({
                     authorizationParams: {
                         audience: 'https://open-space-app/api',
