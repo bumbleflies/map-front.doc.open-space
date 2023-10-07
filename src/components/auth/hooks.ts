@@ -45,10 +45,23 @@ export const useLoginMethod = () => {
 }
 
 export const useBackendAuth = (silently: boolean = false) => {
-    const {accessToken} = useContext<UserMetadataContextType>(UserMetadataContext)
-
+    const {accessToken, setAccessToken} = useContext<UserMetadataContextType>(UserMetadataContext)
+    const {getAccessTokenSilently, isAuthenticated} = useAuth0()
 
     return {
-        withAccessToken: (silently: boolean = false): Promise<string | undefined> => Promise.resolve(accessToken)
+        withAccessToken: async (silently: boolean = false): Promise<string | undefined> => {
+            if (isAuthenticated && accessToken === undefined) {
+                return getAccessTokenSilently({
+                    authorizationParams: {
+                        audience: 'https://open-space-app/api',
+                    }
+                }).then(accessToken => {
+                    setAccessToken(accessToken)
+                    return accessToken
+                })
+            } else {
+                return Promise.resolve(accessToken)
+            }
+        }
     }
 }
