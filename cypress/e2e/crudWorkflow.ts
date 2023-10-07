@@ -37,6 +37,7 @@ export const crudWorkflowSuite = () => {
 
         it('adds, edits and deletes an image', () => {
             cy.loginToAuth0(Cypress.env('auth0_username'), Cypress.env('auth0_password'))
+            cy.getByDataTestId("user-profile-avatar").should("exist")
             cy.onTestOs().then((testOsId) => {
 
                 cy.assertNoImages()
