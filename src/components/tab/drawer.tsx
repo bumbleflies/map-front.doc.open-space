@@ -19,7 +19,7 @@ const DesktopDrawer = ({children, onCloseHandler}: DrawerProps) => {
             }}
             PaperProps={{
                 sx: {
-                    height: '90vh',
+                    height: '85vh',
                     top: 0,
                 },
             }}

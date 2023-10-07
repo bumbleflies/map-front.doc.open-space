@@ -33,7 +33,7 @@ export const OpenSpaceMap = () => {
                       zoom={13}
                       scrollWheelZoom={true}
                       zoomControl={false}
-                      style={{height: '88vh'}}
+                      style={{height: '85vh'}}
                       ref={(ref: Map) => setMap(ref)}>
             <ReactLeafletGoogleLayer useGoogMapsLoader={false} apiKey={process.env.REACT_APP_GOOGLE_API_KEY}
                                      type={'roadmap'}/>
