@@ -46,7 +46,7 @@ export const useLoginMethod = () => {
 
 export const useBackendAuth = (silently: boolean = false) => {
     const {accessToken, setAccessToken} = useContext<UserMetadataContextType>(UserMetadataContext)
-    const {getAccessTokenSilently, isAuthenticated} = useAuth0()
+    const {getAccessTokenSilently} = useAuth0()
 
     return {
         withAccessToken: async (silently: boolean = false): Promise<string | undefined> => {
