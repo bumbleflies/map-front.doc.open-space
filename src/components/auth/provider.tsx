@@ -3,6 +3,7 @@ import {Auth0Provider} from "@auth0/auth0-react";
 type AuthProviderProps = {
     children: React.ReactNode,
 }
+
 export const AuthProvider = ({children}: AuthProviderProps) => {
     const domain = process.env.REACT_APP_AUTH_DOMAIN!;
     return (

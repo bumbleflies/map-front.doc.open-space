@@ -26,11 +26,15 @@ export const OsImpressionsTab = () => {
     const {withAccessToken} = useBackendAuth()
 
     const uploadFile = (file: File) =>
-        withAccessToken().then(accessToken => ImageApiServices.upload({
+        withAccessToken(true).then(accessToken => ImageApiServices.upload({
             osIdentifier: os_id!,
             imageFile: file
         }, accessToken!))
 
+
+    const openUploadDialog = async () => {
+        return withAccessToken(false).then(() => setUploadOpen(true))
+    }
 
     return (
         <>
@@ -40,7 +44,7 @@ export const OsImpressionsTab = () => {
                     alignItems: "center",
                     verticalAlign: "middle",
                 }}>
-                    <ListItemButton data-testid={"os-impression-image-add-button"} onClick={() => setUploadOpen(true)}
+                    <ListItemButton data-testid={"os-impression-image-add-button"} onClick={openUploadDialog}
                                     sx={{
                                         minHeight: ImageOptions.height
                                     }}>

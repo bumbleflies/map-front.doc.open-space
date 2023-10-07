@@ -1,6 +1,7 @@
 import {useAuth0} from "@auth0/auth0-react";
 import {useNavigate, useSearchParams} from "react-router-dom";
-import {useEffect} from "react";
+import {useContext, useEffect} from "react";
+import {UserMetadataContext, UserMetadataContextType} from "./context";
 
 export const useRedirectIfNotAuthenticated = () => {
     const {isAuthenticated, isLoading} = useAuth0()
@@ -14,7 +15,9 @@ export const useRedirectIfNotAuthenticated = () => {
 }
 export const useLoginMethod = () => {
     const [searchParams] = useSearchParams()
-    const {loginWithPopup, loginWithRedirect} = useAuth0()
+    const {loginWithPopup, loginWithRedirect, getAccessTokenWithPopup} = useAuth0()
+    const {setAccessToken} = useContext<UserMetadataContextType>(UserMetadataContext)
+
     const loginWithUsernamePassword = () =>
         loginWithRedirect({
             authorizationParams: {
@@ -27,7 +30,11 @@ export const useLoginMethod = () => {
         authorizationParams: {
             connection: 'email',
         },
-    })
+    }).then(() => getAccessTokenWithPopup({
+        authorizationParams: {
+            audience: 'https://open-space-app/api',
+        }
+    }).then((token) => setAccessToken(token)))
 
     const loginMethod = () => {
         return searchParams.get('logintype') === 'usernamepassword' ?
@@ -37,19 +44,11 @@ export const useLoginMethod = () => {
     return {loginMethod: loginMethod()}
 }
 
-export const useBackendAuth = () => {
-    const {getAccessTokenWithPopup, getAccessTokenSilently} = useAuth0()
+export const useBackendAuth = (silently: boolean = false) => {
+    const {accessToken} = useContext<UserMetadataContextType>(UserMetadataContext)
 
-    const getAccessToken = async (options: { authorizationParams: { audience: string } }) => {
-        const location = window.location.hostname
-        return location === 'localhost' ? getAccessTokenSilently(options) : getAccessTokenWithPopup(options)
-    }
 
     return {
-        withAccessToken: (): Promise<string | undefined> => getAccessToken({
-            authorizationParams: {
-                audience: 'https://open-space-app/api',
-            }
-        })
+        withAccessToken: (silently: boolean = false): Promise<string | undefined> => Promise.resolve(accessToken)
     }
 }

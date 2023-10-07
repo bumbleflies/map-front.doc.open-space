@@ -1,18 +1,23 @@
-import React, {createContext, useEffect, useMemo, useState} from 'react';
+import React, {createContext, useMemo, useState} from 'react';
 import {Auth0ApiService} from "../../api/auth0Api";
 import {useAuth0, User} from "@auth0/auth0-react";
 
 export type UserMetadataContextType = {
     userMetadataName: string | null,
     updateUserMetadataName: (name: string) => Promise<string>,
-    user: User | undefined
+    user: User | undefined,
+    accessToken: string | undefined // token for audience: 'https://open-space-app/api'
+    setAccessToken: React.Dispatch<React.SetStateAction<string | undefined>>
 }
+
 export const UserMetadataContext = createContext<UserMetadataContextType>(
     {
         userMetadataName: null, updateUserMetadataName: () => {
             return Promise.resolve('')
         },
-        user: undefined
+        user: undefined,
+        accessToken: undefined,
+        setAccessToken: () => null
     });
 
 type UserMetadataContextProviderProps = {
@@ -21,22 +26,13 @@ type UserMetadataContextProviderProps = {
 
 export const UserMetadataContextProvider = ({children}: UserMetadataContextProviderProps) => {
     const [userMetadataName, setUserMetadataName] = useState<string | null>(null)
-    const {isAuthenticated, getAccessTokenSilently, user} = useAuth0()
+    const [accessToken, setAccessToken] = useState<string | undefined>(undefined)
+    const {getAccessTokenSilently, user} = useAuth0()
     const authService = useMemo(() => new Auth0ApiService(), [])
-
-    useEffect(() => {
-        if (isAuthenticated && user !== undefined) {
-            getAccessTokenSilently().then((accessToken) => {
-                return authService.getUserMetadataName(user, accessToken)
-            }).then((userMetadataName) => {
-                setUserMetadataName(userMetadataName)
-            })
-        }
-
-    }, [isAuthenticated, authService, getAccessTokenSilently, user])
 
     const updateUserMetadataName = async (newName: string) => {
         if (newName !== null) {
+            // get the default token
             return getAccessTokenSilently().then((accessToken) =>
                 authService.updateUserMetadataName(user!, newName, accessToken)
                     .then(() => {
@@ -50,7 +46,13 @@ export const UserMetadataContextProvider = ({children}: UserMetadataContextProvi
 
     return (
         <UserMetadataContext.Provider
-            value={{userMetadataName: userMetadataName, updateUserMetadataName: updateUserMetadataName, user: user}}>
+            value={{
+                userMetadataName: userMetadataName,
+                updateUserMetadataName: updateUserMetadataName,
+                user: user,
+                accessToken: accessToken,
+                setAccessToken: setAccessToken
+            }}>
             {children}
         </UserMetadataContext.Provider>
     )
